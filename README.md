@@ -1,6 +1,6 @@
 # StellarisServer
 
-An authoritative server and fully browser-based strategy client using Stellaris 4.5.2 data. Unity is not used. Original and derived game assets stay outside Git; each client reads its own local installation.
+An authoritative server and fully browser-based strategy client using Stellaris 4.5.2 data. Original and derived game assets stay outside Git; each client reads its own local installation.
 
 The project includes the M1 economy laboratory, M2 network sandbox and M3 graphical network slice. The current combined stage adds planet construction, fleet controls and navigation. An [intermediate playable review candidate](docs/reports/intermediate-playable-rc-2026-10-13.md) supports bounded economy/fleet/navigation checks; live construction is still incomplete. This candidate does not finish the combined stage or replace its remaining goals. M4–M10 remain proposals.
 
