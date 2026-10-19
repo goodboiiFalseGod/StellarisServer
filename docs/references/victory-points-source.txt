@@ -1,0 +1,75 @@
+POINTS EXPLANATION
+Players earn victory points using two different systems.
+INTERVALS SYSTEM
+At each interval all players are ranked in different categories, for some of those categories the top 10 players in each one of them receive victory points based on their respective ranks, for others only top 3 players receive points instead.
+
+
+Major Scoring Categories (top10 rewarded)
+1st place receive 7 points
+2nd place receive 4 points
+3rd place receive 4 points
+4th place receive 3 points
+5th place receive 3 points
+6th place receive 2 points
+7th place receive 2 points
+8th place receive 1 point
+9th place receive 1 point
+10th place receive 1 point
+
+Minor Scoring Categories (top3 rewarded)
+1st place receive 3 points
+2nd place receive 1 point
+3rd place receive 1 point
+
+In the case of a tie the tied players each get the lower of the two scores they are tied for (fx. tied for 1st each get 4 points). It is possible for a tie to mean you get 0 points (fx. if two players are tied for 10th place they each get 0 points).
+The intervals will be every 10 years. This means that year 10, 20, 30, 40, 50, 60, 70, 80, 90 and 100 players will get points for each interval category that they are in the top 10 of, as well as 7 points for each homeworld of another player they control.
+
+Unique Scoring Category:
+Controlled Homeworlds: Unlike the other intervals this is not based on top 10 but instead gives 4 points for every additional homeworld you control. Homeworlds are set at the start of the game so players moving their capitals does not influence this.
+The Major Scoring categories are:
+Economy: Uses the ingame calculation for economic power.
+Science: Uses the current science production.
+Unity: Uses the current unity income (production - expenditure).
+The Minor Scoring Categories are:
+Diplomatic Weight: Uses the weight shown in the Galactic Community (you can still get points even if you are not a member of the Galactic Community).
+Controlled Space: Counts any system owned by the player.
+Controlled Megastructures: Counts how many megastructures a player controls, any repaired megastructure is counted as well as megastructures once they are past the "site" stage. Orbital rings, Habitats, Gateways, Kylostructure and Hyperrelays do not count as megastructures.
+MILESTONES SYSTEM
+Milestones are points given when specific events happen. The following events give the following points:
+Winning War: achieving war goals gives 7 points (main Attacker and main Target only). Wars against AI don't give points.
+First Blood: being the 1st in the galaxy to win a war in each category gives 7 bonus points. (ex: Animosity, Subjugation, Plunder, Expropriation, Conquest, Liberation, Ideology, Independence)
+Big Enemy, Much Glory: winning a war against someone who has at least 10% more points than you when the war start(WIP) provides additionally 10% of the defeated player points as bonus points.
+Master Builder: fully finishing a 4-stages Mega Structure for the first time gives 2 points. Fully Finishing a Galactic Wonder for the 1st time gives 4 points. Repairing a ruined Megastructure or Wonder gives half points. Repairing Ring Worlds Segments gives 1 point.
+Kilotons: fully finishing a Kilo Structure for the first time gives 1 point.
+I am the Senate: becoming the Galactic Emperor gives 10 points.
+Custodes: becoming the Custodian gives 5 points, Unseating the Custodian loses 5 points.
+Senator: being appointed to the council by the emperor for the 1st time gives 3 points.
+Councilor: becoming a member of the Galactic Council gives 3 points.
+To Infinity and Beyond: opening the L-Gates gives 3 points.
+Golden Horde Throne: killing the Khan and getting his Throne gives 7 points.
+Defender of the Galaxy: killing a Fallen Empire gives 7 points.
+Diplomat: passing a law you proposed gives 1 point.
+Traditionalist: finishing a tradition tree gives 1 point each.
+Ascensionist: completing your Empire ascension gives 1 point.
+Whaler: Scouring the Tyanki Home system gives 1 point.
+Nuketown: successfully using a Colossus on an inhabited planet gives 1 point per planet.
+Bulky: building your first Juggernaut gives 1 point.
+Indiana Blorges: being the 1st in the galaxy to enter in a Precursor Home-system gives 1 point for each system.
+Heretic: Making a Pact with an Eldritch Dark Entity for the 1st time gives 1 point.
+Dr.Frankenstein: reanimating a Leviathan gives 1 point for each Leviathan.
+Evil Surgeon: vivisecting a player's science ship crew for the first time gives 1 point.
+Has reached Infinity, twice: being the 1st in the galaxy to research Jump Drives gives 1 point.
+Has delved too Greedily and too Deep: killing the Crystalline Entity as a Subterranean Empire gives 1 point.
+Hast vanquished a False Deity, Most Noxious: killing the Toxic God, either Neutral or Player controlled gives 1 point.
+Pulled from Beyond: being the 1st in the galaxy to summon a fleet from another dimension gives 1 point.
+Has established a Joint Venture: being the 1st in the Galaxy to establish a branch office on another Capital gives 1 point.
+Has reached Immortality: making your Ruler immortal gives 1 point.
+Has reached the peak of their career: having a Leader reaching Level 10 gives 1 point.
+Has acquired a nice Trinket: getting your 1st Relic gives 1 point.
+Dig through space: finishing your 1st astral rift gives 1 point.
+Has dug through Time: finishing your 1st archeology site gives 1 point.
+Ka-Boom!: blowing up your Homeworld as Doomsday Origin gives 1 point.
+Abolish the Golden Rule: disposing of your Ruler as Under One Rule origin gives 1 point.
+Galactic Nemesis you get 1pts (lose 1 pts) per year per other empire that controls a non-ruined Aetherophasic engine.
+Galactic Nemesis Ended You get 10pts if your fleets are present in a system when an Aetherophasic engine is destroyed.
+Building or restoring an Ecumonopolis gives 4 points, using terraforming (or gaia seeders) to change a planet into a Gaia, Hive or Machine world gives 2 points. Each terraforming type can only be triggered once and requires you to terraform an inhabited planet you control.

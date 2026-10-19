@@ -1,0 +1,25 @@
+# Численные эффекты технологий в общей RC
+
+14 октября 2026. Продолжение прямого поручения пользователя применять эффекты в существующих системах. База интеграции `451fe8b`; отдельная ветка `feature/technology-source-effects`. Канонический runtime исследований — a58; второй engine/state/протокол не добавляются. Stable, пользовательский сервер 5192, UI и ассеты вне области записи.
+
+## Контракт до реализации
+
+Источник — локальные скрипты Stellaris 4.5.2, только чтение. Подключаются разрешённые численные эффекты к существующим jobs/Workforce, скорости исследований и строительству: ethic/civic all/area research speed, `tech_administrative_ai` (+.05 research speed, +.05 researcher upkeep), `tech_assembly_pattern` (+.25 building speed), `tech_powered_exoskeletons` (+.05 worker/simple drone bonus Workforce), `tech_eco_simulation` (+.05 farmer food output). Числа импортируются из source, не кодируются таблицей IDs. Общие поддержанные ключи могут обслуживать другие обычные технологии; несуществующие потребители остаются явно deferred.
+
+Учитываются source category ancestry, Workforce modifier composites, technology swaps и число завершённых повторяемых уровней. Неизвестное условие/выражение не становится true/нулём; зависимый эффект получает диагностику. Повторяемые эффекты складываются по числу завершённых уровней. Контекст империи берётся из actual template/facts. Неподдержанные военные/лидерские/станционные эффекты не имитируются.
+
+Overlay строится из чистых исходных trait/installed значений при старте, после structural refresh и завершения исследования. Повторное наложение не накапливает бонус, не стирает эффекты установленного графа. Output модификатор меняет только выпуск; bonus Workforce меняет effective Workforce и соответствующий job upkeep. Категории upkeep и производства не смешиваются.
+
+Месяц: дневные платежи/structural refresh → старые эффекты → захват старых science stocks → один economy month → суммарный net flow по уникальным планетам владельца → research settlement со старой скоростью → завершённый набор → новые эффекты для следующих flows/preview/construction → единая публикация. Ошибка любого владельца не публикует часть world/research/calendar. Без проекта резерв получает RAW net flow (`S+F`) по storage contract; активный прогресс использует скорость и `R+min(S,R)`. Перепроизводство теряется, следующий проект вручную, переключение сохраняет прогресс.
+
+Граница текущей RC: для каждого владельца существует ровно одна authoritative economy planet из Join. Spatial EconomyPlanetId fixture исторический display ID и не создаёт binding второй колонии. До отдельного colonization binding попытка нескольких колоний получает явный отказ, без расчёта по выдуманным/повторным IDs. Поддержаны несколько независимых владельцев; multi-colony aggregation остаётся зависимым gate, а не результатом этого этапа.
+
+All/area research bonus складываются один раз. Действующий a58 source no-leader −.25 не является human rule; RC подтвердил сохранение существующего baseline. Для каждой области `R = F × (1 − .25 + allBonus + areaOnlyBonus)`, без дополнительного умножения на .75. Например, scientific context с allBonus .10 и physicsOnly .15 даёт множители 1.00/.85/.85; после Admin AI — 1.05/.90/.90. Это композиция исходных модификаторов; изменение no-leader политики без нового решения запрещено. Idle reserve получает `S+F` независимо от скорости.
+
+Construction получает explicit evaluation из candidate researched set для текущего владельца; оплаченная стоимость заказа фиксирована. Building speed применяется к будущей работе, без второго construction day на завершении исследования. Сохраняются explicit enqueueUpgrade, проверенные startup keys, replay/privacy/observer правила.
+
+RC LOC gate: согласно `LOCALIZATION.md` сервер передаёт только IDs, проверенные штатные native keys и структурированные численные значения. Переводы читает браузер; server translation loader удаляется. Ключи проверяются по единому фиксированному профилю 464 English/Russian файлов, RINFIX/дополнительные файлы не читаются. Technology DTO получает optional NameKey/DescriptionKey/CategoryKey; effect — LocalizationKey/Amount/Format/TargetDefinitionId/SourceKey. Format — конечные значения `number`/`percent`; legacy Name/Description остаются IDs/нашими диагностическими подписями. Неизвестный native key — null. Оригинальные DDS metadata остаются без передачи байтов сервером. Изменения Protocol/Server ограничены этим gate, UI потребитель принадлежит отдельному владельцу.
+
+## Приёмка и границы доказательства
+
+Source import и адресные тесты: admin AI текущий/следующий месяц; all/area без двойного сложения; researcher upkeep один раз; Workforce output+upkeep; farmer output без upkeep; building speed при pending order; повторные refresh без накопления; повторяемые уровни/swaps; несколько владельцев, atomic отказ; отдельный multiple-colony gate до binding. Release сборка, прежние research/session/transport регрессии и независимое actual diff review. Ручная приёмка — пользователем после общей сборки; этот этап её не подменяет.

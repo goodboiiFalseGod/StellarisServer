@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <Content Include="../../tools/asset-probe/m3-belts.mjs" Link="wwwroot/m3-modules/m3-belts.mjs" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-nebulae.mjs" Link="wwwroot/m3-modules/m3-nebulae.mjs" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/generated-world-visual-profile.mjs;../../tools/asset-probe/generated-world-material.mjs;../../tools/asset-probe/generated-world-resource-plan.mjs" Link="wwwroot/m3-modules/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-planet-assets.mjs;../../tools/asset-probe/m3-planet-environment.mjs;../../tools/asset-probe/m3-ordinary-planet-assets.mjs;../../tools/asset-probe/m3-planet-images.mjs;../../tools/asset-probe/m3-navigation.mjs" Link="wwwroot/m3-modules/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-camera.mjs" Link="wwwroot/m3-modules/m3-camera.mjs" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-research-images.mjs" Link="wwwroot/m3-modules/m3-research-images.mjs" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-star-material.mjs" Link="wwwroot/m3-modules/m3-star-material.mjs" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-presentation.mjs;../../tools/asset-probe/m3-background.mjs;../../tools/asset-probe/m3-galaxy-layers.mjs" Link="wwwroot/m3-modules/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <ProjectReference Include="../Stellaris.Session/Stellaris.Session.csproj" />
+    <Content Update="wwwroot/**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/m3-importer.mjs;../../tools/asset-probe/m3-import-worker.mjs;../../tools/asset-probe/m3-worker-pipeline.mjs;../../tools/asset-probe/m3-manifest.mjs;../../tools/asset-probe/m3-profile.mjs;../../tools/asset-probe/m3-memory.mjs;../../tools/asset-probe/m3-world-renderer.mjs;../../tools/asset-probe/m3-world-view.mjs;../../tools/asset-probe/adapters.mjs;../../tools/asset-probe/formats.mjs;../../tools/asset-probe/static-pose.mjs;../../tools/asset-probe/visual-definitions.mjs" Link="wwwroot/m3-modules/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/node_modules/three/build/three.module.js;../../tools/asset-probe/node_modules/three/build/three.core.js" Link="wwwroot/m3-vendor/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../tools/asset-probe/node_modules/three/examples/jsm/controls/OrbitControls.js" Link="wwwroot/m3-vendor/addons/controls/OrbitControls.js" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="CheckM3BrowserDependencies" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('../../tools/asset-probe/node_modules/three/build/three.module.js')" Text="Для клиента M3 нужны локальные зависимости: выполните pnpm --dir tools/asset-probe install --frozen-lockfile --ignore-scripts перед сборкой. Сервер не скачивает их автоматически." />
+  </Target>
+</Project>

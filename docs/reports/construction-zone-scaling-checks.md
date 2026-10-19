@@ -1,0 +1,9 @@
+# Zone district scaling verification
+
+12 October 2026, owner worktree `star-import`, parent `a7d16d8`. Source-supported pure planet housing/capacity staging, not a final whole-zone application or stable-main readiness claim.
+
+Real 4.5.2 construction checks: **29 PASS, 0 FAIL, 1 SKIP** (symlink creation unavailable). Session checks: **7 suites, 0 errors**. Real zone-energy regular technician raw 100 × explicit district level 3 stages as 300; unsupported flat slot effects remain visible gates. No unknown contribution is converted into a complete executable zone.
+
+Synthetic coverage: documented plain district modifier path; independent signed flat/district/triggered contributions; exact catalog/assessment/colony/district-instance/revision/level identity; immutable amount/provenance preservation; nullable, zero, 4096, invalid level/revision and non-zone inputs; inactive unknown relevance and active unknown/numeric multiplier gates. Exact decimal fractional product, MaxValue×1 full96-bit reconstruction, overflow after an earlier valid flat contribution and unrepresentable decimal product all checked. Fatal overflow remains first even after 300 distinct unsupported-field diagnostics; maximum 256 reported gates and no partial staged amounts on numeric failure.
+
+Independent reviewer inspected actual contract/code/test diffs and source HOW_TO_ZONE61–76; no actionable findings. Final regression additions reviewed without duplicate suite. New arithmetic uses bounded BigInteger integer coefficient multiplication and exact decimal reconstruction, not rounding/native precision claims. No final capacity composition/nonnegativity, employment, quote, scheduler, startup or population/carrier effect enabled. Explicit world binding is trusted input, not certification of unrelated-world lineage.

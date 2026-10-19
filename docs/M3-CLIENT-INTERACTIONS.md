@@ -1,0 +1,43 @@
+# M3 — игровой browser UI и камера
+
+Раскрывает G06/E04 перед клиентским кодом. Russian DOM + Three/WebGL2; не перенос ванильного GUI-фреймворка. Два игрока и разрешённый наблюдатель получают только v2-проекцию; UI не авторизует команды вместо сервера.
+
+## Оболочка
+
+Экран подключения: адрес того же origin, имя/роль, join code; локальный read-only импорт/прогресс/отмена и статус совместимости. Затем лобби с готовностью/настройками M2, разрешением наблюдателя и стартом. Игровой HUD: точная дата, отдельные экономические месяцы, пауза/1/2/4/шаг дня (только хосту), свои energy/minerals/food с UI-иконками. Сетевой статус, неподтверждённые команды и безопасная ошибка постоянно доступны.
+
+The main area contains one canvas with galaxy/system views, return control and current-system label. The visual milestone places the outliner on the right and selection/orders on the left, following the verified original layout. Existing phase/route/pending information remains accessible for the selected own fleet. Foreign objects are selectable but not editable; public bodies never reconstruct private economic arrays. The laboratory economy editor preserves M2 semantics and separate JobUpkeep/BuildingUpkeep/total/net. Connection status and command confirmations stay outside collapsible sections.
+
+## Жесты и приказ
+
+Уточнение пользователя 12 октября 2026: центр вращения камеры — выбранный объект. Если объект не выбран, вращение идёт вокруг центра текущей галактики/системы. Наличие отдельной кнопки «Центр на выборе» не заменяет это правило для обычного вращения. Соответствие реализации и поведение после смены/снятия выбора требуют проверки.
+
+ЛКМ click без drag (смещение ≤5 CSS px) выбирает ближайший видимый pick-target; двойной ЛКМ по системе открывает system. ЛКМ drag панорамирует, Alt+ЛКМ drag вращает, колесо zoom; ПКМ зарезервирован под приказ, не панорамирует и не открывает context menu canvas. Сброс камеры/центр на выборе имеют видимые кнопки. DOM-панели не передают pointer в карту; ввод/кнопки не перехватываются глобальными shortcuts. Escape вне редактируемого input закрывает карточку, затем возвращает в galaxy. Resize сохраняет выбранный объект и корректный aspect; DPR=1 для воспроизводимых замеров.
+
+### CAM-001: pivot отдельно от pan/look-at
+
+Current reference revision supersedes the origin fallback and reset wording below: selected-object pivot remains its displayed world position; without selection, system pivot is its local origin, while galaxy pivot is the AABB center of authorized system positions only, excluding fleets and decorative geometry. The current public fixture spans X/Z 0..300, so its center is (150, 0, 150), not (0, 0, 0). Derive it from the filtered spatial DTO, never private/hidden world data. Reset uses this same view center and bounds relative to it. Empty authorized systems use a documented origin fallback; selected-object disappearance returns the current view center. No authoritative coordinate changes. Cover translated galaxy positions, pan then rotation, selected/system regressions and decoration-independent framing. Source: SpaceWorld.cs fixture and manual FAIL recorded in f5600bb; this is the browser fixture center rule, not a recovered native galaxy formula.
+
+Причина в исходной реализации: `select()` не обновлял центр OrbitControls, pan сдвигал его target, а reset брал центр Box3 геометрии вместо центра координат вида. Контракт исправления: логический pivot — world position выбранного видимого объекта (colony использует body); без выбора/при отсутствии объекта в текущем виде — `(0,0,0)`. Выбор/смена/снятие и смена вида обновляют правило pivot, не перемещая камеру автоматически. На начале Alt+ЛКМ точка повторно разрешается из актуального отображаемого объекта, включая интерполированный fleet; исчезновение объекта возвращает центр вида, серверные позиции не меняются.
+
+Pivot не равен pan/look-at target. На pointerdown камера/target/zoom не скачут: Alt-drag вращает camera position и look-at target одним поворотом вокруг pivot. Так сохраняются расстояния и pan-offset; pan/dolly остаются OrbitControls, его собственное rotate отключено на Alt-жесте. Чувствительность `0.004` rad/CSS-px подтверждена `NCamera.ROTATION_RADIANS_PER_MOUSE_UNIT` в 4.5.2; техническое ограничение у полюсов предотвращает вырождение, не объявляется native pitch. FOV/референсные pitch/zoom и масштаб тел — отдельная часть визуального этапа, не меняются этим исправлением. Pivot фиксируется на время одного жеста, затем берётся заново; никаких per-frame присваиваний controls.target. Pointerup/cancel/lost capture восстанавливают обычный pan, Alt-click не меняет выбор/не выдаёт приказ. Resize/context восстановление сохраняют правило pivot.
+
+Reset направляет камеру в центр координат текущего вида, расстояние вычисляет по bounds относительно этого центра, а не по смещённому Box3 center. Explicit focus остаётся отдельным действием: camera и look-at target перемещаются одной дельтой к выбору, сохраняя offset/zoom. Приёмка: выбор/смена/снятие и fallback в обоих видах; pan→Alt без скачка на pointerdown; движение выбранного fleet между жестами; reset/focus/zoom/resize; cancel/capture loss; отсутствие случайных click/приказов и регрессии приказа на y=0. Не объявлять CAM-001 закрытым до повторного пользовательского осмотра.
+
+Выбранный свой fleet сохраняется как commandFleetId отдельно от карточки системы назначения. Galaxy ПКМ по видимой системе → moveFleetToSystem; system ПКМ → пересечение луча с плоскостью y=0 и moveFleetToPoint текущей системы. Пустое попадание/нет своего флота — видимая подсказка, не приказ. Не clamp границу150: сервер отклоняет недопустимую точку. Эквиваленты без жестов: список destinationSystem + «Переместить», поля x/z + «К точке», «Стоп». В transit локальный приказ disabled; межсистемная замена и stop доступны как pending. Наблюдатель/чужой fleet никогда не включают команды.
+
+## Представление и ресурсы
+
+Galaxy показывает собственные маркеры систем/гиперлиний/владения/флотов, а не полные модели всех16систем. System использует проверенные исходные star/planet/outpost/corvette группы с общим origin/масштабом слоёв. Body DTO scale умножается на scale исходного entity один раз. Три corvette имеют только декоративные offsets `(-6,-4)/(0,0)/(6,-4)` относительно server fleet position; это не физический строй/три маршрута. Направление к цели декоративное, не изменяет расчёт. Отсутствующий visualId — явная ошибка набора, не primitive fallback. Примитивные galaxy/pick-маркеры не являются подменой исходных моделей.
+
+Геометрия/материалы/текстуры проверенного набора имеют одного владельца и переиспользуются между видами/экземплярами; shared `(path,mode)` текстуры конвертируются один раз. View-only markers/lines/labels освобождаются при смене; profile resources — при смене набора/pagehide/dispose. 100 переключений не накапливают live ресурсы/handlers. Context loss сохраняет CPU/server state, блокирует графические приказы, показывает восстановление; после restore сцена пересоздаётся из памяти, не отправляет игровые команды.
+
+Stress-вид200corvettes — отдельный локальный renderer test, не создание200серверных кораблей; gameplay commands в нём disabled. Использовать общие geometry/material/instancing без изменения исходной формы. Метрики frame/FPS/viewport/resources выводить как измерения среды, не автоматически Chrome SLA.
+
+## Snapshot и интерполяция
+
+Состояние применяется только для текущей sessionId и возрастающей sequence; initial/reconnect ждёт свежий полный snapshot. Полная проекция заменяет предыдущую, исчезнувшие объекты удаляются вместе с выбором/commandFleetId. При разрыве мир остаётся визуально помеченным устаревшим, игровые команды disabled до свежего состояния/assetReady. Новый sessionId требует новой проверки источника и не наследует старую готовность/команды.
+
+Только визуальная интерполяция между двумя последовательными полученными localPosition одного fleet/system/orderVersion/phase; задержка100мс, alpha ограничено[0,1], никакой экстраполяции за последний разрешённый snapshot. Transit отображается по server endpoints/progress и не создаёт фиктивную system position. Пауза, stepDay на паузе, phase/system/orderVersion change, reconnect и context restoration сбрасывают интерполяцию на фактический snapshot. Renderer не считает BFS/скорость/прибытие. Отсутствующие ссылки не разрешаются догадкой из ID.
+
+Приёмка: DOM vs canvas focus/drag/click/Alt/ПКМ, кнопочные эквиваленты приказов, обе роли/foreign запреты, исчезнувший выбор, phase/pending, pause/reconnect/interpolation reset, resize/context loss, отсутствие утечек100switches, 200stress и отдельные performance прогоны по G08. Реальные Chrome OS-permissions и ручная эстетическая приёмка выполняются пользователем позже по DECISIONS.

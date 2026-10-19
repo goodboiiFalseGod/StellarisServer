@@ -1,0 +1,59 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; color: #e1e9ef; background: #0c141d; --line: #304151; --muted: #9cafbf; --accent: #85dfd0; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1220px; margin: auto; padding: 28px 24px; }
+header { margin-bottom: 28px; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 8px 0; letter-spacing: -.03em; }
+h2 { font-size: 1.2rem; margin: 0 0 16px; }
+h3 { font-size: 1rem; }
+p, li { line-height: 1.5; }
+header p, .hint, footer { color: var(--muted); }
+.eyebrow { color: var(--accent); font-size: .75rem; letter-spacing: .15em; }
+.panel { background: #14212d; border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-bottom: 18px; min-width: 0; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.section-heading h2 { margin: 0; }
+#join-form, .actions { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+#join-form { margin-bottom: 14px; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: .9rem; }
+input, select, button { font: inherit; border-radius: 6px; min-height: 42px; padding: 8px 12px; border: 1px solid #526677; }
+input, select { background: #0d1721; color: #e1e9ef; max-width: 100%; }
+button { background: #72cbbf; border-color: #72cbbf; color: #092723; font-weight: 650; cursor: pointer; }
+button:hover:enabled { background: #a2eee2; }
+button.secondary, #disconnect { background: transparent; color: #d4e0e8; border-color: #526677; }
+button:disabled, input:disabled, select:disabled { opacity: .45; cursor: not-allowed; }
+:focus-visible { outline: 3px solid #e7c778; outline-offset: 3px; }
+.notice { border-left: 3px solid #d5b566; padding: 10px 14px; background: #302d22; margin-bottom: 18px; }
+.error { color: #ffb3ae; background: #392128; padding: 12px; border-radius: 6px; overflow-wrap: anywhere; }
+.layout { display: grid; grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: 18px; }
+.layout:has(#lobby[hidden]) { grid-template-columns: 1fr; }
+.participants { list-style: none; margin: 0; padding: 0; }
+.participants li { border-top: 1px solid var(--line); padding: 12px 0; overflow-wrap: anywhere; }
+.participants li:first-child { border-top: 0; }
+.participants .actions { margin-top: 8px; }
+.participants button { font-size: .8rem; min-height: 34px; }
+fieldset { margin: 0 0 16px; border: 1px solid var(--line); border-radius: 6px; padding: 12px; }
+legend { color: var(--muted); }
+.choice { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 7px 0; align-items: start; }
+.choice input { min-height: 20px; margin: 3px 0; }
+.choice small { display: block; color: var(--muted); overflow-wrap: anywhere; }
+#lobby .actions { margin-top: 16px; }
+.balances { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+.balance { min-width: 140px; padding: 14px; background: #0d1924; border: 1px solid var(--line); border-radius: 8px; }
+.balance span { display: block; color: var(--muted); font-size: .85rem; }
+.balance strong { display: block; font-size: 1.4rem; margin-top: 5px; }
+.table-wrap { overflow: auto; margin-bottom: 18px; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+caption { text-align: left; padding: 10px 0; color: var(--muted); }
+th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--line); }
+th { font-size: .85rem; color: var(--muted); }
+td input { width: 86px; }
+.job-editor { display: flex; gap: 8px; align-items: center; }
+.job-editor button { font-size: .85rem; }
+.commands { margin: 0; padding-left: 24px; }
+.commands li { padding: 5px 0; overflow-wrap: anywhere; }
+.commands .pending { color: #e7c778; }
+.commands .accepted { color: var(--accent); }
+.commands .rejected { color: #ffb3ae; }
+footer { font-size: .85rem; padding: 8px 0 20px; }
+[hidden] { display: none !important; }
+@media (max-width: 760px) { main { padding: 18px 12px; } .panel { padding: 16px; } .layout { grid-template-columns: 1fr; gap: 0; } #join-form label { flex: 1 1 180px; } #join-form button { width: 100%; } th, td { padding: 10px 8px; } }

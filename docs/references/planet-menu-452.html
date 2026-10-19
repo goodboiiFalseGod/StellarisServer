@@ -1,0 +1,362 @@
+<style>
+#planet-draft { --pm-bg:#101e1c; --pm-panel:#152824; --pm-edge:#48685d; --pm-ink:#e0ebe2; --pm-muted:#a1b9ac; --pm-accent:#73d4ad; --pm-danger:#ef7777; color:var(--pm-ink); font:12px/1.4 Arial,sans-serif; }
+#planet-draft * { box-sizing:border-box; }
+#planet-draft .pm-stage { position:relative; height:650px; overflow:auto; background:radial-gradient(circle at 72% 58%,#9d741f 0 7px,#453714 8px 22px,transparent 23px),radial-gradient(circle at 18% 24%,#d9e6d8 0 2px,transparent 3px),radial-gradient(circle at 84% 18%,#9ab9c7 0 2px,transparent 3px),radial-gradient(circle at 45% 78%,#d9e6d8 0 1px,transparent 2px),linear-gradient(145deg,#071018,#0a1720 55%,#111b1b); }
+#planet-draft .pm-map { position:absolute; inset:0; }
+#planet-draft .pm-map::before,#planet-draft .pm-map::after { content:''; position:absolute; border:1px solid #41635a55; border-radius:50%; left:calc(72% - 70px); top:calc(58% - 70px); width:140px; height:140px; }
+#planet-draft .pm-map::after { left:calc(72% - 118px); top:calc(58% - 118px); width:236px; height:236px; }
+#planet-draft .pm-map-object { position:absolute; min-width:78px; padding:5px 7px; background:#102522dd; color:#bce7d2; }
+#planet-draft .pm-map-object[data-object="station"] { right:10px; top:18%; }
+#planet-draft .pm-map-object[data-object="fleet"] { left:81%; top:64%; }
+#planet-draft .pm-map-object[data-object="planet"] { left:57%; top:72%; }
+#planet-draft .pm-map-status { position:absolute; right:8px; bottom:8px; max-width:235px; padding:6px 8px; color:#bce7d2; background:#0d1c1add; border:1px solid #31584b; }
+#planet-draft .pm-window { position:absolute; left:14px; top:22px; width:650px; height:460px; min-width:300px; min-height:320px; background:var(--pm-bg); border:1px solid var(--pm-edge); box-shadow:0 12px 30px #0005; display:flex; flex-direction:column; }
+#planet-draft .pm-window[hidden] { display:none; }
+#planet-draft button { font:inherit; color:var(--pm-ink); background:var(--pm-panel); border:1px solid var(--pm-edge); padding:5px 8px; }
+#planet-draft button:hover { background:#254a3e; }
+#planet-draft button:disabled { opacity:.42; }
+#planet-draft button[aria-selected=true] { color:var(--pm-accent); border-bottom:2px solid var(--pm-accent); }
+#planet-draft .pm-title { display:flex; align-items:center; gap:8px; min-height:34px; padding:4px 8px; background:linear-gradient(90deg,#234338,#172c28); cursor:move; touch-action:none; user-select:none; border-bottom:1px solid #76a18f55; }
+#planet-draft .pm-title strong { flex:1; font-size:14px; font-weight:500; }
+#planet-draft .pm-crest { width:23px; height:23px; display:grid; place-items:center; color:#c6e6d1; background:radial-gradient(circle,#477d68 0 38%,#132a25 40%); border:1px solid #79a994; clip-path:polygon(50% 0,92% 20%,82% 82%,50% 100%,18% 82%,8% 20%); }
+#planet-draft .pm-head { display:grid; grid-template-columns:minmax(0,1fr) 170px; min-height:100px; border-bottom:1px solid var(--pm-edge); }
+#planet-draft .pm-landscape { position:relative; overflow:hidden; padding:10px 12px; background:radial-gradient(circle at 72% 30%,#bad1c4 0 5%,transparent 6%),linear-gradient(170deg,#344d55,#507b72 58%,#1b352e); }
+#planet-draft .pm-landscape::after { content:''; position:absolute; bottom:0; right:12px; width:45%; height:55px; opacity:.5; background:repeating-linear-gradient(90deg,#142c28 0 18px,transparent 18px 23px); clip-path:polygon(0 30%,20% 30%,20% 0,35% 0,35% 35%,55% 35%,55% 12%,70% 12%,70% 45%,100% 45%,100% 100%,0 100%); }
+#planet-draft .pm-landscape span { display:block; color:#e0ebe2; }
+#planet-draft .pm-world-kind { color:#c3d8ce!important; font-size:11px; letter-spacing:.04em; }
+#planet-draft .pm-governor { position:absolute; left:12px; bottom:8px; display:flex; align-items:center; gap:7px; z-index:1; }
+#planet-draft .pm-governor-portrait { width:34px; height:34px; display:grid; place-items:center; background:radial-gradient(circle at 50% 35%,#d4b28c 0 18%,#4d665d 19% 35%,#172a26 36%); border:1px solid #779d8e; }
+#planet-draft .pm-governor small { color:#b8ccc2; }
+#planet-draft .pm-summary { background:var(--pm-panel); padding:8px; }
+#planet-draft .pm-summary strong { color:var(--pm-accent); font-weight:500; }
+#planet-draft .pm-planet-orb { float:right; width:42px; height:42px; margin-left:6px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#a9cbb9,#477564 44%,#1c3830 70%); box-shadow:0 0 8px #78c4a855; }
+#planet-draft .pm-summary-actions { display:flex; gap:3px; margin-top:7px; clear:both; }
+#planet-draft .pm-summary-actions button { flex:1; padding:3px; font-size:11px; }
+#planet-draft .pm-stats { display:flex; flex-wrap:wrap; gap:5px 12px; padding:7px 9px; border-bottom:1px solid var(--pm-edge); color:var(--pm-muted); }
+#planet-draft .pm-stats b { color:var(--pm-ink); font-weight:500; }
+#planet-draft .pm-workspace { display:grid; grid-template-columns:minmax(0,1fr) 170px; min-height:0; flex:1; }
+#planet-draft .pm-main { padding:8px; overflow:auto; min-width:0; }
+#planet-draft h4 { font-size:12px; font-weight:500; margin:0 0 7px; }
+#planet-draft .pm-city,#planet-draft .pm-rural { border:1px solid var(--pm-edge); background:linear-gradient(180deg,#18302b,#12231f); padding:7px; margin-bottom:7px; box-shadow:inset 0 0 16px #0003; }
+#planet-draft .pm-district-heading { display:flex; align-items:center; gap:8px; justify-content:space-between; margin-bottom:8px; }
+#planet-draft .pm-district-title { display:flex; align-items:center; gap:7px; min-width:0; }
+#planet-draft .pm-district-art { width:72px; height:45px; flex:none; display:grid; place-items:center; color:#d7eadf; font-size:19px; border:1px solid #557c6f; background:linear-gradient(160deg,color-mix(in srgb,var(--district-color) 45%,#243a34),#152521 66%); position:relative; overflow:hidden; }
+#planet-draft .pm-district-art::after { content:''; position:absolute; inset:auto 0 0; height:18px; background:repeating-linear-gradient(90deg,#0d1d1a 0 8px,transparent 8px 12px); clip-path:polygon(0 60%,12% 60%,12% 12%,24% 12%,24% 55%,39% 55%,39% 0,53% 0,53% 65%,70% 65%,70% 25%,84% 25%,84% 62%,100% 62%,100% 100%,0 100%); }
+#planet-draft .pm-district-name { display:block; color:#dce9e1; }
+#planet-draft .pm-district-note { display:block; color:var(--pm-muted); font-size:10px; }
+#planet-draft .pm-district-buttons { display:flex; gap:4px; }
+#planet-draft .pm-city-grid { display:grid; grid-template-columns:minmax(150px,.95fr) minmax(0,1.6fr); gap:8px; }
+#planet-draft .pm-city { padding:5px; }
+#planet-draft .pm-city .pm-district-heading { margin-bottom:4px; }
+#planet-draft .pm-city .pm-district-art { width:62px; height:34px; }
+#planet-draft .pm-city .pm-slot { width:30px; min-height:30px; }
+#planet-draft .pm-city .pm-zone-title { margin-bottom:2px; }
+#planet-draft .pm-city-zone { padding-top:1px; padding-bottom:1px; }
+#planet-draft .pm-zone-surface { transition:background-color .12s ease; }
+#planet-draft .pm-zone-surface:hover { background:#203b3038; }
+#planet-draft .pm-resource-zone { margin-top:2px; padding:2px; }
+#planet-draft .pm-city-zones { display:grid; grid-template-columns:1fr; gap:7px; }
+#planet-draft .pm-city-zone { border-left:1px solid var(--pm-edge); padding-left:7px; }
+#planet-draft .pm-zone-row { display:flex; justify-content:space-between; align-items:center; gap:6px; }
+#planet-draft .pm-zone-row button { padding:3px 6px; }
+#planet-draft .pm-zone-title { display:block; color:var(--pm-muted); margin-bottom:4px; }
+#planet-draft .pm-zone-open { width:100%; padding:2px 0; border:0; background:transparent; color:var(--pm-muted); text-align:left; }
+#planet-draft .pm-zone-open:hover { background:#203b3055; color:var(--pm-accent); }
+#planet-draft .pm-zone-title.is-replacing { position:relative; min-width:106px; min-height:28px; overflow:hidden; padding-bottom:6px; }
+#planet-draft .pm-zone-replacement { display:grid; grid-template-columns:1fr 1fr; min-height:22px; }
+#planet-draft .pm-zone-replacement span { display:grid; place-items:center; min-width:0; background:#172e29; color:var(--pm-accent); }
+#planet-draft .pm-zone-replacement span:last-child { background:#203b30; color:var(--pm-ink); }
+#planet-draft .pm-zone-title.is-replacing .pm-slot-progress { left:0; right:0; bottom:0; }
+#planet-draft .pm-slots { display:flex; flex-wrap:wrap; gap:4px; }
+#planet-draft .pm-base-slots { display:grid; grid-template-columns:repeat(3,30px); width:max-content; }
+#planet-draft .pm-slot { width:36px; min-height:36px; padding:4px; color:var(--pm-accent); }
+#planet-draft .pm-slot.is-selected { border-color:var(--pm-accent); box-shadow:inset 0 0 0 1px var(--pm-accent),0 0 8px #73d4ad66; }
+#planet-draft .pm-slot.is-pending-removal { position:relative; }
+#planet-draft .pm-slot-removal-badge { position:absolute; right:1px; top:1px; display:grid; place-items:center; width:14px; height:14px; background:#4a2020; color:var(--pm-danger); font-size:11px; line-height:1; }
+#planet-draft .pm-slot.is-disabled-building { position:relative; }
+#planet-draft .pm-slot-disabled-badge { position:absolute; left:1px; top:1px; display:grid; place-items:center; width:14px; height:14px; background:#29322f; color:var(--pm-muted); font-size:11px; line-height:1; }
+#planet-draft .pm-slot.is-building { position:relative; overflow:hidden; padding:0; }
+#planet-draft .pm-slot-art { display:grid; place-items:center; width:100%; height:100%; opacity:.58; }
+#planet-draft .pm-slot-progress { position:absolute; left:3px; right:3px; bottom:3px; height:4px; background:#31413b; }
+#planet-draft .pm-slot-progress::after { content:''; display:block; width:28%; height:100%; background:var(--pm-accent); }
+#planet-draft .pm-slot.is-upgrading { position:relative; }
+#planet-draft .pm-slot-upgrade-badge { position:absolute; right:1px; top:1px; display:grid; place-items:center; width:14px; height:14px; background:#203b30; color:var(--pm-accent); font-size:11px; line-height:1; }
+#planet-draft .pm-slot.is-replacing { position:relative; overflow:hidden; padding:0; }
+#planet-draft .pm-slot-replacement { display:grid; grid-template-columns:1fr 1fr; width:100%; height:100%; }
+#planet-draft .pm-slot-replacement span { display:grid; place-items:center; min-width:0; }
+#planet-draft .pm-slot-replacement span:last-child { background:#203b30; color:var(--pm-ink); }
+#planet-draft .pm-slot.is-repairing { position:relative; overflow:hidden; padding:0; }
+#planet-draft .pm-slot-repair { display:grid; grid-template-columns:1fr 1fr; width:100%; height:100%; }
+#planet-draft .pm-slot-repair span { display:grid; place-items:center; min-width:0; }
+#planet-draft .pm-slot-repair span:first-child { opacity:.55; color:var(--pm-danger); background:repeating-linear-gradient(135deg,#321f20 0 3px,#172e29 3px 6px); }
+#planet-draft .pm-slot-repair span:last-child { background:#203b30; color:var(--pm-accent); }
+#planet-draft .pm-rural-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+#planet-draft .pm-rural { position:relative; margin:0; border-top:3px solid var(--district-color); }
+#planet-draft .pm-rural .pm-district-title { margin-bottom:5px; }
+#planet-draft .pm-rural .pm-district-art { width:100%; height:34px; margin-bottom:4px; }
+#planet-draft .pm-rural button { width:100%; padding:4px; margin:5px 0; }
+#planet-draft .pm-rural > button[data-improve] { position:absolute; right:6px; top:43px; width:auto; margin:0; padding:3px 5px; }
+#planet-draft .pm-specialization { min-height:30px; display:flex; align-items:center; gap:5px; color:var(--pm-muted); text-align:left; }
+#planet-draft .pm-specialization b { color:var(--pm-accent); font-weight:500; font-size:18px; }
+#planet-draft .pm-specialization.is-zone-building { position:relative; justify-content:center; min-height:50px; padding-bottom:10px; }
+#planet-draft .pm-zone-build-icon { color:var(--pm-accent); font-size:20px; }
+#planet-draft .pm-specialization.is-zone-building .pm-slot-progress { left:6px; right:6px; bottom:5px; }
+#planet-draft .pm-requires,#planet-draft .pm-zone-effect { display:block; min-height:24px; color:var(--pm-muted); margin:3px 0; font-size:10px; }
+#planet-draft .pm-requires strong { color:var(--pm-accent); font-weight:500; }
+#planet-draft .pm-rural .pm-slots button { width:36px; margin:3px 0; }
+#planet-draft .pm-meter { display:flex; gap:2px; height:7px; margin:7px 0 3px; }
+#planet-draft .pm-meter span { flex:1; background:#31413b; }
+#planet-draft .pm-meter span.filled { background:var(--district-color,#6aaaca); }
+#planet-draft .pm-meter span.queued { background:repeating-linear-gradient(135deg,var(--district-color,#6aaaca) 0 2px,#31413b 2px 4px); }
+#planet-draft .pm-side { border-left:1px solid var(--pm-edge); padding:8px; overflow:auto; }
+#planet-draft .pm-flow { padding:7px 0; border-bottom:1px solid var(--pm-edge); color:var(--pm-muted); }
+#planet-draft .pm-flow strong { color:var(--pm-accent); font-weight:500; }
+#planet-draft .pm-queue { padding-top:12px; }
+#planet-draft .pm-order { padding:7px 0; border-bottom:1px solid var(--pm-edge); }
+#planet-draft .pm-order small { display:block; color:var(--pm-muted); font-size:11px; }
+#planet-draft .pm-order progress { width:100%; height:7px; accent-color:var(--pm-accent); }
+#planet-draft .pm-order-controls { display:flex; gap:3px; margin-top:4px; }
+#planet-draft .pm-order-controls button:last-child { margin-left:auto; }
+#planet-draft .pm-empty { color:var(--pm-muted); padding:7px 0; }
+#planet-draft .pm-tabs { display:flex; flex-wrap:wrap; gap:2px; border-top:1px solid var(--pm-edge); padding:6px 24px 5px 6px; background:#0c1816; }
+#planet-draft .pm-tabs button { padding:6px 12px; clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%); background:linear-gradient(#223c35,#142823); }
+#planet-draft .pm-tabs button[aria-selected=true] { background:linear-gradient(#31584b,#1a332c); box-shadow:inset 0 0 8px #74d2aa44; }
+#planet-draft .pm-resize { position:absolute; bottom:0; right:0; padding:0; width:22px; height:22px; border:0; cursor:nwse-resize; touch-action:none; color:var(--pm-accent); }
+#planet-draft .pm-catalog { position:absolute; width:230px; height:360px; display:flex; flex-direction:column; border:1px solid var(--pm-edge); background:var(--pm-bg); box-shadow:0 8px 20px #0005; z-index:3; }
+#planet-draft .pm-catalog[hidden] { display:none; }
+#planet-draft .pm-catalog-head { display:flex; align-items:center; justify-content:space-between; padding:7px; border-bottom:1px solid var(--pm-edge); }
+#planet-draft .pm-catalog-list { padding:7px; overflow:auto; }
+#planet-draft .pm-choice { display:grid; grid-template-columns:48px minmax(0,1fr); gap:8px; align-items:start; text-align:left; width:100%; margin-bottom:7px; padding:7px; }
+#planet-draft .pm-choice-art { display:grid; place-items:center; width:48px; height:48px; border:1px solid var(--pm-edge); background:linear-gradient(145deg,#355b50,#172e29); color:var(--pm-accent); font-size:20px; }
+#planet-draft .pm-choice-copy { min-width:0; }
+#planet-draft .pm-choice-name { display:block; color:var(--pm-ink); }
+#planet-draft .pm-choice small { display:block; color:var(--pm-muted); font-size:11px; margin-top:4px; }
+#planet-draft .pm-choice:disabled { opacity:1; color:var(--pm-muted); }
+#planet-draft .pm-cost { display:flex!important; flex-wrap:wrap; gap:8px; align-items:center; }
+#planet-draft .pm-resource { display:inline-flex; gap:3px; align-items:center; color:var(--pm-ink); font-variant-numeric:tabular-nums; }
+#planet-draft .pm-resource.is-missing { color:var(--pm-danger); }
+#planet-draft .pm-resource-icon { width:13px; text-align:center; color:inherit; }
+#planet-draft .pm-building { position:absolute; width:230px; display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--pm-edge); background:var(--pm-bg); box-shadow:0 8px 20px #0005; z-index:3; }
+#planet-draft .pm-building[hidden] { display:none; }
+#planet-draft .pm-building-head { display:flex; align-items:center; justify-content:space-between; padding:7px; border-bottom:1px solid var(--pm-edge); color:var(--pm-accent); }
+#planet-draft .pm-building-body { min-height:0; overflow:auto; }
+#planet-draft .pm-building-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:8px; }
+#planet-draft .pm-building-current,#planet-draft .pm-building-upgrade { margin:0 8px 8px; padding:8px; border:1px solid var(--pm-edge); background:var(--pm-panel); }
+#planet-draft .pm-building-current { display:grid; grid-template-columns:52px minmax(0,1fr); gap:8px; align-items:start; }
+#planet-draft .pm-building-portrait { display:grid; place-items:center; width:52px; height:52px; background:linear-gradient(145deg,#355b50,#172e29); color:var(--pm-accent); border:1px solid var(--pm-edge); font-size:20px; }
+#planet-draft .pm-building-name { color:var(--pm-accent); font-weight:500; }
+#planet-draft .pm-building-state { color:var(--pm-muted); margin:3px 0 7px; }
+#planet-draft .pm-building-effects { color:var(--pm-muted); }
+#planet-draft .pm-building-upgrade { display:block; width:calc(100% - 16px); text-align:left; }
+#planet-draft .pm-building-upgrade strong,#planet-draft .pm-building-upgrade span,#planet-draft .pm-building-upgrade small { display:block; }
+#planet-draft .pm-building-upgrade small { color:var(--pm-muted); margin-top:4px; }
+#planet-draft .pm-district-panel { position:absolute; width:230px; display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--pm-edge); background:var(--pm-bg); box-shadow:0 8px 20px #0005; z-index:3; }
+#planet-draft .pm-district-panel[hidden] { display:none; }
+#planet-draft .pm-district-body { min-height:0; overflow:auto; padding-bottom:8px; }
+#planet-draft .pm-district-hero { height:82px; margin:8px; display:grid; place-items:center; border:1px solid #547b6d; color:#d2e7dc; font-size:24px; background:linear-gradient(150deg,#496c62,#203a33 55%,#101f1c); }
+#planet-draft .pm-district-panel h4,#planet-draft .pm-district-copy { margin:8px; }
+#planet-draft .pm-district-copy { color:var(--pm-muted); padding-bottom:8px; border-bottom:1px solid var(--pm-edge); }
+#planet-draft .pm-district-actions { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin:8px; }
+#planet-draft .pm-zone-detail { margin:8px; padding:8px; border:1px solid var(--pm-edge); background:var(--pm-panel); }
+#planet-draft .pm-zone-detail strong { color:var(--pm-accent); font-weight:500; }
+#planet-draft .pm-confirm { position:absolute; inset:0; display:grid; place-items:center; background:#0009; z-index:5; padding:12px; }
+#planet-draft .pm-confirm[hidden] { display:none; }
+#planet-draft .pm-confirm-box { width:min(340px,100%); background:var(--pm-bg); border:1px solid var(--pm-edge); box-shadow:0 10px 24px #0008; padding:14px; }
+#planet-draft .pm-confirm-box ul { margin:8px 0 12px; padding-left:22px; color:var(--pm-accent); }
+#planet-draft .pm-confirm-box li.pm-resource-list-item { list-style:none; margin-left:-22px; }
+#planet-draft .pm-confirm-actions { display:flex; justify-content:flex-end; gap:7px; }
+#planet-draft .pm-other { display:grid; gap:8px; }
+#planet-draft .pm-other section { border:1px solid var(--pm-edge); background:#142722; padding:8px; }
+#planet-draft .pm-section-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; color:var(--pm-accent); }
+#planet-draft .pm-feature-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+#planet-draft .pm-feature { display:grid; grid-template-columns:45px minmax(0,1fr); gap:7px; min-height:54px; padding:5px; border:1px solid #3d6256; background:#10211d; }
+#planet-draft .pm-feature-art { display:grid; place-items:center; color:#d8eadf; font-size:18px; background:linear-gradient(145deg,#526b55,#1d342d); }
+#planet-draft .pm-feature small { display:block; color:var(--pm-muted); }
+#planet-draft .pm-pop-row,#planet-draft .pm-job-row,#planet-draft .pm-army-row,#planet-draft .pm-holding-row { display:grid; align-items:center; gap:7px; padding:6px; margin-top:4px; border-top:1px solid #345348; }
+#planet-draft .pm-pop-row { grid-template-columns:30px minmax(0,1fr) auto; }
+#planet-draft .pm-job-row { grid-template-columns:24px minmax(85px,1fr) 90px auto auto auto; }
+#planet-draft .pm-army-row,#planet-draft .pm-holding-row { grid-template-columns:40px minmax(0,1fr) auto; }
+#planet-draft .pm-row-icon { display:grid; place-items:center; height:28px; background:#203c33; border:1px solid #4b7063; color:var(--pm-accent); }
+#planet-draft .pm-job-bar { height:8px; display:flex; gap:2px; }
+#planet-draft .pm-job-bar i { flex:1; background:#30463f; }
+#planet-draft .pm-job-bar i.on { background:#79b18f; }
+#planet-draft .pm-job-step { display:flex; gap:2px; }
+#planet-draft .pm-job-step button { padding:1px 5px; }
+#planet-draft .pm-value { color:#d9e7df; white-space:nowrap; }
+#planet-draft .pm-value.good { color:var(--pm-accent); }
+#planet-draft .pm-side-card { margin-bottom:8px; padding:7px; border:1px solid var(--pm-edge); background:#132720; }
+#planet-draft .pm-side-card strong { color:var(--pm-accent); font-weight:500; }
+#planet-draft .pm-side-card button,#planet-draft .pm-side-card progress { width:100%; margin-top:6px; }
+#planet-draft .pm-job-row small,#planet-draft .pm-pop-row small,#planet-draft .pm-army-row small,#planet-draft .pm-holding-row small { display:block; color:var(--pm-muted); font-size:10px; }
+@media (max-width:500px) { #planet-draft .pm-head,#planet-draft .pm-workspace { grid-template-columns:minmax(0,1fr); } #planet-draft .pm-summary { display:none; } #planet-draft .pm-side { border-left:0; border-top:1px solid var(--pm-edge); } #planet-draft .pm-workspace { overflow:auto; } #planet-draft .pm-main,#planet-draft .pm-side { overflow:visible; } #planet-draft .pm-city-grid,#planet-draft .pm-rural-row { grid-template-columns:1fr; } #planet-draft .pm-city-zone { border-left:0; border-top:1px solid var(--pm-edge); padding:7px 0 0; } #planet-draft .pm-stage { height:670px; } }
+@media (pointer:coarse) { #planet-draft button { min-height:44px; } }
+</style>
+<div id="planet-draft">
+  <div class="pm-stage viz-dotted-background">
+    <div class="pm-map" aria-label="Интерактивная карта системы">
+      <button type="button" class="pm-map-object cursor-interaction" data-object="station">Станция</button>
+      <button type="button" class="pm-map-object cursor-interaction" data-object="fleet">Флот</button>
+      <button type="button" class="pm-map-object cursor-interaction" data-object="arkship">Arkship</button>
+      <div class="pm-map-status" aria-live="polite">Карта доступна при открытом меню</div>
+    </div>
+    <section class="pm-window" aria-label="Меню планеты Митра">
+      <header class="pm-title"><span class="pm-crest" aria-hidden="true">✦</span><strong>Митра · Столица империи</strong><button type="button" class="cursor-interaction" aria-label="Предыдущая планета" disabled>‹</button><button type="button" class="cursor-interaction" aria-label="Следующая планета" disabled>›</button><button type="button" class="pm-window-close cursor-interaction" aria-label="Закрыть окно планеты">×</button></header>
+      <div class="pm-head"><div class="pm-landscape"><span class="pm-world-kind">Континентальный мир</span><div class="pm-governor"><span class="pm-governor-portrait" aria-hidden="true">♟</span><span>Губернатор Ария Т'Сан<br><small>Уровень 4 · Архитектор</small></span></div></div><aside class="pm-summary"><span class="pm-planet-orb" aria-hidden="true"></span><strong>Сводка колонии</strong><div>Пригодность: 100%</div><div>Размер: 18</div><div>Специализация: Столица</div><div class="pm-summary-actions"><button type="button" class="cursor-interaction">Решения</button><button type="button" class="cursor-interaction" aria-label="Автоматизация колонии">⚙</button></div></aside></div>
+      <div class="pm-stats"><span>Стабильность <b>66%</b></span><span>Население <b>4,8K</b></span><span>Преступность <b>2%</b></span><span>Жильё <b>582</b></span><span>Блага <b>2,1K</b></span><span>Безработица <b>0</b></span><span>Рабочие места <b>1,4K</b></span></div>
+      <div class="pm-workspace"><main class="pm-main" id="pm-page" role="tabpanel" aria-labelledby="pm-infra"></main><aside class="pm-side" id="pm-side"></aside></div>
+      <nav class="pm-tabs" role="tablist" aria-label="Разделы планеты"><button id="pm-infra" type="button" role="tab" aria-selected="true" aria-controls="pm-page" data-tab="Инфраструктура" class="cursor-interaction">Инфраструктура</button><button id="pm-manage" type="button" role="tab" aria-selected="false" aria-controls="pm-page" data-tab="Управление" class="cursor-interaction">Управление</button><button id="pm-economy" type="button" role="tab" aria-selected="false" aria-controls="pm-page" data-tab="Экономика" class="cursor-interaction">Экономика</button><button id="pm-armies" type="button" role="tab" aria-selected="false" aria-controls="pm-page" data-tab="Армии" class="cursor-interaction">Армии</button><button id="pm-holdings" type="button" role="tab" aria-selected="false" aria-controls="pm-page" data-tab="Владения" class="cursor-interaction">Владения</button></nav>
+      <button type="button" class="pm-resize" aria-label="Изменить размер окна; клавиши со стрелками">◢</button>
+    </section>
+    <aside class="pm-catalog" aria-label="Каталог строительства" hidden><header class="pm-catalog-head"><span>Построить здание</span><button type="button" class="pm-close cursor-interaction" aria-label="Закрыть каталог">×</button></header><div class="pm-catalog-list"></div></aside>
+    <aside class="pm-building" aria-label="Сведения о здании" hidden><header class="pm-building-head"><span>Сведения о здании</span><button type="button" class="pm-building-close cursor-interaction" aria-label="Закрыть сведения о здании">×</button></header><div class="pm-building-body"><div class="pm-building-actions"><button type="button" data-building-action="toggle" class="cursor-interaction"></button><button type="button" data-building-action="demolish" class="cursor-interaction">Демонтировать</button><button type="button" data-building-action="replace" class="cursor-interaction">Заменить</button><button type="button" data-building-action="repair" class="cursor-interaction">Ремонтировать</button></div><section class="pm-building-current"><div class="pm-building-portrait" aria-hidden="true"></div><div><div class="pm-building-name"></div><div class="pm-building-state"></div><div class="pm-building-effects"></div></div></section><h4 style="margin:8px">Доступное улучшение</h4><button type="button" class="pm-building-upgrade cursor-interaction"></button></div></aside>
+    <aside class="pm-district-panel" aria-label="Сведения о зоне" hidden><header class="pm-building-head"><span>Сведения о зоне</span><button type="button" class="pm-district-close cursor-interaction" aria-label="Закрыть сведения о зоне">×</button></header><div class="pm-district-body"><div class="pm-district-hero" aria-hidden="true">▦</div><h4 class="pm-district-name-panel"></h4><div class="pm-district-copy"></div><div class="pm-district-actions"><button type="button" class="pm-zone-replace cursor-interaction">Заменить</button></div><h4>Эффекты и здания</h4><div class="pm-district-zones"></div></div></aside>
+    <div class="pm-confirm" role="dialog" aria-modal="true" aria-labelledby="pm-confirm-title" hidden><section class="pm-confirm-box"><h4 id="pm-confirm-title">Подтвердить замену зоны</h4><div class="pm-confirm-message">При замене будут удалены:</div><ul class="pm-confirm-list"></ul><div class="pm-confirm-actions"><button type="button" class="pm-confirm-cancel cursor-interaction">Отмена</button><button type="button" class="pm-confirm-accept cursor-interaction">Заменить зону</button></div></section></div>
+  </div>
+</div>
+<script>
+(() => {
+  const root=document.getElementById('planet-draft'), stage=root.querySelector('.pm-stage'), win=root.querySelector('.pm-window'), page=root.querySelector('.pm-main'), side=root.querySelector('.pm-side'), catalog=root.querySelector('.pm-catalog'), building=root.querySelector('.pm-building'), districtPanel=root.querySelector('.pm-district-panel'), confirm=root.querySelector('.pm-confirm'), grip=root.querySelector('.pm-resize'), mapStatus=root.querySelector('.pm-map-status');
+  const saved=window.openai?.widgetState?.privateContent;
+  let state={tab:'Инфраструктура',variant:'planet',role:'planetOwner',x:14,y:22,width:760,height:610,orders:[],...(saved?.version===5?saved:{})};
+  let pendingSlot=null,buildingContext=null,zoneContext=null,catalogPurpose='build';
+  const store=()=>window.openai?.setWidgetState?.({modelContent:{tab:state.tab},privateContent:{...state,version:5}})?.catch(()=>{});
+  const meter=(filled,total,queued=0)=>`<div class="pm-meter" aria-label="Построено ${filled}, заказано ${queued}, максимум ${total}">${Array.from({length:total},(_,i)=>`<span class="${i<filled?'filled':i<filled+queued?'queued':''}"></span>`).join('')}</div>`;
+  const resourceMeta={energy:{icon:'ϟ',label:'Энергия'},minerals:{icon:'◆',label:'Минералы'},goods:{icon:'▣',label:'Товары массового спроса'},days:{icon:'◷',label:'Дни'}};
+  function resourceCost(items){const row=document.createElement('small');row.className='pm-cost';items.forEach(item=>{const meta=resourceMeta[item.type],resource=document.createElement('span'),icon=document.createElement('span'),value=document.createElement('span');resource.className=`pm-resource${item.missing?' is-missing':''}`;resource.setAttribute('aria-label',`${meta.label}: ${item.value}${item.missing?', недостаточно':''}`);icon.className='pm-resource-icon';icon.setAttribute('aria-hidden','true');icon.textContent=meta.icon;value.textContent=item.value;resource.append(icon,value);row.append(resource);});return row;}
+  function position(){
+    const max=stage.clientWidth;
+    state.width=Math.min(Math.max(Math.min(440,max),state.width),max);
+    state.height=Math.min(Math.max(320,state.height),stage.clientHeight);
+    const attachedWidth=!catalog.hidden||!building.hidden||!districtPanel.hidden?230:0;
+    const panelInside=attachedWidth>0&&state.width+attachedWidth>max;
+    state.x=Math.max(0,Math.min(state.x,max-state.width-(panelInside?0:attachedWidth)));state.y=Math.max(0,Math.min(state.y,stage.clientHeight-state.height));
+    Object.assign(win.style,{left:state.x+'px',top:state.y+'px',width:state.width+'px',height:state.height+'px'});
+    const panelLeft=panelInside?state.x+state.width-attachedWidth:state.x+state.width;
+    const panelTop=state.y+(panelInside?34:0),panelHeight=state.height-(panelInside?34:0);
+    catalog.style.left=panelLeft+'px';catalog.style.top=panelTop+'px';catalog.style.height=panelHeight+'px';catalog.dataset.placement=panelInside?'inside':'outside';
+    building.style.left=panelLeft+'px';building.style.top=panelTop+'px';building.style.height=panelHeight+'px';building.dataset.placement=panelInside?'inside':'outside';
+    districtPanel.style.left=panelLeft+'px';districtPanel.style.top=panelTop+'px';districtPanel.style.height=panelHeight+'px';districtPanel.dataset.placement=panelInside?'inside':'outside';
+  }
+  function drawOrders(){
+    const orders=root.querySelector('.pm-orders');if(!orders)return;
+    orders.replaceChildren();
+    if(!state.orders.length){const p=document.createElement('div');p.className='pm-empty';p.textContent='Очередь пуста';orders.append(p);return;}
+    state.orders.forEach((name,i)=>{const row=document.createElement('div');row.className='pm-order';const label=document.createElement('div');label.textContent=name;const time=document.createElement('small');time.textContent=i?'Ожидает начала':'Осталось 360 дней';const bar=document.createElement('progress');bar.max=100;bar.value=0;const controls=document.createElement('div');controls.className='pm-order-controls';const up=document.createElement('button'),down=document.createElement('button'),cancel=document.createElement('button');up.type=down.type=cancel.type='button';up.textContent='↑';down.textContent='↓';cancel.textContent='Отменить';up.className=down.className=cancel.className='cursor-interaction';up.setAttribute('aria-label',`Поднять заказ ${name}`);down.setAttribute('aria-label',`Опустить заказ ${name}`);up.disabled=i<=1;down.disabled=i===0||i===state.orders.length-1;up.onclick=()=>{[state.orders[i-1],state.orders[i]]=[state.orders[i],state.orders[i-1]];drawOrders();store();};down.onclick=()=>{[state.orders[i],state.orders[i+1]]=[state.orders[i+1],state.orders[i]];drawOrders();store();};cancel.onclick=()=>cancelOrder(i,name);controls.append(up,down,cancel);row.append(label,time,bar,controls);orders.append(row);});
+  }
+  function drawSide(){
+    if(state.tab==='Инфраструктура')side.innerHTML='<div class="pm-flow">Производство<br><strong><span aria-label="Энергия: плюс 24">ϟ +24</span> · <span aria-label="Минералы: плюс 43">◆ +43</span><br><span aria-label="Пища: плюс 13">♧ +13</span> · <span aria-label="Сплавы: плюс 13">⬢ +13</span></strong></div><div class="pm-flow">Дефицит<br>Нет</div><section class="pm-queue"><h4>Очередь строительства</h4><div class="pm-orders" aria-live="polite"></div></section>';
+    else if(state.tab==='Управление')side.innerHTML='<div class="pm-side-card"><strong>Население</strong><div>4,8K поселений</div><div>Рост: +2,45 / мес.</div><div>Жильё: 582</div></div><div class="pm-side-card"><strong>Сектор</strong><div>Центральный сектор</div><button type="button">Назначить столицей</button></div><div class="pm-side-card"><strong>Вознесение планеты</strong><div>Уровень 2 / 10</div><progress max="10" value="2"></progress><button type="button">Возвысить</button></div>';
+    else if(state.tab==='Экономика')side.innerHTML='<div class="pm-side-card"><strong>Сводка рабочей силы</strong><div>Занято: 4,7K</div><div>Свободно: 48</div><div>Безработные: 0</div></div><div class="pm-side-card"><strong>Классы</strong><div>Правители: 4</div><div>Специалисты: 1,8K</div><div>Рабочие: 2,9K</div></div><div class="pm-side-card"><strong>Баланс</strong><div class="pm-value good">ϟ +24 · ◆ +43</div><div class="pm-value good">♧ +13 · ⬢ +13</div></div>';
+    else if(state.tab==='Армии')side.innerHTML=state.variant==='arkship'?'<div class="pm-side-card"><strong>Состояние Arkship</strong><div>Корпус: 100%</div><div>Щиты: 92%</div><div>Экипаж: 4,8K</div></div><div class="pm-side-card"><strong>Текущий шаблон</strong><div>Экспедиционный</div><div>8 / 10 модулей</div></div>':'<div class="pm-side-card"><strong>Оборона планеты</strong><div>Сила: 604</div><div>Урон от бомбардировки: 0%</div></div><div class="pm-side-card"><strong>Гарнизон</strong><div>2 армии</div><div>Генерал не назначен</div></div>';
+    else side.innerHTML=`<div class="pm-side-card"><strong>Владения</strong><div>Занято: 2 / 4</div><div>${state.role==='holdingOwner'?'Доступно управление своим владением':'Режим просмотра'}</div></div><div class="pm-side-card"><strong>Владельцы</strong><div>Гильдия торговцев</div><div>Звёздный протекторат</div></div>`;
+    drawOrders();
+  }
+  function showPendingSlot(slot,name){
+    const progress=document.createElement('span');progress.className='pm-slot-progress';progress.setAttribute('role','progressbar');progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax','100');progress.setAttribute('aria-valuenow','28');
+    if(slot.dataset.build==='zone'){const icon=document.createElement('span');icon.className='pm-zone-build-icon';icon.setAttribute('aria-hidden','true');icon.textContent='⚒';progress.setAttribute('aria-label',`Строительство зоны: ${name}`);slot.classList.add('is-zone-building');slot.replaceChildren(icon,progress);slot.setAttribute('aria-label',`Зона строится: ${name}`);return;}
+    const target=document.createElement('span');target.className='pm-slot-art';target.textContent=name.slice(0,1);progress.setAttribute('aria-label',`Строительство: ${name}`);slot.classList.add('is-building');slot.replaceChildren(target,progress);slot.setAttribute('aria-label',name+' в очереди');
+  }
+  function cancelOrder(index,name){const apply=()=>{state.orders.splice(index,1);drawPage();drawOrders();store();};const lost=name.startsWith('Замена:')?[{type:'minerals',value:50,missing:true}]:[];if(lost.length)openConfirmation({title:'Подтвердить отмену заказа',message:'Часть возврата не поместится в хранилище и будет потеряна:',items:[],resources:lost,acceptLabel:'Отменить заказ',onAccept:apply});else apply();}
+  function clearSelectedBuilding(){root.querySelectorAll('.pm-slot.is-selected').forEach(slot=>slot.classList.remove('is-selected'));}
+  function openCatalog(kind,slot,district,purpose='build'){
+    pendingSlot=slot??null;catalogPurpose=purpose;building.hidden=true;districtPanel.hidden=true;clearSelectedBuilding();catalog.hidden=false;const title=catalog.querySelector('.pm-catalog-head span'),list=catalog.querySelector('.pm-catalog-list');list.replaceChildren();
+    title.textContent=kind==='district'?'Построить район':kind==='zone'?'Выбрать специализацию':kind==='zone-replace'?'Заменить зону':purpose==='replace'?'Заменить здание':'Построить здание';
+    const zoneChoices={Энергетические:[['Базовые генераторы','Профессии техников · производство энергии',[{type:'minerals',value:300},{type:'days',value:240}]],['Глобальное управление энергией','Улучшенные профессии техников',[{type:'minerals',value:500},{type:'days',value:360}]]],Добывающие:[['Базовые шахты','Профессии шахтёров · добыча минералов',[{type:'minerals',value:300},{type:'days',value:240}]],['Очистка минералов','Улучшенные профессии шахтёров',[{type:'minerals',value:500},{type:'days',value:360}]]],Сельскохозяйственные:[['Базовые фермы','Профессии фермеров · производство пищи',[{type:'minerals',value:300},{type:'days',value:240}]],['Переработка пищи','Улучшенные профессии фермеров',[{type:'minerals',value:500},{type:'days',value:360}]]]};
+    const cityZoneChoices=[['Исследовательский сектор','Исследовательские профессии · поддерживает лаборатории',[{type:'minerals',value:500},{type:'days',value:360}]],['Промышленный сектор','Ремесленники и металлурги · поддерживает фабрики',[{type:'minerals',value:500},{type:'days',value:360}]],['Административный сектор','Управляющие профессии',[{type:'minerals',value:400},{type:'days',value:300}]]];
+    const choices=kind==='district'?[['Городской район','Жильё · места специализаций',[{type:'minerals',value:500},{type:'days',value:480}]],['Энергетический район','Профессии техников',[{type:'minerals',value:300},{type:'days',value:240}]]]:kind==='zone'?(zoneChoices[district]??[]):kind==='zone-replace'?cityZoneChoices:[['Исследовательская лаборатория','Научные профессии',[{type:'minerals',value:400},{type:'days',value:360}]],['Голографические театры','Блага · профессии артистов',[{type:'energy',value:100},{type:'minerals',value:400,missing:true},{type:'days',value:360}]],['Гражданские фабрики','Производство товаров массового спроса',[{type:'minerals',value:400},{type:'days',value:360}]]];
+    choices.filter(([name])=>(catalogPurpose!=='replace'||!buildingContext||name!==buildingContext.name)&&(kind!=='zone-replace'||!zoneContext||name!==zoneContext.name)).forEach(([name,effect,cost])=>{const affordable=!cost.some(item=>item.missing),b=document.createElement('button');b.type='button';b.className='pm-choice cursor-interaction';b.disabled=!affordable;if(!affordable)b.setAttribute('aria-label',`${name}. Недостаточно ресурсов`);const art=document.createElement('span'),copy=document.createElement('span'),label=document.createElement('span'),description=document.createElement('small');art.className='pm-choice-art';art.setAttribute('aria-hidden','true');art.textContent=name.slice(0,1);copy.className='pm-choice-copy';label.className='pm-choice-name';label.textContent=name;description.textContent=effect;copy.append(label,description,resourceCost(cost));b.append(art,copy);b.onclick=()=>{if(kind==='zone-replace'&&zoneContext){const supported={Лаборатория:['Исследовательский сектор'],'Гражданские фабрики':['Промышленный сектор'],'Ферма гидропоники':['Аграрный сектор']};const removed=zoneContext.installed&&!(supported[zoneContext.installed]??[]).includes(name)?[zoneContext.installed]:[];catalog.hidden=true;if(removed.length)confirmZoneReplacement(zoneContext.section,zoneContext.name,name,removed);else applyZoneReplacement(zoneContext.section,zoneContext.name,name,[]);}else if(catalogPurpose==='replace'&&buildingContext){state.orders.push(`Замена: ${buildingContext.name} → ${name}`);buildingContext.status=buildingContext.status.includes('disabled')?'disabled-replacing':'replacing';const split=document.createElement('span'),source=document.createElement('span'),target=document.createElement('span'),progress=document.createElement('span');split.className='pm-slot-replacement';source.textContent=buildingContext.name.slice(0,1);target.textContent=name.slice(0,1);split.append(source,target);progress.className='pm-slot-progress';progress.setAttribute('role','progressbar');progress.setAttribute('aria-label',`Замена: ${buildingContext.name} на ${name}`);progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax','100');progress.setAttribute('aria-valuenow','28');buildingContext.slot.classList.add('is-replacing','is-selected');buildingContext.slot.replaceChildren(split,progress);buildingContext.slot.setAttribute('aria-label',`${buildingContext.name} заменяется на ${name}`);catalog.hidden=true;building.hidden=false;drawOrders();renderBuilding();}else{state.orders.push(name);drawOrders();catalog.hidden=true;if(pendingSlot)showPendingSlot(pendingSlot,name);}store();};list.append(b);});position();
+  }
+  function improveDistrict(name,button){
+    const orderName=`Улучшение: ${name}`;state.orders.push(orderName);drawPage();drawOrders();store();
+  }
+  const buildingDefinitions={
+    'Планетарная администрация':{effects:'Жильё · блага · управляющие профессии',upkeep:[{type:'energy',value:5}],upgrade:'Планетарная столица',upgradeCost:[{type:'energy',value:293},{type:'minerals',value:640}]},
+    'Исследовательская лаборатория':{effects:'Исследовательские профессии',upkeep:[{type:'energy',value:2},{type:'goods',value:2}],upgrade:'Исследовательский комплекс',upgradeCost:[{type:'minerals',value:600},{type:'days',value:480}]},
+    'Лаборатория':{effects:'Исследовательские профессии зоны',upkeep:[{type:'energy',value:2},{type:'goods',value:2}],upgrade:'Расширенная лаборатория',upgradeCost:[{type:'minerals',value:600},{type:'days',value:480}]},
+    'Гражданские фабрики':{effects:'Профессии ремесленников · разрушенное здание не работает',upkeep:[],upgrade:null,upgradeCost:[]},
+    'Ферма гидропоники':{effects:'Профессии фермеров',upkeep:[{type:'energy',value:2}],upgrade:'Улучшенная гидропоника',upgradeCost:[{type:'minerals',value:400},{type:'days',value:360}]}
+  };
+  function openConfirmation({title,message,items=[],resources=[],acceptLabel,onAccept}){
+    const consequences=items.map(name=>{const item=document.createElement('li');item.textContent=name;return item;});if(resources.length){const item=document.createElement('li');item.className='pm-resource-list-item';item.append(resourceCost(resources));consequences.push(item);}confirm.querySelector('#pm-confirm-title').textContent=title;confirm.querySelector('.pm-confirm-message').textContent=message;confirm.querySelector('.pm-confirm-list').replaceChildren(...consequences);
+    const accept=confirm.querySelector('.pm-confirm-accept');accept.textContent=acceptLabel;accept.onclick=()=>{confirm.hidden=true;onAccept();};confirm.hidden=false;confirm.querySelector('.pm-confirm-cancel').focus();
+  }
+  function applyZoneReplacement(section,name,target,buildings){
+    state.orders.push(`Замена зоны: ${name} → ${target}`);const title=section.querySelector('.pm-zone-title'),split=document.createElement('span'),source=document.createElement('span'),next=document.createElement('span'),progress=document.createElement('span');split.className='pm-zone-replacement';source.textContent=name.slice(0,1);next.textContent=target.slice(0,1);split.append(source,next);progress.className='pm-slot-progress';progress.setAttribute('role','progressbar');progress.setAttribute('aria-label',`Замена зоны: ${name} на ${target}`);progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax','100');progress.setAttribute('aria-valuenow','28');title.classList.add('is-replacing');title.replaceChildren(split,progress);title.setAttribute('role','img');title.setAttribute('aria-label',`${name} заменяется на ${target}`);buildings.forEach(buildingName=>{const affected=[...section.querySelectorAll('[data-building]')].find(slot=>slot.dataset.building===buildingName);if(!affected)return;const badge=document.createElement('span');badge.className='pm-slot-removal-badge';badge.setAttribute('aria-hidden','true');badge.textContent='!';affected.classList.add('is-pending-removal');affected.append(badge);affected.setAttribute('aria-label',`${buildingName}, будет удалено при замене зоны`);});districtPanel.hidden=true;drawOrders();store();
+  }
+  function confirmZoneReplacement(section,name,target,buildings){
+    openConfirmation({title:'Подтвердить замену зоны',message:'Несовместимые здания будут удалены без возврата ресурсов:',items:buildings,acceptLabel:'Заменить зону',onAccept:()=>applyZoneReplacement(section,name,target,buildings)});
+  }
+  function syncDisabledSlot(slot,disabled){
+    slot.classList.toggle('is-disabled-building',disabled);slot.querySelector('.pm-slot-disabled-badge')?.remove();if(!disabled)return;const badge=document.createElement('span');badge.className='pm-slot-disabled-badge';badge.setAttribute('aria-hidden','true');badge.textContent='⏻';slot.append(badge);
+  }
+  function renderBuilding(){
+    const context=buildingContext,definition=buildingDefinitions[context.name],upgrading=context.status.includes('upgrading'),replacing=context.status.includes('replacing'),disabled=context.status.includes('disabled'),repairing=context.status==='repairing',ruined=context.status==='ruined'||repairing;
+    syncDisabledSlot(context.slot,disabled);
+    building.querySelector('.pm-building-portrait').textContent=context.name.slice(0,1);building.querySelector('.pm-building-name').textContent=context.name;building.querySelector('.pm-building-state').textContent=repairing?'Разрушено · ремонт в очереди':ruined?'Разрушено':replacing?(disabled?'Отключено · замена в очереди':'Работает · замена в очереди'):upgrading?(disabled?'Отключено · улучшение в очереди':'Работает · улучшение в очереди'):(disabled?'Отключено':'Работает');const effects=building.querySelector('.pm-building-effects');effects.textContent=definition.effects;if(definition.upkeep.length)effects.append(resourceCost(definition.upkeep));
+    const toggle=building.querySelector('[data-building-action="toggle"]'),demolish=building.querySelector('[data-building-action="demolish"]'),replace=building.querySelector('[data-building-action="replace"]'),repair=building.querySelector('[data-building-action="repair"]'),upgrade=building.querySelector('.pm-building-upgrade');
+    toggle.textContent=disabled?'Включить':'Отключить';toggle.disabled=ruined;toggle.onclick=()=>{context.status=replacing?(disabled?'replacing':'disabled-replacing'):upgrading?(disabled?'upgrading':'disabled-upgrading'):(disabled?'normal':'disabled');renderBuilding();};
+    demolish.disabled=upgrading||repairing||replacing;demolish.onclick=()=>openConfirmation({title:'Подтвердить демонтаж',message:'Здание будет удалено без возврата ресурсов:',items:[context.name],acceptLabel:'Демонтировать',onAccept:()=>{building.hidden=true;clearSelectedBuilding();context.slot.textContent='+';context.slot.setAttribute('aria-label','Свободный слот здания');context.slot.onclick=()=>openCatalog('building',context.slot);}});
+    replace.disabled=ruined||upgrading||replacing;replace.onclick=()=>openCatalog('building',context.slot,undefined,'replace');
+    repair.disabled=!ruined||repairing;repair.onclick=()=>{state.orders.push(`Ремонт: ${context.name}`);context.status='repairing';const split=document.createElement('span'),ruinedHalf=document.createElement('span'),restoredHalf=document.createElement('span'),progress=document.createElement('span');split.className='pm-slot-repair';ruinedHalf.textContent=restoredHalf.textContent=context.name.slice(0,1);split.append(ruinedHalf,restoredHalf);progress.className='pm-slot-progress';progress.setAttribute('role','progressbar');progress.setAttribute('aria-label',`Ремонт: ${context.name}`);progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax','100');progress.setAttribute('aria-valuenow','28');context.slot.classList.add('is-repairing');context.slot.replaceChildren(split,progress);context.slot.setAttribute('aria-label',`${context.name}, ремонт в очереди`);drawOrders();renderBuilding();store();};
+    upgrade.replaceChildren();if(definition.upgrade){const strong=document.createElement('strong'),effect=document.createElement('span');strong.textContent=definition.upgrade;effect.textContent='Следующий уровень здания';upgrade.append(strong,effect,resourceCost(definition.upgradeCost));}else{upgrade.textContent='Улучшение недоступно';}
+    upgrade.disabled=ruined||upgrading||replacing||!definition.upgrade;upgrade.onclick=()=>{state.orders.push(`Улучшение: ${context.name}`);context.status=disabled?'disabled-upgrading':'upgrading';const badge=document.createElement('span');badge.className='pm-slot-upgrade-badge';badge.setAttribute('aria-hidden','true');badge.textContent='⇧';context.slot.classList.add('is-upgrading');context.slot.append(badge);context.slot.setAttribute('aria-label',`${context.name}, улучшение в очереди`);drawOrders();renderBuilding();store();};
+  }
+  function openBuilding(button){
+    catalog.hidden=true;districtPanel.hidden=true;clearSelectedBuilding();button.classList.add('is-selected');buildingContext={name:button.dataset.building,status:button.dataset.buildingState||'normal',slot:button};building.hidden=false;renderBuilding();position();
+  }
+  function openZone(button){
+    catalog.hidden=true;building.hidden=true;clearSelectedBuilding();districtPanel.hidden=false;const section=button.closest('.pm-city-zone,.pm-rural'),name=button.dataset.openZone,installed=button.dataset.installed||'',target=button.dataset.replaceTarget||'Новая зона';zoneContext={section,name,installed,target};
+    const descriptions={'Архивы':'Исследовательские профессии и бонусы от городских районов.','Смешанная промышленность':'Профессии ремесленников и металлургов.','Базовые фермы':'Профессии фермеров и дополнительный эффект за каждый сельскохозяйственный район.'};
+    districtPanel.querySelector('.pm-district-name-panel').textContent=name;districtPanel.querySelector('.pm-district-copy').textContent=descriptions[name]??'Специализация района и связанные с ней эффекты.';districtPanel.querySelector('.pm-district-hero').textContent=name.slice(0,1);
+    districtPanel.querySelector('.pm-district-zones').innerHTML=`<div class="pm-zone-detail"><strong>3 слота зданий</strong><br>${installed?`Установлено: ${installed}`:'Установленных зданий нет'}</div>`;
+    const replace=districtPanel.querySelector('.pm-zone-replace');replace.setAttribute('aria-label',`Заменить зону ${name}`);replace.onclick=()=>openCatalog('zone-replace',null,undefined,'zone-replace');position();
+  }
+  function drawPage(){
+    catalog.hidden=true;building.hidden=true;districtPanel.hidden=true;clearSelectedBuilding();page.replaceChildren();drawSide();
+    root.querySelectorAll('[data-tab]').forEach(b=>{b.setAttribute('aria-selected',String(b.dataset.tab===state.tab));if(b.dataset.tab===state.tab)page.setAttribute('aria-labelledby',b.id);});
+    if(state.tab==='Инфраструктура'){
+      const rural=[{name:'Энергетические',district:'Энергетический район',icon:'ϟ',color:'#b4b657',filled:10,total:10,maxed:true,state:'locked',requirement:'Глобальное управление энергией'},{name:'Добывающие',district:'Добывающий район',icon:'◆',color:'#b5746a',filled:2,total:6,state:'available'},{name:'Сельскохозяйственные',district:'Сельскохозяйственный район',icon:'♧',color:'#79aa68',filled:4,total:7,state:'built',zone:'Базовые фермы',effect:'Дополнительные эффекты за каждый сельскохозяйственный район'}];
+      const queuedDistricts=name=>state.orders.filter(order=>order===`Улучшение: ${name}`).length;
+      const specialization=d=>d.state==='locked'?`<span class="pm-requires">Специализация требует:<br><strong>${d.requirement}</strong></span>`:d.state==='built'?`<div class="pm-resource-zone pm-zone-surface cursor-interaction"><button type="button" class="pm-zone-title pm-zone-open cursor-interaction" data-open-zone="${d.zone}" data-installed="Ферма гидропоники" data-replace-target="Переработка пищи" aria-label="Открыть зону ${d.zone}">${d.zone}</button><span class="pm-zone-effect">${d.effect}</span><div class="pm-slots" aria-label="Три слота зоны ${d.zone}"><button type="button" data-building="Ферма гидропоники" data-building-state="normal" class="pm-slot cursor-interaction" aria-label="Ферма гидропоники">Ф</button><button type="button" data-build="building" class="pm-slot cursor-interaction" aria-label="Свободный слот зоны ${d.zone}">+</button><button type="button" data-build="building" class="pm-slot cursor-interaction" aria-label="Свободный слот зоны ${d.zone}">+</button></div></div>`:`<button type="button" data-build="zone" data-district="${d.name}" class="pm-specialization cursor-interaction" aria-label="Выбрать специализацию: ${d.name}"><b>＋</b><span>Специализация<br>доступна</span></button>`;
+      const cityBase=`<section><span class="pm-zone-title">Базовые здания · 6 слотов</span><div class="pm-slots pm-base-slots"><button type="button" data-building="Планетарная администрация" data-building-state="normal" class="pm-slot cursor-interaction" aria-label="Планетарная администрация">С</button><button type="button" data-building="Исследовательская лаборатория" data-building-state="disabled" class="pm-slot is-disabled-building cursor-interaction" aria-label="Исследовательская лаборатория, отключено">Н<span class="pm-slot-disabled-badge" aria-hidden="true">⏻</span></button>${Array.from({length:4},()=>'<button type="button" data-build="building" class="pm-slot cursor-interaction" aria-label="Свободный базовый слот городского района">+</button>').join('')}</div></section>`;
+      const cityZone=(name,installed,buildingState='normal',target='Новая зона')=>`<section class="pm-city-zone pm-zone-surface cursor-interaction"><button type="button" class="pm-zone-title pm-zone-open cursor-interaction" data-open-zone="${name}" data-replace-target="${target}" data-installed="${installed??''}" aria-label="Открыть зону ${name}">${name} · зона</button><div class="pm-slots" aria-label="Три слота зоны ${name}">${installed?`<button type="button" data-building="${installed}" data-building-state="${buildingState}" class="pm-slot cursor-interaction" aria-label="${installed}${buildingState==='ruined'?', разрушено':''}">${installed.slice(0,1)}</button>`:''}${Array.from({length:installed?2:3},()=>`<button type="button" data-build="building" class="pm-slot cursor-interaction" aria-label="Свободный слот зоны ${name}">+</button>`).join('')}</div></section>`;
+      const cityQueued=queuedDistricts('Городской район');
+      page.innerHTML=`<div class="pm-section-head"><h4>Инфраструктура колонии</h4><span>Свободных районов: 9</span></div><section class="pm-city" data-district-card="Городской район" style="--district-color:#6aaaca"><div class="pm-district-heading"><div class="pm-district-title"><span class="pm-district-art" aria-hidden="true">▦</span><span class="pm-district-name">Городские районы</span></div><div class="pm-district-buttons"><button type="button" data-improve="Городской район" data-order-limit="15" aria-label="Улучшить: Городские районы" class="cursor-interaction"${cityQueued>=15?' disabled':''}>Улучшить</button></div></div><div class="pm-city-grid">${cityBase}<div class="pm-city-zones">${cityZone('Архивы','Лаборатория','normal','Исследовательский сектор')}${cityZone('Смешанная промышленность','Гражданские фабрики','ruined','Промышленный сектор')}</div></div>${meter(3,18,cityQueued)}<span>${3}${cityQueued?` + ${cityQueued}`:''} / 18</span></section><div class="pm-rural-row">${rural.map(d=>{const queued=queuedDistricts(d.district);return `<section class="pm-rural" data-district-card="${d.district}" style="--district-color:${d.color}"><span class="pm-district-art" aria-hidden="true">${d.icon}</span><div class="pm-district-heading"><span class="pm-district-name">${d.name}</span></div><button type="button" data-improve="${d.district}" data-order-limit="${d.total-d.filled}" aria-label="Улучшить: ${d.name} районы" class="cursor-interaction"${d.maxed||queued>=d.total-d.filled?' disabled':''}>Улучшить</button>${specialization(d)}${meter(d.filled,d.total,queued)}<span>${d.filled}${queued?` + ${queued}`:''} / ${d.total}</span></section>`;}).join('')}</div>`;
+      page.querySelectorAll('[data-build]').forEach(b=>b.onclick=()=>openCatalog(b.dataset.build,['building','zone'].includes(b.dataset.build)?b:null,b.dataset.district));
+      page.querySelectorAll('[data-improve]').forEach(b=>b.onclick=()=>improveDistrict(b.dataset.improve,b));
+      page.querySelectorAll('[data-building]').forEach(b=>b.onclick=()=>openBuilding(b));
+      page.querySelectorAll('[data-open-zone]').forEach(b=>b.onclick=()=>openZone(b));
+      page.querySelectorAll('.pm-zone-surface').forEach(surface=>surface.onclick=e=>{if(e.target.closest('.pm-slot,[data-build],[data-building],[data-open-zone]'))return;const trigger=surface.querySelector('[data-open-zone]');if(trigger)openZone(trigger);});
+      page.querySelectorAll('.pm-slot[aria-label]').forEach(b=>b.dataset.tooltip=b.getAttribute('aria-label'));
+    }else{
+      const bars=n=>Array.from({length:8},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('');
+      const job=(icon,name,detail,count,prod,upkeep)=>`<div class="pm-job-row"><span class="pm-row-icon">${icon}</span><span><b>${name}</b><small>${detail}</small></span><span class="pm-job-bar" aria-label="Занято ${count} из 8">${bars(count)}</span><span class="pm-job-step"><button type="button" aria-label="Уменьшить приоритет ${name}">−</button><button type="button" aria-label="Увеличить приоритет ${name}">+</button></span><span class="pm-value good">${prod}</span><span class="pm-value">${upkeep}</span></div>`;
+      if(state.tab==='Управление')page.innerHTML=`<div class="pm-other"><section><div class="pm-section-head"><h4>Особенности планеты</h4><span>2 особенности · 2 препятствия</span></div><div class="pm-feature-grid"><div class="pm-feature"><span class="pm-feature-art">▲</span><span>Горные залежи<small>+15% минералов от районов</small></span></div><div class="pm-feature"><span class="pm-feature-art">≈</span><span>Богатые моря<small>+10% производства пищи</small></span></div><div class="pm-feature"><span class="pm-feature-art">♠</span><span>Непроходимые джунгли<small>Расчистка ◆ 300 · ◷ 180</small></span></div><div class="pm-feature"><span class="pm-feature-art">▧</span><span>Заброшенный мегаполис<small>Расчистка ◆ 500 · ◷ 360</small></span></div></div></section><section><div class="pm-section-head"><h4>Население и развитие</h4><button type="button">Переселить</button></div><div class="pm-pop-row"><span class="pm-row-icon">♟</span><span>Основной вид<small>Рост населения · 2,45 / мес.</small></span><span>4,2K</span></div><div class="pm-pop-row"><span class="pm-row-icon">⚙</span><span>Роботы<small>Сборка поселений · 1,80 / мес.</small></span><span>620</span></div><div class="pm-pop-row"><span class="pm-row-icon">↔</span><span>Миграция<small>Притяжение иммиграции</small></span><span class="pm-value good">+1,2</span></div></section></div>`;
+      else if(state.tab==='Экономика')page.innerHTML=`<div class="pm-other"><section><div class="pm-section-head"><h4>Рабочая сила и профессии</h4><span>Производство · Содержание</span></div><h4>Правители</h4>${job('♛','Политики','Столица планеты',4,'☰ 18','ϟ 8')}<h4>Специалисты</h4>${job('⚗','Учёные','Исследовательские лаборатории',6,'◈ 36','▣ 12')}${job('⬢','Металлурги','Промышленный сектор',8,'⬢ 48','◆ 72')}${job('▣','Ремесленники','Смешанная промышленность',7,'▣ 42','◆ 63')}<h4>Рабочие</h4>${job('ϟ','Техники','Энергетические районы',8,'ϟ 64','—')}${job('◆','Шахтёры','Добывающие районы',5,'◆ 40','—')}${job('♧','Фермеры','Сельскохозяйственные районы',6,'♧ 48','—')}</section></div>`;
+      else if(state.tab==='Армии'&&state.variant==='arkship')page.innerHTML=`<div class="pm-other"><section><div class="pm-section-head"><h4>Управление кораблём</h4><span>Готовность 92%</span></div><div class="pm-army-row"><span class="pm-row-icon">⟰</span><span>Двигательные системы<small>Маршевый режим · курс закреплён</small></span><button type="button">Команды</button></div><div class="pm-army-row"><span class="pm-row-icon">⌁</span><span>Системы колонии<small>Жизнеобеспечение стабильно</small></span><button type="button">Состояние</button></div></section><section><div class="pm-section-head"><h4>Шаблон Arkship</h4><button type="button">Изменить</button></div><div class="pm-holding-row"><span class="pm-row-icon">▦</span><span>Экспедиционная компоновка<small>6 модулей · 2 свободных ячейки</small></span><span>8 / 10</span></div></section></div>`;
+      else if(state.tab==='Армии')page.innerHTML=`<div class="pm-other"><section><div class="pm-section-head"><h4>Планетарные армии</h4><button type="button">Нанять армию</button></div><div class="pm-army-row"><span class="pm-row-icon">◆</span><span>Оборонительная армия<small>Мораль 100% · опыт 2</small></span><span>320</span></div><div class="pm-army-row"><span class="pm-row-icon">◇</span><span>Оборонительная армия<small>Мораль 86% · опыт 1</small></span><span>284</span></div></section><section><h4>Орбитальные армии</h4><div class="pm-empty">На орбите нет транспортных армий</div></section></div>`;
+      else {const canBuild=state.role==='holdingOwner';page.innerHTML=`<div class="pm-other"><section><div class="pm-section-head"><h4>Внешние владения</h4><span>${canBuild?'Ваше владение':'Только просмотр'} · 2 / 4</span></div><div class="pm-holding-row"><span class="pm-row-icon">✦</span><span>Торговое представительство<small>Владелец: Гильдия торговцев</small></span><span class="pm-value good">☰ +12</span></div><div class="pm-holding-row"><span class="pm-row-icon">♜</span><span>Имперский реквизиционный офис<small>Владелец: Звёздный протекторат</small></span><span class="pm-value good">⬢ +8</span></div><div class="pm-holding-row"><span class="pm-row-icon">＋</span><span>Свободное владение<small>${canBuild?'Совместимо с вашей империей':'Строит соответствующий владелец владения'}</small></span><button type="button" aria-label="Построить владение"${canBuild?'':' disabled'}>Построить</button></div></section></div>`;}
+    }
+  }
+  function renderVariant(){
+    const arkship=state.variant==='arkship';
+    root.querySelector('#pm-holdings').hidden=false;
+    root.querySelector('.pm-title strong').textContent=arkship?'Arkship · Корабль-колония':'Митра · Столица империи';
+    root.querySelector('.pm-landscape span').textContent=arkship?'Мобильная колония':'Континентальный мир';
+    const armies=root.querySelector('#pm-armies');armies.textContent=arkship?'Корабль и шаблон':'Армии';armies.setAttribute('aria-label',arkship?'Управление кораблём и шаблон':'Армии');
+  }
+  root.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;drawPage();store();});
+  root.querySelectorAll('.pm-map-object').forEach(button=>button.onclick=()=>{if(button.dataset.object==='arkship'){if(state.tab==='Армии')state.tab='Инфраструктура';state.variant='arkship';catalog.hidden=true;building.hidden=true;districtPanel.hidden=true;renderVariant();drawPage();mapStatus.textContent='Карта: выбран Arkship. Окно обновлено.';store();}else mapStatus.textContent=`Карта: выбран объект «${button.textContent}». Меню осталось открытым.`;});
+  root.querySelector('.pm-close').onclick=()=>{catalog.hidden=true;store();};
+  root.querySelector('.pm-building-close').onclick=()=>{building.hidden=true;clearSelectedBuilding();};
+  root.querySelector('.pm-district-close').onclick=()=>{districtPanel.hidden=true;};
+  root.querySelector('.pm-window-close').onclick=()=>{catalog.hidden=true;building.hidden=true;districtPanel.hidden=true;clearSelectedBuilding();confirm.hidden=true;win.hidden=true;mapStatus.textContent='Окно планеты закрыто. Карта доступна.';store();};
+  root.querySelector('.pm-confirm-cancel').onclick=()=>{confirm.hidden=true;};
+  root.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!confirm.hidden)confirm.hidden=true;else if(!building.hidden){building.hidden=true;clearSelectedBuilding();}else if(!districtPanel.hidden)districtPanel.hidden=true;else catalog.hidden=true;});
+  function drag(el,resize){el.addEventListener('pointerdown',e=>{if(e.target.closest('button')&&!resize)return;const start={x:e.clientX,y:e.clientY,sx:state.x,sy:state.y,w:state.width,h:state.height};el.setPointerCapture(e.pointerId);e.preventDefault();const move=event=>{const dx=event.clientX-start.x,dy=event.clientY-start.y;if(resize){state.width=start.w+dx;state.height=start.h+dy;}else{state.x=start.sx+dx;state.y=start.sy+dy;}position();};const end=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',end);el.removeEventListener('pointercancel',end);store();};el.addEventListener('pointermove',move);el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);});}
+  drag(root.querySelector('.pm-title'),false);drag(grip,true);
+  grip.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();state.width+=e.key==='ArrowRight'?20:e.key==='ArrowLeft'?-20:0;state.height+=e.key==='ArrowDown'?20:e.key==='ArrowUp'?-20:0;position();store();});
+  new ResizeObserver(position).observe(stage);renderVariant();drawPage();drawOrders();position();
+  window.addEventListener('openai:set_globals',e=>{const next=e.detail?.globals?.widgetState?.privateContent;if(next?.version!==5)return;state={...state,...next};renderVariant();drawPage();drawOrders();position();});
+})();
+</script>

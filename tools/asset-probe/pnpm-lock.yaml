@@ -1,0 +1,30 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      babylonjs:
+        specifier: 9.30.0
+        version: 9.30.0
+      three:
+        specifier: 0.186.1
+        version: 0.186.1
+
+packages:
+
+  babylonjs@9.30.0:
+    resolution: {integrity: sha512-zqeeZ3aTJ6HccL6Tkt1EcoGWvSsrs68ZRTzRuzdy2r/+q1OjziUh1JNDw2KUDkS1pmAUCcvcoviaXC4CMW4WIA==}
+
+  three@0.186.1:
+    resolution: {integrity: sha512-blFeqb49wRCSGUGj7gtpfnSGHy2lwDk94RhUmS1c/hTby70kvChbWpkJ4Pm1390LqzzvTmzgXKHPEafJwCb8jA==}
+
+snapshots:
+
+  babylonjs@9.30.0: {}
+
+  three@0.186.1: {}

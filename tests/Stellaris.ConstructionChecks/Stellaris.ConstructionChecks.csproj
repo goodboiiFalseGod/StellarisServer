@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Stellaris.Core/Stellaris.Core.csproj" />
+    <ProjectReference Include="../../src/Stellaris.Session/Stellaris.Session.csproj" />
+  </ItemGroup>
+</Project>

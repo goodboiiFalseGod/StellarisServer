@@ -1,0 +1,12 @@
+{
+  "months": 120,
+  "workforcePerJob": 100,
+  "groups": [150, 200, 250],
+  "workforcePerPop": 1,
+  "jobs": { "technician": 2, "miner": 2, "farmer": 2 },
+  "initialBalance": 1000,
+  "buildings": ["building_energy_grid", "building_mineral_purification_plant", "building_food_processing_facility"],
+  "commands": [{ "beforeMonth": 61, "job": "technician", "count": 1 }],
+  "traits": ["trait_ingenious", "trait_industrious", "trait_agrarian"],
+  "notes": "Однородный вид. По 15% бонусной Workforce импортируется из ванильных traits; численные бонусы не задаются. Только проекция M1, не полная экономика игры."
+}

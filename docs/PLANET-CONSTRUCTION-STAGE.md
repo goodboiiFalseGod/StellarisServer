@@ -1,0 +1,187 @@
+# Planet construction and manual-review corrections — active stage
+
+12 October 2026 decision, orchestrator user turn `01a1315e-f1d7-7010-9b9e-698554e8d826`: retain this full stage and reconstruct the rules without the proposed temporary ordinary laboratory. No approval for `8b53c8b`, C01–C08 departures, inactive startup economic footprints or checkpoint authority/mobile/Decrepit deferrals. Existing independent implementations remain valid within their documented limits. Readiness still requires working construction plus fleet/navigation on verified stable main, not the rejected laboratory or unavailable catalog.
+
+Authorized 12 October 2026: start implementation now, prioritizing manual-review/UI corrections and real construction displayed with locally imported game assets. Base stable checkout `e3fe1f1`. This bounded stage supersedes earlier planning-only status for these tasks; it is not permission to implement the whole roadmap or combat. Preserve broader three-empire/mobile-colony requirements and [numerical foundation](NUMERICAL-EVALUATION-FOUNDATION.md) when designing extension seams.
+
+## Required playable behavior
+
+Latest direct user instruction explicitly includes fleet-control and system-navigation corrections in this same stable manual-review delivery. [Fleet/navigation contract](FLEET-NAVIGATION-STAGE.md) specifies picking, focused outliner navigation, map orders, fleet panel/routes/destination, exits/boundaries and automatic near/far zoom detail. This combined scope must not be reduced to construction-only. Existing owners continue their current tasks and take these nonoverlapping additions; stable main stays unchanged until the combined reviewed delivery is ready.
+
+An authorized player opens their colony, sees actual supported districts/zones/building slots/features/jobs, selects a source-validated construction/clearance operation, sees its real costs/time/eligibility, pays/reserves atomically, observes authoritative progress and completion, and sees the resulting supported economic effects. Cancellation follows accepted project decisions. A real locally imported image represents each supported entry; missing/unsupported content is visibly diagnosed, never replaced with fabricated statistics or functioning-looking dummy buttons.
+
+Planet management includes clearable blockers and passive features, distinguished by imported definitions, plus collapsed/expanded job categories and workforce controls. A separate population tab is lower priority; no invented growth/pop mechanics to fill it. Infrastructure/zone/catalog/features/jobs references are [archived](REFERENCE-ARCHIVE.md) with relative links and hashes; 27 originals are stored only in canonical ignored `content-local/references/`, never Git/upload. UI owners use the canonical archive even from other worktrees. Reference appearance does not establish native arithmetic.
+
+## Existing basis and unresolved mechanics
+
+Preserve D38/D43 and [workforce/upkeep](15-workforce-and-job-upkeep.md). Accepted construction decisions: pay at order, immediate capacity reservation, cancel during construction; owner change cancels/refunds original owner, destruction cancels, condition loss cancels/refunds. Exact refund arithmetic/storage caps, queue capacity, day phases and dynamic modifiers require evidence, not guessed defaults. [Construction import contract](CONSTRUCTION-DEFINITION-IMPORT.md) and [source audit](reports/construction-next-slice-452.md) remain authoritative evidence boundaries; the old proposal's planning-only statement is superseded only by this stage's authorization.
+
+The unfinished stash `5135d2f846f0d38f1c9e6c39c4df3ca067bfa60d` contains a diagnostic construction importer/tests, not a proven runtime. Inspect individual files as evidence; do not pop/apply it, auto-commit it or infer completed support. The current main has no Construction importer/runtime. Review and adapt reusable pieces explicitly in the implementation owner's branch.
+
+Initial source inventory reuses accepted `c76dd39:docs/28-technology-and-assets-selection.md`: ordinary district_city/generator/mining/farming, approved zone/building sets and their prerequisites; accepted Ark zones remain separate capabilities. Exact executable subset must be published with source IDs, transitive closure and coverage before activation. Hydroponics is an initial import anchor, not permission to bypass its unlocks/placement or simulate unsupported jobs. Unsupported mandatory rules prevent the dependent operation, not independent implementation of validated imports, transaction machinery or UI.
+
+Ordinary colonies use five tabs: `Infrastructure / Management / Economy / Armies / Holdings`. Arkship keeps the same five positions but replaces the `Armies` tab with ship and ship-template management. No special tab replacement is introduced yet for other planet or empire types. When an Arkship is selected while the `Armies` tab is open, the client activates `Infrastructure` rather than transferring the selection to the special tab.
+
+The internal layout of the special Arkship tab is deferred until Arkship is implemented and is not part of ordinary planet-menu acceptance criteria.
+
+Each resource district provides its own source-defined specialization/zone. Before it is unlocked, the UI shows its exact technology or civic requirement; after unlocking, it allows the zone to be ordered. A completed zone opens exactly three associated building slots and applies imported additional effects for each district of its type. Runtime and UI must distinguish a missing unlock, temporary unavailability, an incompatible district, insufficient resources, and an occupied slot; a generic `unavailable` without a reason does not satisfy this contract.
+
+After an order for a new zone is accepted, its position shows a generic zone-construction icon and progress, but not the target zone image. Target identity and name appear in the queue and are available to assistive UI; the three associated building slots do not open until completion.
+
+Only completed levels of the corresponding district count toward a zone's effect. An ordered or under-construction level begins affecting the zone atomically at completion. The district counter and segmented bar show completed and queued levels separately: queued levels occupy the segments after completed ones and have a distinct visual state, but do not contribute to active effects. All queued segments look the same in the card; active and waiting are distinguished only in the shared construction queue. The district-card “Upgrade” action sends the exact identity of that district type to the server and immediately creates its order; it does not use a generic district-type selector. One or more orders for that district do not replace the button with progress or disable it while capacity remains. Availability checks count completed and already-reserved queued levels together; after the last permitted level is reserved, the button remains visible in its original position but disabled, without a textual reason or tooltip.
+
+An urban district provides six base building slots and two separate zone slots. Each completed urban zone provides exactly three additional building slots of its own. DTO, runtime, and UI preserve slot ownership: the six base slots, first zone, and second zone are distinct groups and cannot be collapsed into a shared twelve-slot grid without owner identity.
+
+If a zone replacement will remove buildings installed in its slots, the UI shows a mandatory pre-order confirmation with the exact list of instances to be removed. The confirmation command carries the current revision and the consequences for server verification; a change to the zone or its slots rejects the stale confirmation without charging and requires fetching a new list.
+
+For a zone replacement, the server checks every installed building against the selected new zone. Compatible instances and their slot identity are preserved; only incompatible instances appear in the consequence list and are removed. If the removal list is empty, no separate destructive confirmation is required. The check is repeated atomically when the command is accepted and at completion; changed consequences do not permit removing an additional unconfirmed building and are handled as loss of order conditions with the already agreed refund.
+
+Zone replacement does not deactivate the old zone while construction is in progress. Until the order completes, the old zone, its effects, slots, buildings, jobs, and upkeep remain active. Completion changes the zone and its effects in one atomic transaction, transfers compatible instances while preserving slot identity, and removes only confirmed incompatible instances. Economic recalculation sees only the state before or after the transaction, never an intermediate mixture.
+
+While a zone replacement is waiting or in progress, the zone's visual area is split `50/50` between the source and target zone images and shows progress. This representation does not change effective state: the source zone remains active until completion.
+
+Each incompatible building instance confirmed for removal during a waiting or in-progress zone replacement receives a warning icon in its slot. The marker is based on the order's recorded consequences and does not change effective state: the building continues operating until replacement completes atomically.
+
+Removing confirmed incompatible buildings when a zone replacement completes returns no resources and creates no demolition bonus. The pre-order dialog explicitly states that there is no refund alongside the exact consequence list. A refund for cancelling the zone-replacement order follows the generally accepted rule of refunding the original payer; the old zone and buildings remain unchanged on cancellation.
+
+Manual demolition of an installed building is a separate immediate command, not a construction order. It requires confirmation identifying the exact instance and warning that there is no refund. On acceptance, the server rechecks owner, colony revision, slot, and instance identity, then removes the building, its effects, jobs, and upkeep in one transaction, without refund or an intermediate economic state.
+
+If the exact building instance or its slot is associated with an active or waiting upgrade order, manual demolition is rejected without changing state. The UI disables the action according to the received gate and requires a separate order cancellation; the server does not perform a hidden cancellation, refund, or demolition as a composite action.
+
+Disabling and enabling a building are immediate idempotent commands with owner/revision/slot/instance guards, not construction orders. A disabled instance retains its definition and slot identity but is excluded from applying building effects, creating jobs, and charging building upkeep. Re-enabling restores these contributions in one transaction; calculations do not see an intermediate partially enabled state.
+
+In its slot, a disabled building instance retains the image's normal brightness and is distinguished by a separate disabled icon. The image is not additionally dimmed; the icon disappears immediately when enabled.
+
+A disabled building instance remains a valid upgrade target. The old instance remains disabled until completion; the new level installed atomically inherits the disabled state and is not activated automatically. Cancellation preserves the old disabled building and follows the general refund rule.
+
+Selecting an installed building opens a separate reference-like details panel on the right. The DTO explicitly provides state, effects, upkeep, upgrade target/quote, and gates for toggle, demolition, replacement, and repair. The UI does not infer applicability from the name or appearance: all actions are visible, and inapplicable actions are disabled with the exact server reason.
+
+While the details panel is open, the exact selected building slot remains highlighted with a border or corner markers. The highlight persists as the instance enters upgrade, replacement, and repair states; it transfers only to a target installed atomically in the same slot and clears when the panel closes, the slot/instance disappears, or another object is selected.
+
+After a successful upgrade, replacement, or repair, the open details panel continues to show the newly installed target in the same slot without requiring reselection. If an authoritative update removes the slot or leaves no installed instance in it, the details panel closes while the main colony window stays open.
+
+Repairing a ruined building instance is an ordinary paid construction order in the shared queue. On acceptance, the server atomically checks owner, colony revision, slot/instance identity, ruined state, current source-backed quote, and resources, charges/reserves the cost under the general policy, and creates the order. Until completion, the instance remains ruined and provides no effects, jobs, or upkeep; completion restores the same instance in the same slot in one transaction, after which its economic contributions apply again. Cancellation follows the general refund policy and leaves the building ruined.
+
+While a repair order is waiting or in progress, the slot is split `50/50` between ruined and repaired appearances of the same instance, with a progress indicator overlaid. The repaired half of the visualization does not activate the building before the order completes.
+
+While the repair order is waiting or in progress, the exact building instance and its slot block another repair, demolition, replacement, toggle, and upgrade. Each conflicting command is rejected without changing state or silently cancelling the order. After a separate repair cancellation, the server rechecks whether the next action is applicable; the UI shows disabled gates with the exact reason.
+
+Replacing an operational building instance is an ordinary paid construction order in the shared queue. The server checks owner/revision, exact slot and source/target definitions, placement gates, current quote, and resources, then creates the order under the general payment/reservation policy. Until completion, the old instance remains installed and continues providing effects/jobs/upkeep. Completion atomically removes the old instance and installs the target definition in the same slot; cancellation preserves the old instance and follows the general refund policy.
+
+While a replacement order is waiting or in progress, the slot is split `50/50` between source and target definition images with a progress indicator overlaid. This only represents the order: the source remains the active instance until completion.
+
+A disabled source instance remains disabled during a replacement order. On atomic completion, the target instance is always installed enabled: the source building's disabled state is not inherited by a replacement. Economic recalculation in the same transaction removes the disabled source without contributions and adds the new building's active effects/jobs/upkeep.
+
+While a replacement order is waiting or in progress, the exact source instance and slot block demolition, another replacement, and upgrade without silently cancelling the order. Toggle remains available and immediately changes the source instance's activity during construction. Regardless of its state, the target instance is atomically installed enabled at completion.
+
+Upgrading an operational building instance is a paid construction order in the shared queue, with a source-backed quote and the usual owner/revision/slot/instance/placement/resource guards. Until completion, the old level remains installed and continues providing effects/jobs/upkeep. Completion atomically replaces it with the new level in the same slot; cancellation preserves the old level and follows the general refund policy.
+
+While an upgrade order is waiting or in progress, the slot retains the image of the currently installed level and overlays a separate upgrade icon. The target level appears in the detail panel and queue but does not replace the current instance image before completion.
+
+Toggle for the source instance remains available while an upgrade order is waiting or in progress and immediately changes its economic contributions. On atomic completion, the new level inherits the source instance's enabled/disabled state at that moment, including changes made after the order was created.
+
+While an upgrade order is waiting or in progress, the exact source instance and slot block demolition, replacement, and another upgrade without silently cancelling the order. The UI keeps toggle available and shows other actions disabled with the exact reason until separate cancellation or order completion.
+
+Each catalog receives from the server only source-backed definitions already unlocked for the player and compatible with the exact target slot; entries that fail a unique limit or other restriction are filtered out. The exception is an operation that passes all other gates but lacks resources: its entry remains visible, the price is highlighted red, and the card does not send a command. The server rechecks resources and all other gates atomically when accepting the command.
+
+After an order for a new building is accepted, the slot shows the target definition image with a construction indicator overlaid. It retains a separate pending state and is not considered an installed instance, does not expose its actions, and applies no effects, jobs, or upkeep until the order completes atomically.
+
+The “Replace” command for an installed building closes its detail panel and opens the ordinary building catalog for the exact slot. With sufficient width, the catalog is a separate panel beyond the planet window's outer right edge. If the screen is narrower than the current window width plus the panel's fixed width, the catalog moves inside the window's right side. The replacement catalog projection follows all general unlock/compatibility/unique/resource filtering rules and also excludes the current source instance definition. The UI does not offer replacing a building with itself; the server repeats this check using source/target identity.
+
+The external catalog aligns with the planet window's top and bottom edges and uses its current height. If the composition fits after a shift, the client moves the planet window left and keeps the entire catalog to its right. If the current window width plus the panel's fixed width exceeds the available screen width, the panel is placed inside the window's right side without horizontal scrolling of the whole composition. In internal mode, the shared window header remains open and accessible, and the panel fills the content area beneath it down to the bottom edge. It overlays the right side of the content; the underlying layout retains its dimensions and does not reflow under the panel. While the panel is open, placement is recalculated when available width changes; as soon as the composition fits again, the panel automatically returns outside the window's right edge.
+
+The automatic shift is not reverted when the catalog closes: the new window position becomes current and is saved as the planet menu's shared geometry. The close button in the main window header also closes the open external panel without resetting position, size, or active tab.
+
+The external detail panel for an installed building, like the catalog, aligns with the main planet window's top and bottom edges and always uses its current height.
+
+The header with title and close control on each external panel remains fixed. When content overflows, only the area beneath the header scrolls; closing the panel always remains accessible.
+
+The catalog and detail panel share one fixed width at the UI scale, which does not change when the main window is resized. The external panel retains this width and follows the planet window's new right edge.
+
+The external panel is flush against the main window's right border, with no gap.
+
+Everywhere, the UI represents a resource as `icon + number` without a visible text name: prices, upkeep, production, stocks, and consequences. Affordability is provided separately for each resource; only insufficient pairs are colored red, while affordable pairs retain their normal color. The whole card remains disabled if any required resource is unavailable; the exact shortage need not be shown separately.
+
+An object card in the catalog uses the reference composition: the object image is on the left; on the right, from top to bottom, are the name, main effects, and price row. The entire available-object card remains one order submission area.
+
+The open catalog is subscribed to the current authoritative colony projection. Resource changes immediately update per-resource affordability and card enabled state; changes to unlocks, civics, unique limits, slot compatibility, or available definitions add and remove entries without closing the panel. The command carries current identities/revision, and the server rechecks all gates, so clicking a stale card neither creates an order nor charges resources.
+
+An empty result from a live update does not close the catalog. The UI keeps the panel and its selected-slot context open and displays “No available options” instead of the list, so a later projection change can restore entries without reopening the panel.
+
+On live updates, the UI matches entries by stable definition identity, preserves scroll offset, and restores focus to the same card if it remains. If the focused entry was removed, focus moves to the next visible entry in the updated order, then to the previous one if there is no next entry; for an empty result, the catalog close button receives focus.
+
+An ordinary colony has one authoritative sequential construction queue. Only the first order receives progress; all subsequent orders are waiting. A reorder command changes only the order of waiting orders and cannot place them ahead of the active one. Any order can be cancelled with a separate command that checks owner, colony revision, and order identity; cancelling the first atomically promotes the first remaining order. Nomads and Wilderness receive parallel build-queue capacity `N` from their authoritative modifier: the first `N` building orders receive progress simultaneously, and the rest are waiting. No game-imposed total-order limit beyond source-backed rules is introduced; a technical safety limit remains an engineering guard and is not presented to the player as a mechanic.
+
+Reorder in a parallel queue allows moving an order across the boundary of the first `N` positions and changing the order of active orders within that block. An order moved into the active range changes state immediately; the displaced order becomes waiting, and both retain accumulated progress. The reorder and state changes are applied in one authoritative transaction, but a newly active order first receives work in the next normal daily construction phase.
+
+Changing the authoritative modifier immediately recalculates parallel capacity. When `N` decreases, orders beyond the new boundary become waiting without losing progress; when it increases, the next orders become active immediately. The boundary and state recalculation are atomic in the established modifier-change phase.
+
+If `N` becomes zero, all orders remain in the queue with their accumulated work and enter paused state until positive capacity is restored. Zero queue capacity does not make an individual order unworkable and does not cause its cancellation.
+
+Manual cancellation of a waiting, paused, or active order refunds the original payer the full amount actually paid, regardless of progress. In one transaction, the server checks owner/order identity and revision, removes the order, releases reserved capacity, issues the refund, and recalculates active positions; repeating the command idempotently does not issue a second refund.
+
+Any transfer of a planet to another owner atomically cancels all its construction orders, regardless of state or type. The refund goes to the original payer under the general accepted policy and storage caps; orders do not transfer to the new owner or continue progress after transfer.
+
+Destroying a colony cancels all its orders without refund and creates one summary notification listing the cancelled orders, rather than one notification per order.
+
+Any order rendered unworkable by loss of game conditions, non-positive speed, or an internal revalidation error is cancelled immediately in the same server transaction that detected or created the state, rather than entering paused/error for a future attempt. The known reason is included in the notification, the reservation is released, and the refund follows the general cancellation policy. Waiting temporarily because an order is beyond the active parallel capacity `N` does not by itself make it unworkable.
+
+Refunds use each resource's ordinary storage cap. The recipient gets `min(paid, free capacity)`, and any excess is lost; cancellation does not create temporary stock above the limit or move the excess into separate storage. The transaction result returns the amounts actually credited and lost for each resource.
+
+If manual cancellation returns the full cost without loss, no separate resource-refund notification is shown. Potential loss due to storage caps is still shown in the required confirmation before the command; after execution, the UI shows a short notification only for amounts actually lost.
+
+If the original payer ceased to exist before the refund, resources are not transferred to the current owner, a successor, or a common account. The refund is lost, and the player receives a notification explaining why.
+
+If the cancellation preview contains a nonzero refund loss, the UI requires separate confirmation and shows the amounts lost for each resource as `icon + number`. With no loss, cancellation is sent immediately. The confirmed command contains order identity, colony/resource revision, and the expected loss set; the server cannot silently increase the consequences beyond the displayed preview.
+
+A change to the order or resource/storage revision makes the destructive cancellation confirmation stale. The server rejects it without removing the order or issuing a refund, returns the current preview, and the UI replaces the dialog with the new calculation. Confirmation is required again even if the new loss is smaller; if the current loss is zero, the UI closes the warning and may send an ordinary cancellation without destructive confirmation.
+
+Cancelling an active order removes it in one transaction and moves the next eligible waiting order to active state. This transaction does not grant progress to the newly active order; it participates only in the next normal construction progress phase. In a parallel queue, the rule applies to every position freed up to the new limit `N`.
+
+The construction progress phase runs once per game day. It grants progress to all active orders in an ordinary colony or the first `N` orders in a parallel queue, then atomically completes orders that have reached the required work. Waiting/paused orders receive no progress; the UI does not simulate intermediate advancement between authoritative daily states.
+
+Normal completion of construction, repair, upgrade, or replacement does not create a separate user notification. The authoritative state of the window, slot, and queue is updated through the ordinary snapshot.
+
+An order stores required work and accumulated work. At the start of the daily construction phase, the server obtains the current source-backed construction speed for each active order and adds only that day's increment. A later speed change does not rewrite accumulated work and applies in the next phase; the UI receives authoritative progress/remaining-time projections after calculation.
+
+If multiple parallel orders reach required work in one phase, the server processes them sequentially in stable queue order. Before each completion, owner/slot/instance/placement/unique-limit and other condition gates are rechecked against the state after previous completions. An order that no longer meets conditions is not applied; it is cancelled with a full refund under the accepted policy and does not prevent processing later orders.
+
+Automatic cancellation does not wait for confirmation. The refund immediately applies storage caps and may lose the excess; the client receives a notification with order identity, displayed name, and exact normalized cancellation reason. Multiple orders from one colony cancelled in one transaction are combined into one notification with a separate reason for each order. The notification need not list lost amounts, but raw source paths, internal exceptions, and generic `unknown` in place of a known reason are not allowed.
+
+Clicking a cancellation notification opens the corresponding colony on the “Infrastructure” tab and focuses the associated slot or district if that target still exists. If the target disappeared, the colony opens without focus; if the colony itself disappeared, the notification remains informational only.
+
+## Contracts and errors
+
+### Explicit template binding for construction context
+
+Use an explicit own-player lobby template selection, following existing M2 personal configuration/ready semantics; do not silently assign Economic or infer a template from traits. This is a bounded bridge to the accepted template inventory, not implementation of the full empire editor or general lobby-settings roadmap. Backend owns the exact command/envelope and filtered catalog/selection DTO contract and records it before code; UI owns the corresponding lobby selector. Trusted server configuration may supply the supported catalog, but must not choose a participant's template without explicit selection.
+
+Only the actual player may select a supported template for themselves while in the lobby. Successful selection resets their readiness; invalid, foreign, observer or running-phase mutations fail visibly and leave prior state intact. Exact retries/reconnect preserve the committed selection through existing command/session mechanisms. Freeze the selected identity at start and derive per-colony assessment from that identity, with explicit unknown homeworld/layout/from context kept separately. Selection alone does not grant source-unresolved costs, slots or effects. Existing M3 laboratory sessions without a selection retain their documented behavior and visibly unavailable construction; no implicit template/default or claim that this satisfies the construction delivery. Any requirement to mandate selection at start must be documented with the consuming UI and relevant compatibility checks before activation.
+
+The accepted Economic/Scientific/Military ordinary template inventory and researched startup technology requirements are source-qualified by `c76dd39` and the content handoff recorded in PLANET-CONSTRUCTION-ACTIVATION. Do not reuse them as hive/machine/Voidfarers templates. Unsupported combinations remain explicit unavailable coverage while their independent context work continues. Template choice is distinct from existing M2 laboratory trait/building configuration; define their compatibility and effect ownership rather than applying template numerical effects twice.
+
+- Domain construction state separates colony identity, installed district/zone/building/feature instances, slot reservations and immutable queued-order revisions. Use bounded typed rule/operator contracts, source provenance and explicit arithmetic policies; no universal modifier pipeline or native phase-order claim.
+- Commands carry existing commandId/ownership/readiness checks. Add/cancel/clear validate current authoritative context and compute a candidate transaction; retries never charge/refund/reserve/complete twice. Failure leaves prior world intact and returns a visible safe reason. Foreign/pending-observer mutations are rejected. AFK and frozen states retain existing accepted boundaries; unresolved lifecycle behavior is recorded rather than invented.
+- Candidate daily progression and monthly economy must commit atomically, including completions and resource deltas. Exact within-day/within-month ordering is a sourced rule gate. Installed-object/job/infrastructure upkeep stays separate; completion changes only implemented, evidenced contributions. Preserve M1/M2 behavior outside this slice.
+- Additive development projection exposes per-colony catalog/installed state/queue/jobs/features only to its authorized player or matching observer POV; general observer follows existing policy. No raw source scripts/local paths in DTOs. Backend owns final typed DTO/command field specification and commits it before UI wire-up; UI can independently build typed rendering adapters against declared fields, but cannot invent state for live display.
+- Local asset profile expands only through explicit audited definitions → sprite/texture dependencies → bounded decoding/manifest/digest. Asset owner publishes exact IDs/paths/limits and client adapter contract before integration. No original bytes in server responses/Git or persistent derivative cache. Import remains per-client with cancellation, atomic failure and asset-readiness gates.
+
+## Ownership and immediate nonoverlapping work
+
+| Owner chat | Owned implementation | Boundaries / first concrete result |
+|---|---|---|
+| Game logic `01a12c39-bdd9-70e0-a723-b8dc05e0285b` | `src/Stellaris.Core/Content/Construction/`, new `Core/Construction/`, `src/Stellaris.Session/M3/`, required server command/bootstrap wiring, `tests/Stellaris.ConstructionChecks/` and focused session checks | Audit/adapt importer safely; implement source-profile/typed validation and atomic order state, then live session integration. Own runtime/protocol, not Assets manifest or browser files. Publish exact DTO/command contract before UI wire-up. |
+| UI `01a12fe9-8211-7952-af60-6b03ae0f742a` | `src/Stellaris.Server/wwwroot/m3*.html/css`, client/presenter and new planet UI modules/tests | Start working planet panel adapters/view and reviewed manual UI fixes; real source image handles via asset contract, no synthetic live values. Do not edit server/protocol/asset profile/renderer. |
+| Asset/graphics `01a12fe9-6e0a-7722-b51f-f1a8b59b5956` | `src/Stellaris.Core/Assets/`, `tools/asset-probe/m3-{profile,manifest,importer,worker-pipeline}*`, format adapters and new planet asset adapters/tests | Start auditable icon/image dependency import/profile extension for approved planet/district/zone/building/feature/job IDs. Own asset DTO, not construction game DTO or UI panels. No unrelated visual redesign. |
+| Independent QA `01a12d6b-8e8f-7723-a719-e75c3b77eb14` | New independent construction/planet regression fixtures and `docs/reports/` evidence | Prepare bounded acceptance harness against published owner contracts, then test ready commits; no parallel production implementation or invented native fixture constants. |
+| Integrator | This stage contract/decisions/backlog, reference archive manifest, independent diff review and integration | Preserve stable main and unfinished changes, resolve contract collisions, integrate only complete reviewed commits. Each author's code needs another reviewer; integrator code needs independent review too. |
+
+Reuse existing worktrees after clean status/base checks; no duplicate chats or recurring monitors. Minor isolated code tasks use Luna low, fork none, maximum two junior implementations; no nested delegation/model or effort upgrades. High-risk arithmetic/privacy/transactions stay with existing owners. Record actual implementation diffs/commits, not acknowledgments as progress.
+
+## Acceptance and delivery gate
+
+Demonstrate locally imported reference assets and working own-colony district/zone/building operation with real debit/reservation/time/completion/economic effect; supported blocker clearance and passive-feature differentiation; expanded/collapsed jobs controls with authoritative result. Validate insufficient resources/invalid slots/unknown definitions/foreign access, cancellation/ownership cases, duplicate commands/reconnect, day/month boundaries and asset import failure without partial state. Exact source-backed catalog coverage and unsupported cases are reported separately.
+
+Fleet/navigation corrections are required under [their active contract](FLEET-NAVIGATION-STAGE.md), with UI/renderer/backend/QA ownership and focused cross-client acceptance. Observer camera preservation is already reviewed and must remain intact. Other historical defects and window/country-overview extensions retain their separate scope boundaries. Questions are recorded in [OPEN-QUESTIONS](OPEN-QUESTIONS.md) and reference/manual workflow for later user review; continue independent approved work meanwhile.
+
+Completion requires independent actual-diff review, relevant automatic checks and available browser verification, clean stable-main integration and exact launch instructions. No full native-fidelity, load or human acceptance claim from component tests. Population growth, full research/leaders, full map generation, combat and the remaining broad roadmap are outside this first delivery unless separately scheduled.

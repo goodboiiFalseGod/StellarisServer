@@ -1,0 +1,51 @@
+# Celestial deposits and resource extraction
+
+Status: **ACCEPTED SCOPE / SPECIFICATION ONLY**, 12 October 2026. The user explicitly requires celestial bodies with mining stations that collect resources in the next development milestone. Applicable research stations reconcile the existing accepted space-economy scope. Implementation is not authorized; stable main `caadc6d` and paused monitoring remain unchanged. Companion contracts: [development plan](NEXT-PLAYABLE-MILESTONE.md), [numerical foundation](NUMERICAL-EVALUATION-FOUNDATION.md).
+
+## Existing commitments and coverage boundaries
+
+Content checkpoint `c76dd39:docs/25-gameplay-system-selection.md` accepts mining/research stations. `docs/28-technology-and-assets-selection.md` accepts `mining_station`, `research_station` and default sections, ordinary `constructor` station orders, and supported starbase/technology dependencies. Its accepted Voidfarers path instead uses `nomads_constructor` Logistic Ships with `logistic_harvest_resources` and `logistic_drop_off_stockpile`; ordinary constructors, extraction stations and starbases remain excluded for that mode. The latest body-extraction request does not implicitly remove those distinctions.
+
+The same checkpoint excludes ordinary strategic-resource mining/refining, while allowing bounded Voidfarers harvest of `volatile_motes`, `exotic_gases` and `rare_crystals`. Preserve these decisions unless a later explicit scope amendment changes them. Adding hive/machine lifecycle support requires capability/eligibility auditing, not blindly copying regular or nomad station permissions. Fixed M3 station visuals and public body positions do not implement or authorize deposit discovery/extraction.
+
+Before implementation, publish a coverage register with exact celestial class, deposit definition ID, resource ID, eligible extraction kind/capability, unlock/condition dependencies, output/upkeep rule references and test oracle. Each record is supported/tested, dependency pending, explicitly excluded or source/native rule unknown. Counts and IDs must replace vague “all resources.” No deposit amounts, chances, station costs or formula constants are specified by this document. Unsupported required effects cannot become functioning entries by displaying an icon.
+
+## Entities, location and discovery
+
+Keep celestial body identity/location, deposit instances, extraction installation, construction order and owner distinct. A body may expose only deposits that the reference permits; source contracts must establish mixed-deposit station compatibility, eligible body classes and slot constraints. Do not assume one station per deposit, one station per body or shared mining/research slots from UI layout alone.
+
+Survey/discovery state belongs to the authorized empire context. Specify what is unknown, visible, surveyed and eligible, plus what sensors/intel expose about another empire's installations. Server projections filter deposits, yields, pending construction, prerequisites and explanatory traces; a public system/body coordinate does not make its deposits public. Approved observer selected POV uses the identical filtered player view, keeping observer identity/read-only controls. General observer follows its agreed visibility policy. No labels, totals, disabled-control reasons or debug payloads may reveal hidden information.
+
+Location-bound extraction participates in the foundation's typed body/system/installation/empire scopes and dependency graph. Ownership, survey eligibility, technology, deposit membership, station completion/removal and applicable modifier changes invalidate dependent results. The same authoritative extraction/drop-off event or transaction must settle exactly once. Whether stationary extraction and harvest may both use a deposit, and their interaction where both apply, remain source-rule questions; no cross-mechanic exclusivity is inferred.
+
+## Construction and atomic commands
+
+The server validates actor identity, ownership/territorial rights, surveyed/discovered eligibility, extraction capability, technology prerequisites, body/deposit compatibility, source-defined placement slots and available resources. Client command labels distinguish mining station, research station and applicable harvest actions; unavailable actions have authorized reason codes rather than guessed permissions. Confirmed commands identify target body, order and authoritative result revision.
+
+Specify constructor travel/arrival, order replacement, queue execution, payment and build progress as separate stages. A submitted UI request is not proof of construction. Publish build time/cost and queue rules only with original definition/transitive evidence or an accepted project exception; no reuse of the M3 movement fixture or planet queue model as native truth.
+
+Reservation keys and conflict domains follow the evidenced placement model. Within that model reserve atomically with accepted payment, reject conflicting concurrent orders visibly and prevent duplicate installations/debits on retry/reconnect. Record payer/original owner, reserved slot, target and content/ruleset revision. Revalidate target/owner/unlocks at the contracted stages. A failed command leaves no partial charge, reservation or station; completion atomically replaces the reservation with the supported active installation.
+
+Existing project construction decisions remain binding where applicable: payment when ordering, immediate reservation, cancellation during construction, ownership-change refund to original owner, destruction cancellation and condition-loss refund. Audit applicability to station orders rather than silently replacing these decisions with native claims. Exact refund amounts/rounding/storage-cap behavior, reservation release timing, constructor loss, target disappearance and ordering relative to month settlement are unresolved until sourced or explicitly agreed. No automatic full/zero refund, transfer or deletion outcome is invented here.
+
+## Monthly extraction and accounting
+
+For every supported extraction kind, define base yield from deposit/installation, required conditions, applicable categories/modifiers, upkeep sources, active-state timing and settlement destination. Record sourced aggregation/stage/cap/rounding rules; the workforce job formula is not a station formula. Mining yield and research output must reach their contracted resource/progression accounts, rather than assuming research is an ordinary stockpile.
+
+Report station output/upkeep as distinct from planet jobs, buildings/districts and population upkeep, preserving D38/D43 boundaries and counting each source once. Completed versus unfinished, inactive, invalid, removed or foreign installations cannot accrue accidentally; precise active-state semantics require reference evidence. Monthly settlement is snapshot-based and atomic under the foundation; same-day completion, cancellation, ownership change and deposit change need explicit phase/read-state contracts before activation.
+
+Resource depletion is modeled **only where the supported source mechanic requires it**. Do not subtract a finite reserve from every stationary deposit or assume infinite harvest reserves. If a supported definition depletes/transforms/respawns, specify amount, timing, residual output, visibility and interaction with installations from evidence; otherwise leave that behavior pending, never assign a default depletion rate.
+
+Ownership change, destruction, dismantling and loss of prerequisites must separately define installation survival/control, ongoing construction, output destination, upkeep payer, reservation cleanup and refund handling. Preserve agreed project decisions and mark remaining native details unresolved; do not borrow combat outcomes even though destruction needs a lifecycle contract. Combat is excluded from this milestone, so noncombat commands/test fixtures exercise supported removal paths without implementing combat.
+
+## Focused acceptance scenarios for later implementation
+
+- Supported surveyed body/deposit: an eligible constructor creates the correct mining or research station, with one charge/reservation/completion and evidenced monthly output/upkeep. Check research routing separately from material stockpiles.
+- Negative eligibility: undiscovered/unsurveyed, unsupported deposit/class, missing technology/capability, foreign/invalid ownership and insufficient resources reject visibly without unauthorized detail or partial state. Exact valid/invalid examples come from the coverage register.
+- Competing/retried orders: simultaneous or duplicate requests obey sourced slot conflict rules; ACK/reconnect retries never double charge, reserve, build or settle. Test compatible mixed deposits where supported, without inventing a universal slot count.
+- Boundary events: cancel, constructor/target removal, ownership or prerequisite change and completion on a month boundary follow the documented transaction/scheduling contract, refund/reservation rules and correct settlement destination.
+- Numerical changes: deposit/modifier/ownership changes invalidate cached formulas; trace comparison agrees with full recomputation and source oracles. Station accounting stays separate from job/pop/building paths and contributes exactly once.
+- Isolation: two empires have distinct discovery/installation permissions; observer player POV matches its target's authorized projection, general view follows its policy, and command/explanation/error routes leak no hidden deposits or yields.
+- Capability differences: ordinary individualist/hive/machine cases follow supported coverage; Voidfarers retain harvest/drop-off restrictions rather than acquiring ordinary stations. Mobile relocation invalidates applicable location dependencies without duplicate extraction or lost colony population.
+
+These are acceptance requirements, not executed tests or completed mechanics. Before each implementation slice, resolve its exact coverage, eligibility, costs/timing, arithmetic/scheduling and lifecycle evidence. Unknowns go to the reference workflow or reproducible manual experiments; this specification creates no research assignment, production change or new authorization.

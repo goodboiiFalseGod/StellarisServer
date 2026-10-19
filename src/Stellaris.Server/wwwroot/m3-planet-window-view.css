@@ -1,0 +1,223 @@
+/* Изоляция готового интерфейса от глобальных стилей приложения. */
+#planet-dialog button { min-height:0; min-width:0; max-width:none; border-radius:0; box-shadow:none; }
+#planet-dialog .planet-context { padding:0; box-shadow:none; overflow:visible; }
+/* Утверждённый CSS: только замена корневого селектора. */
+#planet-dialog { --pm-bg:#101e1c; --pm-panel:#152824; --pm-edge:#48685d; --pm-ink:#e0ebe2; --pm-muted:#a1b9ac; --pm-accent:#73d4ad; --pm-danger:#ef7777; color:var(--pm-ink); font:12px/1.4 Arial,sans-serif; }
+#planet-dialog * { box-sizing:border-box; }
+#planet-dialog .pm-stage { position:relative; height:650px; overflow:auto; background:radial-gradient(circle at 72% 58%,#9d741f 0 7px,#453714 8px 22px,transparent 23px),radial-gradient(circle at 18% 24%,#d9e6d8 0 2px,transparent 3px),radial-gradient(circle at 84% 18%,#9ab9c7 0 2px,transparent 3px),radial-gradient(circle at 45% 78%,#d9e6d8 0 1px,transparent 2px),linear-gradient(145deg,#071018,#0a1720 55%,#111b1b); }
+#planet-dialog .pm-map { position:absolute; inset:0; }
+#planet-dialog .pm-map::before,#planet-dialog .pm-map::after { content:''; position:absolute; border:1px solid #41635a55; border-radius:50%; left:calc(72% - 70px); top:calc(58% - 70px); width:140px; height:140px; }
+#planet-dialog .pm-map::after { left:calc(72% - 118px); top:calc(58% - 118px); width:236px; height:236px; }
+#planet-dialog .pm-map-object { position:absolute; min-width:78px; padding:5px 7px; background:#102522dd; color:#bce7d2; }
+#planet-dialog .pm-map-object[data-object="station"] { right:10px; top:18%; }
+#planet-dialog .pm-map-object[data-object="fleet"] { left:81%; top:64%; }
+#planet-dialog .pm-map-object[data-object="planet"] { left:57%; top:72%; }
+#planet-dialog .pm-map-status { position:absolute; right:8px; bottom:8px; max-width:235px; padding:6px 8px; color:#bce7d2; background:#0d1c1add; border:1px solid #31584b; }
+#planet-dialog.pm-window { position:absolute; left:14px; top:22px; width:650px; height:460px; min-width:300px; min-height:320px; background:var(--pm-bg); border:1px solid var(--pm-edge); box-shadow:0 12px 30px #0005; display:flex; flex-direction:column; }
+#planet-dialog.pm-window[hidden] { display:none; }
+#planet-dialog button { font:inherit; color:var(--pm-ink); background:var(--pm-panel); border:1px solid var(--pm-edge); padding:5px 8px; }
+#planet-dialog button:hover { background:#254a3e; }
+#planet-dialog button:disabled { opacity:.42; }
+#planet-dialog button[aria-selected=true] { color:var(--pm-accent); border-bottom:2px solid var(--pm-accent); }
+#planet-dialog .pm-title { display:flex; align-items:center; gap:8px; min-height:34px; padding:4px 8px; background:linear-gradient(90deg,#234338,#172c28); cursor:move; touch-action:none; user-select:none; border-bottom:1px solid #76a18f55; }
+#planet-dialog .pm-title strong { flex:1; font-size:14px; font-weight:500; }
+#planet-dialog .pm-crest { width:23px; height:23px; display:grid; place-items:center; color:#c6e6d1; background:radial-gradient(circle,#477d68 0 38%,#132a25 40%); border:1px solid #79a994; clip-path:polygon(50% 0,92% 20%,82% 82%,50% 100%,18% 82%,8% 20%); }
+#planet-dialog .pm-head { display:grid; grid-template-columns:minmax(0,1fr) 170px; min-height:100px; border-bottom:1px solid var(--pm-edge); }
+#planet-dialog .pm-landscape { position:relative; overflow:hidden; padding:10px 12px; background:radial-gradient(circle at 72% 30%,#bad1c4 0 5%,transparent 6%),linear-gradient(170deg,#344d55,#507b72 58%,#1b352e); }
+#planet-dialog .pm-landscape::after { content:''; position:absolute; bottom:0; right:12px; width:45%; height:55px; opacity:.5; background:repeating-linear-gradient(90deg,#142c28 0 18px,transparent 18px 23px); clip-path:polygon(0 30%,20% 30%,20% 0,35% 0,35% 35%,55% 35%,55% 12%,70% 12%,70% 45%,100% 45%,100% 100%,0 100%); }
+#planet-dialog .pm-landscape span { display:block; color:#e0ebe2; }
+#planet-dialog .pm-world-kind { color:#c3d8ce!important; font-size:11px; letter-spacing:.04em; }
+#planet-dialog .pm-governor { position:absolute; left:12px; bottom:8px; display:flex; align-items:center; gap:7px; z-index:1; }
+#planet-dialog .pm-governor-portrait { width:34px; height:34px; display:grid; place-items:center; background:radial-gradient(circle at 50% 35%,#d4b28c 0 18%,#4d665d 19% 35%,#172a26 36%); border:1px solid #779d8e; }
+#planet-dialog .pm-governor small { color:#b8ccc2; }
+#planet-dialog .pm-summary { background:var(--pm-panel); padding:8px; }
+#planet-dialog .pm-summary strong { color:var(--pm-accent); font-weight:500; }
+#planet-dialog .pm-planet-orb { float:right; width:42px; height:42px; margin-left:6px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#a9cbb9,#477564 44%,#1c3830 70%); box-shadow:0 0 8px #78c4a855; }
+#planet-dialog .pm-summary-actions { display:flex; gap:3px; margin-top:7px; clear:both; }
+#planet-dialog .pm-summary-actions button { flex:1; padding:3px; font-size:11px; }
+#planet-dialog .pm-stats { display:flex; flex-wrap:wrap; gap:5px 12px; padding:7px 9px; border-bottom:1px solid var(--pm-edge); color:var(--pm-muted); }
+#planet-dialog .pm-stats b { color:var(--pm-ink); font-weight:500; }
+#planet-dialog .pm-workspace { display:grid; grid-template-columns:minmax(0,1fr) 170px; min-height:0; flex:1; }
+#planet-dialog .pm-main { padding:8px; overflow:auto; min-width:0; }
+#planet-dialog h4 { font-size:12px; font-weight:500; margin:0 0 7px; }
+#planet-dialog .pm-city,#planet-dialog .pm-rural { border:1px solid var(--pm-edge); background:linear-gradient(180deg,#18302b,#12231f); padding:7px; margin-bottom:7px; box-shadow:inset 0 0 16px #0003; }
+#planet-dialog .pm-district-heading { display:flex; align-items:center; gap:8px; justify-content:space-between; margin-bottom:8px; }
+#planet-dialog .pm-district-title { display:flex; align-items:center; gap:7px; min-width:0; }
+#planet-dialog .pm-district-art { width:72px; height:45px; flex:none; display:grid; place-items:center; color:#d7eadf; font-size:19px; border:1px solid #557c6f; background:linear-gradient(160deg,color-mix(in srgb,var(--district-color) 45%,#243a34),#152521 66%); position:relative; overflow:hidden; }
+#planet-dialog .pm-district-art::after { content:''; position:absolute; inset:auto 0 0; height:18px; background:repeating-linear-gradient(90deg,#0d1d1a 0 8px,transparent 8px 12px); clip-path:polygon(0 60%,12% 60%,12% 12%,24% 12%,24% 55%,39% 55%,39% 0,53% 0,53% 65%,70% 65%,70% 25%,84% 25%,84% 62%,100% 62%,100% 100%,0 100%); }
+#planet-dialog .pm-district-name { display:block; color:#dce9e1; }
+#planet-dialog .pm-district-note { display:block; color:var(--pm-muted); font-size:10px; }
+#planet-dialog .pm-district-buttons { display:flex; gap:4px; }
+#planet-dialog .pm-city-grid { display:grid; grid-template-columns:minmax(150px,.95fr) minmax(0,1.6fr); gap:8px; }
+#planet-dialog .pm-city { padding:5px; }
+#planet-dialog .pm-city .pm-district-heading { margin-bottom:4px; }
+#planet-dialog .pm-city .pm-district-art { width:62px; height:34px; }
+#planet-dialog .pm-city .pm-slot { width:30px; min-height:30px; }
+#planet-dialog .pm-city .pm-zone-title { margin-bottom:2px; }
+#planet-dialog .pm-city-zone { padding-top:1px; padding-bottom:1px; }
+#planet-dialog .pm-zone-surface { transition:background-color .12s ease; }
+#planet-dialog .pm-zone-surface:hover { background:#203b3038; }
+#planet-dialog .pm-resource-zone { margin-top:2px; padding:2px; }
+#planet-dialog .pm-city-zones { display:grid; grid-template-columns:1fr; gap:7px; }
+#planet-dialog .pm-city-zone { border-left:1px solid var(--pm-edge); padding-left:7px; }
+#planet-dialog .pm-zone-row { display:flex; justify-content:space-between; align-items:center; gap:6px; }
+#planet-dialog .pm-zone-row button { padding:3px 6px; }
+#planet-dialog .pm-zone-title { display:block; color:var(--pm-muted); margin-bottom:4px; }
+#planet-dialog .pm-zone-open { width:100%; padding:2px 0; border:0; background:transparent; color:var(--pm-muted); text-align:left; }
+#planet-dialog .pm-zone-open:hover { background:#203b3055; color:var(--pm-accent); }
+#planet-dialog .pm-zone-title.is-replacing { position:relative; min-width:106px; min-height:28px; overflow:hidden; padding-bottom:6px; }
+#planet-dialog .pm-zone-replacement { display:grid; grid-template-columns:1fr 1fr; min-height:22px; }
+#planet-dialog .pm-zone-replacement span { display:grid; place-items:center; min-width:0; background:#172e29; color:var(--pm-accent); }
+#planet-dialog .pm-zone-replacement span:last-child { background:#203b30; color:var(--pm-ink); }
+#planet-dialog .pm-zone-title.is-replacing .pm-slot-progress { left:0; right:0; bottom:0; }
+#planet-dialog .pm-slots { display:flex; flex-wrap:wrap; gap:4px; }
+#planet-dialog .pm-base-slots { display:grid; grid-template-columns:repeat(3,30px); width:max-content; }
+#planet-dialog .pm-slot { width:36px; min-height:36px; padding:4px; color:var(--pm-accent); }
+#planet-dialog .pm-slot.is-selected { border-color:var(--pm-accent); box-shadow:inset 0 0 0 1px var(--pm-accent),0 0 8px #73d4ad66; }
+#planet-dialog .pm-slot.is-pending-removal { position:relative; }
+#planet-dialog .pm-slot-removal-badge { position:absolute; right:1px; top:1px; display:grid; place-items:center; width:14px; height:14px; background:#4a2020; color:var(--pm-danger); font-size:11px; line-height:1; }
+#planet-dialog .pm-slot.is-disabled-building { position:relative; }
+#planet-dialog .pm-slot-disabled-badge { position:absolute; left:1px; top:1px; display:grid; place-items:center; width:14px; height:14px; background:#29322f; color:var(--pm-muted); font-size:11px; line-height:1; }
+#planet-dialog .pm-slot.is-building { position:relative; overflow:hidden; padding:0; }
+#planet-dialog .pm-slot-art { display:grid; place-items:center; width:100%; height:100%; opacity:.58; }
+#planet-dialog .pm-slot-progress { position:absolute; left:3px; right:3px; bottom:3px; height:4px; background:#31413b; }
+#planet-dialog .pm-slot-progress::after { content:''; display:block; width:28%; height:100%; background:var(--pm-accent); }
+#planet-dialog .pm-slot.is-upgrading { position:relative; }
+#planet-dialog .pm-slot-upgrade-badge { position:absolute; right:1px; top:1px; display:grid; place-items:center; width:14px; height:14px; background:#203b30; color:var(--pm-accent); font-size:11px; line-height:1; }
+#planet-dialog .pm-slot.is-replacing { position:relative; overflow:hidden; padding:0; }
+#planet-dialog .pm-slot-replacement { display:grid; grid-template-columns:1fr 1fr; width:100%; height:100%; }
+#planet-dialog .pm-slot-replacement span { display:grid; place-items:center; min-width:0; }
+#planet-dialog .pm-slot-replacement span:last-child { background:#203b30; color:var(--pm-ink); }
+#planet-dialog .pm-slot.is-repairing { position:relative; overflow:hidden; padding:0; }
+#planet-dialog .pm-slot-repair { display:grid; grid-template-columns:1fr 1fr; width:100%; height:100%; }
+#planet-dialog .pm-slot-repair span { display:grid; place-items:center; min-width:0; }
+#planet-dialog .pm-slot-repair span:first-child { opacity:.55; color:var(--pm-danger); background:repeating-linear-gradient(135deg,#321f20 0 3px,#172e29 3px 6px); }
+#planet-dialog .pm-slot-repair span:last-child { background:#203b30; color:var(--pm-accent); }
+#planet-dialog .pm-rural-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+#planet-dialog .pm-rural { position:relative; margin:0; border-top:3px solid var(--district-color); }
+#planet-dialog .pm-rural .pm-district-title { margin-bottom:5px; }
+#planet-dialog .pm-rural .pm-district-art { width:100%; height:34px; margin-bottom:4px; }
+#planet-dialog .pm-rural button { width:100%; padding:4px; margin:5px 0; }
+#planet-dialog .pm-rural > button[data-improve] { position:absolute; right:6px; top:43px; width:auto; margin:0; padding:3px 5px; }
+#planet-dialog .pm-specialization { min-height:30px; display:flex; align-items:center; gap:5px; color:var(--pm-muted); text-align:left; }
+#planet-dialog .pm-specialization b { color:var(--pm-accent); font-weight:500; font-size:18px; }
+#planet-dialog .pm-specialization.is-zone-building { position:relative; justify-content:center; min-height:50px; padding-bottom:10px; }
+#planet-dialog .pm-zone-build-icon { color:var(--pm-accent); font-size:20px; }
+#planet-dialog .pm-specialization.is-zone-building .pm-slot-progress { left:6px; right:6px; bottom:5px; }
+#planet-dialog .pm-requires,#planet-dialog .pm-zone-effect { display:block; min-height:24px; color:var(--pm-muted); margin:3px 0; font-size:10px; }
+#planet-dialog .pm-requires strong { color:var(--pm-accent); font-weight:500; }
+#planet-dialog .pm-rural .pm-slots button { width:36px; margin:3px 0; }
+#planet-dialog .pm-meter { display:flex; gap:2px; height:7px; margin:7px 0 3px; }
+#planet-dialog .pm-meter span { flex:1; background:#31413b; }
+#planet-dialog .pm-meter span.filled { background:var(--district-color,#6aaaca); }
+#planet-dialog .pm-meter span.queued { background:repeating-linear-gradient(135deg,var(--district-color,#6aaaca) 0 2px,#31413b 2px 4px); }
+#planet-dialog .pm-side { border-left:1px solid var(--pm-edge); padding:8px; overflow:auto; }
+#planet-dialog .pm-flow { padding:7px 0; border-bottom:1px solid var(--pm-edge); color:var(--pm-muted); }
+#planet-dialog .pm-flow strong { color:var(--pm-accent); font-weight:500; }
+#planet-dialog .pm-queue { padding-top:12px; }
+#planet-dialog .pm-order { padding:7px 0; border-bottom:1px solid var(--pm-edge); }
+#planet-dialog .pm-order small { display:block; color:var(--pm-muted); font-size:11px; }
+#planet-dialog .pm-order progress { width:100%; height:7px; accent-color:var(--pm-accent); }
+#planet-dialog .pm-order-controls { display:flex; gap:3px; margin-top:4px; }
+#planet-dialog .pm-order-controls button:last-child { margin-left:auto; }
+#planet-dialog .pm-empty { color:var(--pm-muted); padding:7px 0; }
+#planet-dialog .pm-tabs { display:flex; flex-wrap:wrap; gap:2px; border-top:1px solid var(--pm-edge); padding:6px 24px 5px 6px; background:#0c1816; }
+#planet-dialog .pm-tabs button { padding:6px 12px; clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%); background:linear-gradient(#223c35,#142823); }
+#planet-dialog .pm-tabs button[aria-selected=true] { background:linear-gradient(#31584b,#1a332c); box-shadow:inset 0 0 8px #74d2aa44; }
+#planet-dialog .pm-resize { position:absolute; bottom:0; right:0; padding:0; width:22px; height:22px; border:0; cursor:nwse-resize; touch-action:none; color:var(--pm-accent); }
+#planet-dialog .pm-catalog { position:absolute; width:230px; height:360px; display:flex; flex-direction:column; border:1px solid var(--pm-edge); background:var(--pm-bg); box-shadow:0 8px 20px #0005; z-index:3; }
+#planet-dialog .pm-catalog[hidden] { display:none; }
+#planet-dialog .pm-catalog-head { display:flex; align-items:center; justify-content:space-between; padding:7px; border-bottom:1px solid var(--pm-edge); }
+#planet-dialog .pm-catalog-list { padding:7px; overflow:auto; }
+#planet-dialog .pm-choice { display:grid; grid-template-columns:48px minmax(0,1fr); gap:8px; align-items:start; text-align:left; width:100%; margin-bottom:7px; padding:7px; }
+#planet-dialog .pm-choice-art { display:grid; place-items:center; width:48px; height:48px; border:1px solid var(--pm-edge); background:linear-gradient(145deg,#355b50,#172e29); color:var(--pm-accent); font-size:20px; }
+#planet-dialog .pm-choice-copy { min-width:0; }
+#planet-dialog .pm-choice-name { display:block; color:var(--pm-ink); }
+#planet-dialog .pm-choice small { display:block; color:var(--pm-muted); font-size:11px; margin-top:4px; }
+#planet-dialog .pm-choice:disabled { opacity:1; color:var(--pm-muted); }
+#planet-dialog .pm-cost { display:flex!important; flex-wrap:wrap; gap:8px; align-items:center; }
+#planet-dialog .pm-resource { display:inline-flex; gap:3px; align-items:center; color:var(--pm-ink); font-variant-numeric:tabular-nums; }
+#planet-dialog .pm-resource.is-missing { color:var(--pm-danger); }
+#planet-dialog .pm-resource-icon { width:13px; text-align:center; color:inherit; }
+#planet-dialog .pm-building { position:absolute; width:230px; display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--pm-edge); background:var(--pm-bg); box-shadow:0 8px 20px #0005; z-index:3; }
+#planet-dialog .pm-building[hidden] { display:none; }
+#planet-dialog .pm-building-head { display:flex; align-items:center; justify-content:space-between; padding:7px; border-bottom:1px solid var(--pm-edge); color:var(--pm-accent); }
+#planet-dialog .pm-building-body { min-height:0; overflow:auto; }
+#planet-dialog .pm-building-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:8px; }
+#planet-dialog .pm-building-current,#planet-dialog .pm-building-upgrade { margin:0 8px 8px; padding:8px; border:1px solid var(--pm-edge); background:var(--pm-panel); }
+#planet-dialog .pm-building-current { display:grid; grid-template-columns:52px minmax(0,1fr); gap:8px; align-items:start; }
+#planet-dialog .pm-building-portrait { display:grid; place-items:center; width:52px; height:52px; background:linear-gradient(145deg,#355b50,#172e29); color:var(--pm-accent); border:1px solid var(--pm-edge); font-size:20px; }
+#planet-dialog .pm-building-name { color:var(--pm-accent); font-weight:500; }
+#planet-dialog .pm-building-state { color:var(--pm-muted); margin:3px 0 7px; }
+#planet-dialog .pm-building-effects { color:var(--pm-muted); }
+#planet-dialog .pm-building-upgrade { display:block; width:calc(100% - 16px); text-align:left; }
+#planet-dialog .pm-building-upgrade strong,#planet-dialog .pm-building-upgrade span,#planet-dialog .pm-building-upgrade small { display:block; }
+#planet-dialog .pm-building-upgrade small { color:var(--pm-muted); margin-top:4px; }
+#planet-dialog .pm-district-panel { position:absolute; width:230px; display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--pm-edge); background:var(--pm-bg); box-shadow:0 8px 20px #0005; z-index:3; }
+#planet-dialog .pm-district-panel[hidden] { display:none; }
+#planet-dialog .pm-district-body { min-height:0; overflow:auto; padding-bottom:8px; }
+#planet-dialog .pm-district-hero { height:82px; margin:8px; display:grid; place-items:center; border:1px solid #547b6d; color:#d2e7dc; font-size:24px; background:linear-gradient(150deg,#496c62,#203a33 55%,#101f1c); }
+#planet-dialog .pm-district-panel h4,#planet-dialog .pm-district-copy { margin:8px; }
+#planet-dialog .pm-district-copy { color:var(--pm-muted); padding-bottom:8px; border-bottom:1px solid var(--pm-edge); }
+#planet-dialog .pm-district-actions { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin:8px; }
+#planet-dialog .pm-zone-detail { margin:8px; padding:8px; border:1px solid var(--pm-edge); background:var(--pm-panel); }
+#planet-dialog .pm-zone-detail strong { color:var(--pm-accent); font-weight:500; }
+#planet-dialog .pm-confirm { position:absolute; inset:0; display:grid; place-items:center; background:#0009; z-index:5; padding:12px; }
+#planet-dialog .pm-confirm[hidden] { display:none; }
+#planet-dialog .pm-confirm-box { width:min(340px,100%); background:var(--pm-bg); border:1px solid var(--pm-edge); box-shadow:0 10px 24px #0008; padding:14px; }
+#planet-dialog .pm-confirm-box ul { margin:8px 0 12px; padding-left:22px; color:var(--pm-accent); }
+#planet-dialog .pm-confirm-box li.pm-resource-list-item { list-style:none; margin-left:-22px; }
+#planet-dialog .pm-confirm-actions { display:flex; justify-content:flex-end; gap:7px; }
+#planet-dialog .pm-other { display:grid; gap:8px; }
+#planet-dialog .pm-other section { border:1px solid var(--pm-edge); background:#142722; padding:8px; }
+#planet-dialog .pm-section-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; color:var(--pm-accent); }
+#planet-dialog .pm-feature-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }
+#planet-dialog .pm-feature { display:grid; grid-template-columns:45px minmax(0,1fr); gap:7px; min-height:54px; padding:5px; border:1px solid #3d6256; background:#10211d; }
+#planet-dialog .pm-feature-art { display:grid; place-items:center; color:#d8eadf; font-size:18px; background:linear-gradient(145deg,#526b55,#1d342d); }
+#planet-dialog .pm-feature small { display:block; color:var(--pm-muted); }
+#planet-dialog .pm-pop-row,#planet-dialog .pm-job-row,#planet-dialog .pm-army-row,#planet-dialog .pm-holding-row { display:grid; align-items:center; gap:7px; padding:6px; margin-top:4px; border-top:1px solid #345348; }
+#planet-dialog .pm-pop-row { grid-template-columns:30px minmax(0,1fr) auto; }
+#planet-dialog .pm-job-row { grid-template-columns:24px minmax(85px,1fr) 90px auto auto auto; }
+#planet-dialog .pm-army-row,#planet-dialog .pm-holding-row { grid-template-columns:40px minmax(0,1fr) auto; }
+#planet-dialog .pm-row-icon { display:grid; place-items:center; height:28px; background:#203c33; border:1px solid #4b7063; color:var(--pm-accent); }
+#planet-dialog .pm-job-bar { height:8px; display:flex; gap:2px; }
+#planet-dialog .pm-job-bar i { flex:1; background:#30463f; }
+#planet-dialog .pm-job-bar i.on { background:#79b18f; }
+#planet-dialog .pm-job-step { display:flex; gap:2px; }
+#planet-dialog .pm-job-step button { padding:1px 5px; }
+#planet-dialog .pm-value { color:#d9e7df; white-space:nowrap; }
+#planet-dialog .pm-value.good { color:var(--pm-accent); }
+#planet-dialog .pm-side-card { margin-bottom:8px; padding:7px; border:1px solid var(--pm-edge); background:#132720; }
+#planet-dialog .pm-side-card strong { color:var(--pm-accent); font-weight:500; }
+#planet-dialog .pm-side-card button,#planet-dialog .pm-side-card progress { width:100%; margin-top:6px; }
+#planet-dialog .pm-job-row small,#planet-dialog .pm-pop-row small,#planet-dialog .pm-army-row small,#planet-dialog .pm-holding-row small { display:block; color:var(--pm-muted); font-size:10px; }
+@media (max-width:500px) { #planet-dialog .pm-head,#planet-dialog .pm-workspace { grid-template-columns:minmax(0,1fr); } #planet-dialog .pm-summary { display:none; } #planet-dialog .pm-side { border-left:0; border-top:1px solid var(--pm-edge); } #planet-dialog .pm-workspace { overflow:auto; } #planet-dialog .pm-main,#planet-dialog .pm-side { overflow:visible; } #planet-dialog .pm-city-grid,#planet-dialog .pm-rural-row { grid-template-columns:1fr; } #planet-dialog .pm-city-zone { border-left:0; border-top:1px solid var(--pm-edge); padding:7px 0 0; } #planet-dialog .pm-stage { height:670px; } }
+@media (pointer:coarse) { #planet-dialog button { min-height:44px; } }
+/* Подключение готовой оболочки к dialog и игровым изображениям. */
+#planet-dialog { padding:0; max-width:none; max-height:none; margin:0; }
+#planet-dialog[open] { display:flex; flex-direction:column; }
+#planet-dialog.pm-window:not([open]) { display:none; }
+#planet-dialog #planet-content { display:flex; flex:1 1 auto; flex-direction:column; min-height:0; overflow:hidden; }
+#planet-dialog #planet-content > .pm-head, #planet-dialog #planet-content > .pm-stats { flex-shrink:0; }
+#planet-dialog.pm-window .pm-title { width:100%; flex-shrink:0; margin:0; }
+#planet-dialog .pm-workspace { overflow:hidden; }
+#planet-dialog .pm-main, #planet-dialog .pm-side { min-height:0; scrollbar-width:thin; }
+#planet-dialog .pm-catalog-list, #planet-dialog .pm-building-body, #planet-dialog .pm-district-body { flex:1 1 auto; min-height:0; overflow:auto; scrollbar-width:thin; }
+#planet-dialog .planet-context { min-height:0; z-index:31; }
+#planet-dialog :focus-visible { outline:2px solid var(--pm-accent); outline-offset:1px; }
+#planet-dialog .planet-art { display:block; width:100%; height:100%; max-width:none; max-height:none; margin:0; object-fit:contain; pointer-events:none; }
+#planet-dialog .pm-slot { position:relative; overflow:hidden; }
+#planet-dialog .pm-slot .pm-slot-art { position:absolute; inset:0; }
+#planet-dialog .pm-resource { display:inline-flex; gap:3px; align-items:center; }
+#planet-dialog .pm-resource-icon { display:inline-block; width:13px; height:13px; flex:0 0 13px; }
+#planet-dialog .pm-environment, #planet-dialog .pm-environment-layer { position:absolute; inset:0; pointer-events:none; }
+#planet-dialog .pm-environment-layer .planet-art { object-fit:cover; }
+#planet-dialog .pm-world-kind { position:relative; z-index:1; }
+#planet-dialog .pm-district-art:has(> img)::after { display:none; }
+#planet-dialog .pm-landscape:has(.planet-art) { background:var(--pm-panel); }
+#planet-dialog .pm-landscape:has(.planet-art)::after { display:none; }
+#planet-dialog .pm-slot-progress { appearance:none; border:0; }
+#planet-dialog .pm-slot-progress::-webkit-progress-bar { background:#31413b; }
+#planet-dialog .pm-slot-progress::-webkit-progress-value { background:var(--pm-accent); }
+#planet-dialog .pm-slot-progress::after { display:none; }
+#planet-dialog .pm-meter[data-capacity-known=false] span { flex:0 0 7px; }

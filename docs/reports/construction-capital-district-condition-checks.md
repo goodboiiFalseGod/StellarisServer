@@ -1,0 +1,13 @@
+# Selected capital district-set checks
+
+12 October 2026. Contract: [capital district-set source condition](../CONSTRUCTION-CAPITAL-DISTRICT-CONDITION.md); reference turn `01a131ca-6b01-7ef3-9bc8-793ab141b379`. Added fixed eight-definition capital condition import and retained legacy four/six/seven APIs/profiles. Existing explicit `DistrictSet` is consumed through the imported `uses_habitat_capitals` helper; no new facts, defaults or startup executor.
+
+`dotnet run --project tests/Stellaris.ConstructionChecks -c Release -- --game-root <local licensed Stellaris 4.5.2 root>`: **37 PASS, 0 FAIL, 1 SKIP** (symlink creation unavailable). Synthetic checks cover explicit habitat/other/unknown sets, inversion, exact case, wrong scope/operator/value/shape, source-body changes/unsupported bodies/cycles, exact eight-profile inventory/kind and old-profile compatibility. Real shelter/capital source checks cover potential true with all relevant ordinary facts supplied, false for habitat, unknown when district set absent; other NOR exclusions retained. Shelter district-set cosmogenesis exclusion and capital planet-class exclusion remain distinct. Exact condition reference retained; mismatched shared source hash refuses numerical binding.
+
+No installation/upkeep/resources/employment/allow/population gates, runtime startup context or browser behavior changed. Missing housing potential, active duplicate semantics, mandatory capital effects and native construction policies remain pending. Earlier seven-profile ordinary-potential unknown results remain valid for that unchanged older profile. No licensed source files changed; stable-main verification belongs to integrator. Existing lead/reviewer settings unchanged; actual usage unavailable.
+
+Existing independent reviewer approved the actual importer/evaluator/test/contract diff with no actionable findings. Reviewer did not duplicate suites or edit files. `git diff --check` passed.
+
+Root inspected the actual final production, test and contract diff and integrated `13719d4` as `76ada71`. Integrated real-source ConstructionChecks passed **37 checks, 0 failures, 1 unavailable-symlink skip**. Exact ordinary/habitat/unknown potential results and legacy profiles are verified; this is not capital installation or complete startup. No browser or broad transport rerun for this source-only condition. Stable main remains unchanged; the existing backend owner now targets complete source-backed mandatory installed effects rather than another isolated helper profile.
+
+The integrated server Release build passed with **0 warnings and 0 errors**.

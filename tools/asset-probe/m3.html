@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>M3 · визуальная проверка оригинальных моделей</title>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="m3.css">
+  <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+  <script type="module" src="m3-app.mjs"></script>
+</head>
+<body>
+  <header><small>STELLARIS SERVER / ТЕХНИЧЕСКИЙ GATE M3</small><h1>Оригинальные модели · статическая поза</h1><p>Четыре модели и пять иконок читаются из вашей установки. Это ещё не игровой клиент. Файлы не отправляются серверу.</p></header>
+  <section class="toolbar" aria-label="Локальный импорт">
+    <button id="folder">Выбрать папку Stellaris</button>
+    <label>Выбрать файлы тестового набора<input id="files" type="file" multiple accept=".mesh,.dds,.asset,.gfx,.txt"></label>
+    <select id="visual" aria-label="Модель" disabled>
+      <option value="ship.corvette.mammalian">Mammalian · корвет</option>
+      <option value="station.outpost.mammalian">Mammalian · outpost</option>
+      <option value="planet.continental">Планета · continental</option>
+      <option value="star.g">Звезда · G-class</option>
+    </select>
+    <button id="reset" disabled>Сброс камеры</button><button id="reload" disabled>Пересоздать</button><button id="clear" disabled>Освободить сцену</button>
+  </section>
+  <p id="status" role="status">Выберите локальный набор. Полный список файлов указан ниже.</p>
+  <main>
+    <section class="viewport"><canvas id="scene" aria-label="Статическая 3D-модель"></canvas><p>ЛКМ — вращение · колесо — приближение · ПКМ — перемещение</p></section>
+    <aside><h2>Слои и ресурсы</h2><pre id="stats">Нет данных</pre><h2>UI-иконки</h2><div id="icons"></div></aside>
+  </main>
+  <section class="details"><h2>Границы приближения</h2><p>Bind pose без анимации. Исходные слои и submesh сохранены. Материалы приблизительные: без оригинальных particles/audio, командного цвета, gloss и освещения Clausewitz. Star/atmosphere используют явно собственные статические материалы. Бой и движение здесь не симулируются.</p><h2>Профиль и результат</h2><pre id="report"></pre></section>
+</body>
+</html>

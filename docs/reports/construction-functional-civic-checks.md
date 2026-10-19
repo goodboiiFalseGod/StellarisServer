@@ -1,0 +1,9 @@
+# Functional-civic unlock verification
+
+12 October 2026, owned `star-import` worktree, contract [functional civic conditions](../CONSTRUCTION-FUNCTIONAL-CIVIC-CONDITIONS.md).
+
+Final read-only real 4.5.2 Release construction checks: **31 PASS, 0 FAIL, 1 SKIP** (symlink unavailable). Session regressions: **7 suites, 0 errors**. Extended owner condition catalog contains six definitions/six files; all source lengths/hashes compared to original bytes. Exact `$TECH$` token, original owner definition IDs/origins and legacy four-definition profile remain checked. Real selected `slot_energy` unlock is true with explicit valid Functional Architecture and no hub technology, false with explicit neither, unknown with absent validation/technology facts. Extended source identity remains retained through generator assessment/resource-category binding.
+
+Synthetic checks cover either valid civic, technology-only success, decisive OR with unrelated unknown, helper inversion, invalid/member-only civic versus validated facts, unknown owner, malformed/duplicate/oversized/cross-scope TECH argument, missing/wrong-kind extended definition, free parameter unknown, source cycle bounded, unknown placeholder refusal and caller-list immutability. Existing generic `has_valid_civic` now consumes only `ValidCivics`; fixtures intending applicability state that explicitly, no migration from membership is inferred.
+
+Independent actual-diff review by the existing reviewer checked the original helper definitions, extended/legacy inventory, final fixtures, scope/parameter budgets and validity separation; no actionable findings or duplicate suites. This removes a real selected predicate gate only. Civic validity itself must be supplied by trusted validated runtime context; selected template membership is not its proof. No implicit runtime initial facts, native queue/quote/refund closure, final placement, world effects or browser readiness claim.

@@ -1,0 +1,63 @@
+.research-panel, .research-side {
+  position: fixed; z-index: 4; top: 52px; left: 50px; width: min(370px, calc(100vw - 64px));
+  max-height: calc(100dvh - 140px); overflow: auto; scrollbar-color: #486b57 #0b1914;
+  color: #d6e1d8; border: 1px solid #4d8c6c; background: linear-gradient(145deg, #0a1714ed, #10241fed 70%, #07100ff2);
+  box-shadow: 0 4px 22px #000b, inset 0 0 24px #173a2b33; backdrop-filter: blur(8px);
+}
+.research-side { left: 428px; width: min(390px, calc(100vw - 442px)); border-color: #547b66; top: 52px; }
+.research-heading { position: sticky; z-index: 2; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 10px; background: linear-gradient(#1b362b, #0b1b16); border-bottom: 1px solid #4d8c6c; }
+.research-heading-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 5px; min-width: 0; }
+.research-source-note { color: #d2ad67; font-size: 9px; }
+.research-source-button { min-height: 24px; padding: 2px 6px; font-size: 9px; }
+.research-heading h2 { color: #e2e7dc; font-size: 14px; letter-spacing: .04em; }
+.research-close { min-width: 28px; min-height: 26px; font-size: 18px; border: 0; box-shadow: none; background: transparent; }
+.research-area { position: relative; margin: 7px; padding: 8px 10px 9px 13px; border: 1px solid #355549; border-left: 3px solid var(--research-accent); background: linear-gradient(110deg, color-mix(in srgb, var(--research-accent) 12%, #0b1915), #0a1714d9 68%); }
+.research-physics { --research-accent: #54a9e8; }
+.research-society { --research-accent: #73cb82; }
+.research-engineering { --research-accent: #e2aa51; }
+.research-area-heading { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.research-area-heading h3 { margin: 0; color: var(--research-accent); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.research-glyph { display: inline-block; width: 21px; height: 4px; background: var(--research-accent); box-shadow: 0 5px 0 color-mix(in srgb, var(--research-accent) 40%, transparent); }
+.research-tech-name { margin: 0 0 5px; color: #e5e5d3; font-size: 13px; }
+.research-muted, .research-empty { margin: 5px 0; color: #9baea3; font-size: 11px; }
+.research-area progress { display: block; width: 100%; height: 8px; accent-color: var(--research-accent); }
+.research-metrics, .research-reserve { margin: 4px 0 0; color: #a9c5b3; font-size: 10px; font-variant-numeric: tabular-nums; }
+.research-area button { margin-top: 7px; min-height: 27px; font-size: 10px; }
+.research-complete { margin: 5px 0 0; color: #e7c778; font-size: 10px; }
+.research-tabs, .research-filters { display: flex; flex-wrap: wrap; gap: 5px; padding: 7px 9px; border-bottom: 1px solid #274435; }
+.research-tabs button, .research-filters button { min-height: 26px; padding: 3px 8px; font-size: 10px; }
+.research-filters [aria-pressed="true"] { border-color: #86c9a3; background: #204332; }
+.research-card { display: flow-root; margin: 7px; padding: 8px 9px; border: 1px solid #345545; background: linear-gradient(135deg, #14291f, #091612); }
+.research-card .research-icon-frame:not(:has(.research-icon-message)) { float: left; margin: 0 8px 5px 0; }
+.research-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin: 0 0 5px; padding: 4px 6px; border-left: 3px solid var(--research-accent, #82988a); background: color-mix(in srgb, var(--research-accent, #82988a) 12%, #0a1714); }
+.research-card-heading.research-physics { --research-accent: #54a9e8; }
+.research-card-heading.research-society { --research-accent: #73cb82; }
+.research-card-heading.research-engineering { --research-accent: #e2aa51; }
+.research-card-title { min-width: 0; }
+.research-card h3 { margin: 0; color: #dce4d8; font-size: 12px; }
+.research-card-category { display: block; margin-top: 2px; color: #9eb9a8; font-size: 9px; }
+.research-card-cost { flex: 0 0 auto; color: #e0c77a; font-size: 11px; font-variant-numeric: tabular-nums; }
+.research-card-meta { margin: 4px 0 6px; color: #9eb9a8; font-size: 10px; }
+.research-effect-details { margin: 3px 0; font-size: 10px; color: #a7b9ad; }
+.research-effect-details summary, .research-description-details summary { cursor: pointer; }
+.research-effect-details summary { color: #a9d9aa; }
+.research-effect-deferred summary { color: #d5b873; }
+.research-effect-full { margin: 3px 0 5px 12px; color: #a7b9ad; }
+.research-description-details { margin: 4px 0; font-size: 10px; color: #a7b9ad; }
+.research-effect-status { font-weight: 600; }
+.research-icon-frame { display: inline-flex; width: 40px; height: 40px; align-items: center; justify-content: center; vertical-align: middle; margin: 0 8px 5px 0; border: 1px solid #42604d; background: radial-gradient(circle, #233d2f, #091510 75%); }
+.research-icon-frame[data-missing="true"]::after { content: ""; width: 16px; height: 16px; border: 1px solid #708879; background: linear-gradient(135deg, transparent 46%, #708879 48%, #708879 52%, transparent 54%); opacity: .7; }
+.research-icon-frame button { min-height: 22px; padding: 2px 5px; font-size: 9px; }
+.research-icon { display: block; width: 40px; height: 40px; object-fit: contain; image-rendering: auto; }
+.research-select { clear: both; min-height: 24px; margin-top: 5px; padding: 2px 9px; font-size: 10px; }
+.research-list { min-height: 0; }
+.research-filters { position: sticky; z-index: 2; bottom: 0; justify-content: center; background: #0b1914f2; border-top: 1px solid #274435; border-bottom: 0; }
+@media (max-width: 900px) {
+  .research-panel { top: 52px; left: 45px; max-height: calc(100dvh - 72px); }
+  .research-side { top: 52px; left: auto; right: 8px; width: min(390px, calc(100vw - 64px)); max-height: calc(100dvh - 72px); }
+}
+@media (max-width: 620px) {
+  .research-panel { top: 52px; left: 42px; width: calc(100vw - 50px); max-height: calc(100dvh - 64px); }
+  .research-side { top: 52px; left: 42px; right: auto; width: calc(100vw - 50px); max-height: calc(100dvh - 64px); transform: translateY(5px); }
+  .research-area { margin: 5px; padding: 6px 8px 7px 10px; }
+}

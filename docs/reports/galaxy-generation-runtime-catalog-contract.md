@@ -1,0 +1,11 @@
+# Runtime galaxy catalog — GALAXY-CATALOG-READY-001 contract
+
+October 13, 2026; base `9432d71`. Scope: a separate reader and immutable source AST for all loose vanilla `solar_system_initializers`, `star_classes`, `planet_classes`, plus the focused dependency root `common/scripted_variables`; shared parser and gameplay are unchanged.
+
+AST preserves order, repeated fields, operator, quoted/scalar values, anonymous blocks/lists, tagged blocks (`hsv`/`rgb`), inline math, and conditional template `[[parameter] ... ]`. Syntax errors report source/line/column without skipping the remainder. Comments/trivia are not semantic AST; full SHA256 of source bytes is stored in file metadata.
+
+The catalog preserves every top-level assignment with source/hash/line/column and global source order. Local variables `@`, global variables, and planet `random_list` are stored separately. Variable lookup: local source first, then unique global; duplicate globals are ambiguous. Lexical normalized relative-path order is adopted as a reproducible approximation, not engine/mod merge compatibility. Duplicate IDs are retained and make lookup ambiguous; there is no last-wins behavior. VerifyStable checks hashes, file membership of all four roots, and referenced inline closure; the version marker requires exactly one string rawVersion v4.5.2.
+
+Host/local DLC entitlement sets are required and immutable. Gate occurrences contain the profile's response to a literal gate, but this response does not establish the result of the enclosing trigger (NOT/OR/scope remain in the AST). The catalog does not claim arbitrary conditions are executable. Literal initializer/star/planet links are checked in these registries; dynamic/external links are explicitly classified. Referenced inline scripts are read transitively only through safe literal paths; cycles do not recurse indefinitely. Other effect/trigger/event references remain outside linkage scope.
+
+Acceptance: synthetic grammar/order/duplicates/DLC/reference diagnostics/version/membership; full 4.5.2 import of 40+2+12 family files and 23 global-variable files with 360 initializers, 45 stars, 69 planet classes, 9 aggregators, 88 local and 2908 global variables, or exact remaining parse blockers. This establishes source-catalog readiness for the next consumer, not proof of an executable vanilla generator.

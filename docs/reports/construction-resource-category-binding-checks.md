@@ -1,0 +1,7 @@
+# Resource-table category binding verification
+
+12 October 2026, owned `star-import` worktree, follows category checkpoint `0638011`. Contract: [resource category binding](../CONSTRUCTION-RESOURCE-CATEGORY-BINDING.md).
+
+Focused Release construction checks against read-only 4.5.2: **30 PASS, 0 FAIL, 1 SKIP** (symlink unavailable). Synthetic repeated hydroponics cost/upkeep branches retain exact assessment/raw contribution/condition/order/category-field identity and immutable collections. Explicit infrastructure cost/upkeep parent selections remain separate. Shared metadata/global length or hash mismatch and optional condition-catalog mismatch reject the whole result with zero branches and generic gates. Unknown/malformed/duplicate/missing category/resource tables and nonconstruction kind reject; no source path in mismatch diagnostics.
+
+Real ordinary generator, energy zone and all 12 accepted building catalogs bind their actual infrastructure categories without modifying raw amounts or unresolved conditions. Existing zone scaling, category inheritance, v7 image binding/privacy and transaction regression fixtures still pass. Independent actual-diff review by the existing reviewer accepted the production/contract/test changes with no actionable findings and no duplicate test run. Binding success is not operation eligibility, complete numerical support or a final quote. No live queue/economy activation, browser sweep or stable-main readiness claim.

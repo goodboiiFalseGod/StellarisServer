@@ -1,0 +1,45 @@
+using System.Text.Json.Serialization;
+
+namespace Stellaris.Session.M3;
+
+public sealed record M3ClientCommand(string CommandId, string Type, int? PlanetId = null, string? Job = null, decimal? Count = null, bool? Ready = null, string[]? Traits = null, string[]? Buildings = null, int? Speed = null, bool? Paused = null, int? TargetParticipantId = null, string? ProfileId = null, string? ProfileDigest = null, string? FleetId = null, string? SystemId = null, string? TargetSystemId = null, double? X = null, double? Z = null, string? ColonyId = null, long? ExpectedColonyRevision = null, string? DefinitionId = null, string? SlotId = null, string? OrderId = null, string? TemplateId = null, string? Area = null, string? TechnologyId = null, long? ExpectedResearchRevision = null, string? SourceDefinitionId = null, string? ZoneInstanceId = null, string? GalaxySeed = null, string? GalaxyScenarioId = null, string? GalaxyShapeId = null, decimal? GalaxyDensity = null, string? GalaxyWorldFingerprint = null, long? ExpectedLobbyRevision = null, string[]? OrderIds = null, string? RefundPreviewId = null, bool? ConfirmRefundLoss = null, bool? Enabled = null, bool? ConfirmDemolition = null,
+    string? ZoneReplacementPreviewId = null, bool? ConfirmZoneRemoval = null, int? GalaxyNebulae = null,
+    int? GalaxyGuaranteedColonies = null, decimal? GalaxyGatewayFrequency = null, decimal? GalaxyHabitableMultiplier = null, int? GalaxyWormholePairs = null);
+public sealed record M3JoinGrant(int ParticipantId, string Token, string SessionId, string ConnectionId, string ProfileId, string ProfileDigest);
+public sealed record M3CommandResult(string CommandId, bool Accepted, string Code, string Message, long? CommandSequence = null, long? AppliedTick = null, long? StateSequence = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyDictionary<string, decimal>? RefundLosses = null);
+public sealed record M3ParticipantView(int Id, string Name, string Role, bool IsHost, bool Connected, bool Afk, bool Ready, bool AssetReady);
+public sealed record M3AssetProfileView(string ProfileId, string ProfileDigest);
+public sealed record M3DateView(int Year, int Month, int Day);
+public sealed record M3ViewContext(string Mode, int? ParticipantId);
+public sealed record M3SessionView(int Protocol, string SessionId, long Sequence, string Phase, long Tick, int ElapsedDay, M3DateView Date, int Month, bool Paused, int SpeedDaysPerSecond, int You, IReadOnlyList<M3ParticipantView> Participants, IReadOnlyList<PlanetView> Planets, CatalogView Catalog, M3AssetProfileView AssetProfile, M3SpatialView Spatial, string? LastError, double LastTickMilliseconds, M3ViewContext ViewContext, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] M3DevelopmentView? Development = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] M3EmpireSetupView? EmpireSetup = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] M3SimulationRateView? SimulationRate = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] M3ResearchView? Research = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] M3GalaxyView? Galaxy = null);
+[JsonConverter(typeof(M3ResearchWireConverter))]
+public sealed record M3ResearchView(IReadOnlyList<M3ResearchEmpireView> Empires);
+public sealed record M3ResearchEmpireView(int ParticipantId, long Revision, IReadOnlyList<M3ResearchAreaView> Areas, IReadOnlyList<M3TechnologyView> Researched, IReadOnlyList<M3ResearchUnavailableView>? Unavailable = null, int CatalogCount = 0, int EligibleCount = 0);
+public sealed record M3ResearchUnavailableView(string TechnologyId, string Name, IReadOnlyList<string> Gates, string? NameKey = null);
+public sealed record M3ResearchAreaView(string Id, string? ActiveTechnologyId, decimal Progress, decimal MonthlyResearch, decimal Reserve, IReadOnlyList<M3TechnologyView> Choices, string? LastCompletedTechnologyId = null);
+public sealed record M3TechnologyView(string Id, string Name, string Area, string Category, decimal? Cost, int Tier, bool Rare, IReadOnlyList<M3TechnologyEffectView> Effects, decimal? Weight, int Level = 0, Stellaris.Core.Research.TechnologyIcon? Icon = null,
+    string? NameKey = null, string? DescriptionKey = null, string? CategoryKey = null);
+public sealed record M3TechnologyEffectView(string Description, string Status, string? LocalizationKey = null, decimal? Amount = null,
+    string? Format = null, string? TargetDefinitionId = null, string? SourceKey = null, string? DiagnosticCode = null);
+public sealed record M3SimulationRateView(string Status, double? AutomaticDaysPerRealSecond, int CompletedAutomaticDays, double WindowSeconds, double? SampledAtMilliseconds);
+public sealed record M3EmpireSetupView(IReadOnlyList<M3EmpireTemplateView> Catalog, string? SelectedTemplateId);
+public sealed record M3EmpireTemplateView(string TemplateId, string AuthorityId, string OriginId, IReadOnlyList<string> Ethics, IReadOnlyList<string> Civics, IReadOnlyList<string> Traits);
+public sealed record M3SpatialView(IReadOnlyList<M3SystemView> Systems, IReadOnlyList<HyperlaneDefinition> Hyperlanes, IReadOnlyList<M3BodyView> Bodies, IReadOnlyList<M3ColonyView> Colonies, IReadOnlyList<M3FleetView> Fleets, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<M3SystemExitView>? Exits = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<M3NebulaView>? Nebulae = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<M3BeltView>? Belts = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] double? GalaxyRadius = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<M3GatewayView>? Gateways = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<M3WormholeView>? Wormholes = null);
+public sealed record M3GatewayView(string Id, string SystemId, LocalPoint LocalPosition, string VisualId, string Name, string Status);
+public sealed record M3WormholeView(string Id, string SystemId, LocalPoint LocalPosition, string VisualId, string Name, string Status);
+public sealed record M3BeltView(string Id, string SystemId, string Type, double Radius, double Width, double Density, string VisualId);
+public sealed record M3NebulaView(string Id, string NameKey, GalaxyPoint Center, double Radius, IReadOnlyList<string> SystemIds);
+public sealed record M3SystemExitView(string SystemId, string DestinationSystemId, LocalPoint Position);
+public sealed record M3SystemView(string Id, string Name, GalaxyPoint GalaxyPosition, double Radius, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? StarBodyId, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? StarClassId = null, string? NameKey = null, string? NameSuffix = null);
+public sealed record M3BodyView(string Id, string SystemId, string Kind, string Name, LocalPoint LocalPosition, string VisualId, double Scale, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] int? OwnerParticipantId, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? WorldClassId = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? ParentBodyId = null, string? NameKey = null, string? NameSuffix = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] int? PlanetSize = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] bool? HasRing = null, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<M3BodyModifierView>? Modifiers = null);
+public sealed record M3BodyModifierView(string ModifierId, int Days, string NameKey);
+public sealed record M3ColonyView(string Id, string BodyId, int OwnerParticipantId, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] int? EconomyPlanetId);
+public sealed record M3FleetView(string Id, int OwnerParticipantId, string Name, string VisualId, int ShipCount, string Phase, object Location, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] M3MovementView? Movement);
+public sealed record M3MovementView(long OrderVersion, object? Target, IReadOnlyList<string> RouteSystemIds, double PhaseStartedDay, double? PhaseEndsDay, object? PendingAction);
+public sealed record M3SystemLocationView(string SystemId, LocalPoint Position) { public string Kind => "system"; }
+public sealed record M3TransitLocationView(string FromSystemId, string ToSystemId, double Progress) { public string Kind => "transit"; }
+public sealed record M3PointTargetView(string SystemId, LocalPoint Position) { public string Kind => "point"; }
+public sealed record M3SystemTargetView(string SystemId) { public string Kind => "system"; }
+public sealed record M3PendingStopView { public string Kind => "stop"; }
+public sealed record M3PendingDestinationView(string SystemId) { public string Kind => "destination"; }

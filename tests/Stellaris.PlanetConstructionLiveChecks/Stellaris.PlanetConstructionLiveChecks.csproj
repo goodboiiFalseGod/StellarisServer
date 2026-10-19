@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Stellaris.Session/Stellaris.Session.csproj" />
+    <None Include="consumer.test.mjs" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

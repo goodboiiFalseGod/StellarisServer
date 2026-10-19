@@ -1,0 +1,19 @@
+# District and zone catalog source coverage
+
+Bounded read-only extension after reviewed aggregate/decision checkpoint `1a60c51`; not live construction or a replacement for accepted broader inventories. Reuse existing exact-version importer, safe path/UTF-8/parser/inline/provenance/hash/cancellation machinery and unchanged per-call limits (32 files, 8 MiB input/expanded/generated, 50000 nodes). No new parser, load-order rule or limits increase.
+
+Independent fixed server profiles avoid conflating type sets or exhausting one combined file budget. The initial combined four-district profile hit the existing 32-file guard on real 4.5.2; split city/rural profiles instead of raising it or omitting reached dependencies:
+
+- `ImportCityCatalogAsync`: `construction-city-catalog-452-v1`, `district_city` from `common/districts/00_urban_districts.txt`.
+- `ImportRuralCatalogAsync`: `construction-rural-catalog-452-v1`, `district_generator`, `district_mining`, `district_farming` from `common/districts/02_rural_districts.txt`.
+- `ImportZoneCatalogAsync`: `construction-zone-catalog-452-v1`, `zone_default`, `zone_urban`, `zone_research_unity`, `zone_industrial`, `zone_energy` from `common/zones/00_zones.txt`; `slot_city_government`, `slot_city_01`, `slot_city_02`, `slot_energy`, `slot_minerals`, `slot_food` from `common/zone_slots/00_zone_slots.txt`.
+
+These accepted ordinary/startup dependencies are exact IDs, not aliases for hive/machine/Ark. Keep old hydroponics/placement/feature profiles unchanged. Each immutable catalog exposes definitions with expanded ordered Fields, reached source hashes, coverage and a list of raw numeric parameters. A parameter identifies definition, index-qualified field path, original operator/provenance and checked decimal value. Resolve literal numeric scalars and simple numeric variable references using existing local/global resolver; preserve original AST scalar and every repeated/conditional branch. Inline math remains retained unsupported coverage, never evaluated. Missing/cyclic required numeric variables fail atomically. No parameter is labelled payable cost, applied modifier, duration-days or active job count.
+
+New catalog diagnostic paths have an additional conservative cumulative 8 MiB UTF-8 budget, accounting for both parameter and coverage path copies before allocation; long parent keys cannot amplify a small input into unbounded path strings. Existing profile behavior/budgets remain unchanged.
+
+Recognize signed decimal literal syntax separately from decimal conversion. A syntactically numeric literal outside decimal range fails atomically, just like an out-of-range variable; never silently omit it from parameters as an unknown tag. Exponents/inline math are not evaluated by this bounded decimal resolver.
+
+Coverage explicitly marks runtime conditions, scripted triggers/effects, job definitions/swaps, category/modifier composition, startup/occupancy and native phases as unresolved dependencies. Importing a named job-add or housing parameter is not executing its trigger or employing population. Source compatibility and raw max/additive slot fields remain independent. No server startup/session DTO/quote/scheduler wiring in this checkpoint; expanded district/zone closure is reusable input for later source-bound evaluators.
+
+Acceptance: exact fixed inventories, numeric local/global resolution and independent repeated conditional contributions, unsupported math and source/operator retention, missing/duplicate definitions/variables, hash mutation/cancellation/reuse, immutable collections and shared importer safety regressions. Real 4.5.2 run reports actual reached counts without increasing a budget to force success; no original bytes in Git/DTOs. Independent actual-diff review plus relevant importer/session regressions required. Full blocker swaps/population and other accepted buildings/authority/mobile profiles remain separately tracked in the consolidated decision package.

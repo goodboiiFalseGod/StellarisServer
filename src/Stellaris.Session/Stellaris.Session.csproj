@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Stellaris.Core/Stellaris.Core.csproj" />
+    <EmbeddedResource Include="../Stellaris.Server/wwwroot/m3-localization-paths.mjs" LogicalName="Stellaris.Session.M3.LocalizationPaths" />
+  </ItemGroup>
+</Project>

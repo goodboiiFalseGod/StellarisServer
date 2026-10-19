@@ -1,0 +1,37 @@
+# M3 — статический адаптер выбранных моделей
+
+Техническое раскрытие G01/G02, не анимационный движок. Использует [профиль](M3-ASSET-MANIFEST.md). После доступного собственного осмотра допускается интеграция с явно pending ручным Chrome gate: последующее прямое решение пользователя — DECISIONS. Не объявлять непроверенное PASS. Существующий двухрендерный стенд корвета сохраняется; новый gate использует только выбранный Three.js.
+
+## Статическая bind pose
+
+В выбранных planet/star `skeleton.*.tx` содержит inverse global bind transform: 12 float, три столбца rotation/scale и translation. Подтверждение при исследовании — произведение глобальной TRS-позы исходной idle.anim с tx близко к Identity. Это не local transform узла. В bind pose `skinMatrix=globalBind×inverseGlobalBind=Identity`; исходные p/n/ta уже находятся в model-space и сохраняются, не преобразуются второй раз через tx. Idle-анимация не воспроизводится и не требуется как runtime-ресурс статического профиля.
+
+Адаптер явно проверяет skin, а не удаляет его: ix/w — четыре значения на вершину, skin.bones=1; ровно одно положительное влияние с весом 1 (допуск 10^-6), остальные веса 0, индексы — существующий bone либо -1 только при нулевом весе. skeleton: уникальные name/ix, максимум 256 bones, один root, существующие parents, без циклов, матрицы конечные/обратимые, tx длины 12. Singular determinant (|det|≤10^-12), неизвестные атрибуты skin/skeleton, неоднородные веса/несколько влияний — явный отказ этого ограниченного профиля. Никаких догадок по имени/номеру bone. Позиции/нормали/tangent/UV сохраняются; отчёт отмечает staticBindPose и неidentity inverse-bind. Неподдержанные skinned модели не проходят молча.
+
+Все слои одной модели используют общий origin и общий масштаб, не центрируются независимо. Collision пропускается штатным reader. Preview-подгонка камеры/внешний масштаб не меняют относительные позиции или толщину слоёв.
+
+## Ограниченные определения
+
+Собственный reader текстовых .asset/.gfx принимает ключи, строки, числа, списки и вложенные блоки, сохраняет повторяемые записи. Комментарии не являются кодом. Лимиты: вход ≤16 MiB, ≤250000 tokens, nesting≤32. Неверные скобки/строки, дубли искомого named definition или неоднозначное скалярное поле — ошибка; не выбирать первое совпадение. Unknown gameplay/state поля не исполняются.
+
+Выбранный entity/pdxmesh разрешается по полному относительному пути профиля. meshsettings без name применяются ко всем слоям; named overrides — к точному имени shape. Неизвестное shape в активном override, отсутствующий обязательный канал, дубли активного override, ссылка вне allowlist — отказ. Пути нормализованы с `/`, без абсолютных путей/.. /control characters; basename разрешается только внутри явно заданной папки модели либо в явно перечисленных общих gfx/models/nonormal.dds/nospec.dds. Не искать файлы по всему диску.
+
+## Материалы preview v1
+
+- Ship/station PdxMeshShip: существующий approximate diffuse + RRxG normal + G²×0.4 specular, без оригинальных team-color/gloss/emissive. Эффективный shader берётся после overrides.
+- Planet PdxMeshPlanet: поверхность с исходной diffuse, преобразованной normal и specular; полюса/облака/тень PdxMeshClouds сохраняют отдельные геометрии и diffuse alpha, transparent, depthWrite=false, стабильный порядок слоёв. Это статический приближённый материал, не оригинальное освещение/анимация облаков.
+- Atmosphere: исходная геометрия, собственный простой view-dependent rim shader, additive alpha, depthWrite=false; цвет/интенсивность — параметры визуального профиля, не игровые характеристики. Никакие GLSL/HLSL-файлы игры не исполняются.
+- Star: исходная поверхность PdxMeshStar с собственным emissive-цветом G-class и атмосферой PdxMeshAtmosphereStar, без оригинального particle/VFX. nospec не превращать в тёмную diffuse-звезду; явно применять star adapter. Визуальное отличие указать в отчёте.
+- UI BGRA8: Canvas/Image из декодированных RGBA, без premultiply; alpha видна на тёмном/светлом фоне. ImageData использует Uint8ClampedArray-view исходного буфера, без второй decoded-копии на каждый фон; внутренний canvas backing store не входит в лимит typed-массивов.
+
+Станция собирается через root/frame→part1→section, каждый scale применяется один раз. Активный набор — современный outpost из M3-ASSET-MANIFEST v2; legacy small military station исключена. Проверяются единственный core→part1 в starbase_outpost, OUTPOST_STARBASE_SECTION (fits_on_slot=core, entity=starbase_outpost_section_entity), полные mammalian root/section names и named pdxmesh/file. Отсутствующий entity scale означает 1; gfx scale=1. Неожиданный attach/дополнительный слот — отказ.
+
+Frame допускается как locator-only PDX: pdxasset1.0, единственный part1, конечные p float3/q float4, ненулевой нормализуемый quaternion. Его матрица связывает section с root. Нет фиктивной геометрии. Старый parsePdxMesh по умолчанию продолжает отклонять пустые render-модели; отдельный явно включаемый режим locatorOnly разбирает только такой frame и отвергает unexpected geometry/skin. Section сохраняет все три submesh, идентификатор `(objectName,meshIndex)`, а не только повторяющийся name; ожидаемые материалы проверяются по индексу. Турели/particles/audio не добавляются автоматически: components не входят в графический срез M3, а отсутствие should_draw_components само по себе не доказывает поведение движка.
+
+## Приёмка и ошибки
+
+Decoded budget 512 MiB включает raw RGBA/geometry обоих CPU-профилей и дополнительные RGBA normal/specular, удерживаемые старой и staged GPU-сценой через DataTexture. До конвертации renderer резервирует уникальные `(path,mode)` целевой сцены; при недостатке остатка отклоняет замену до allocations, сохраняя прежнюю сцену. Обычная смена модели учитывает один CPU-профиль, повторный импорт — оба. Это лимит управляемых decoded-массивов, не обещание общего RSS/GPU VRAM. При pagehide отменяется поколение импорта, включая ожидание picker/обход папки/hash; старые await после pageshow не создают сцену и не заменяют профиль.
+
+Preview — отдельная `tools/asset-probe/m3.html`, без Babylon и без изменения прежнего index.html. Кнопки локального read-only выбора папки/файлов, список четырёх visualId, очистка/пересоздание, orbit/zoom/reset, счётчик слоёв/треугольников и ошибки. По умолчанию корвет; выбирается только уже проверенный набор. Иконки отдельно на светлом/тёмном фоне. Папка читается только через разрешённый пользователем handle; file-input — ограниченный test fallback с уникальными basename выбранного allowlist, без upload. Сервер раздаёт только собственные файлы/зависимости, connect-src=none. Измерять полное чтение/декодирование, текущие ресурсы и размеры canvas; не объявлять FPS SLA по наличию render loop. При pagehide освобождать WebGL/controls/resources; после pageshow из bfcache сцены пересоздаются из памяти либо явно требуют повторного импорта, не остаются без обработчиков молча.
+
+Synthetic: nonidentity tx оставляет rest p/n/ta неизменными, invalid bone/weights/cycle/duplicate/matrix fail; общий origin слоёв; текстовые quotes/comments/повторы/границы и named overrides; missing/changed/out-of-profile paths. Real planet: 5 слоёв, 4 skinned; star: 2 слоя, 1 skinned; корвет/station без skin. Численные тесты не заменяют визуальную проверку всех слоёв/alpha/ориентации и составной station в Chrome. Ошибка сохраняет предыдущую валидную сцену; созданные geometry/material/texture/handlers освобождаются при отказе/смене/pagehide. Исходники/производные игровые ассеты/скриншоты вне Git; только read-only File/ArrayBuffer, без upload/постоянного хранения.

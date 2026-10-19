@@ -1,0 +1,9 @@
+# Economic-category applicability verification
+
+12 October 2026, owned `star-import` worktree. Contract: [economic categories](../CONSTRUCTION-ECONOMIC-CATEGORIES.md).
+
+Focused Release construction run against read-only Stellaris 4.5.2: **30 PASS, 0 FAIL, 1 SKIP**, unavailable symlink creation. Real closure contains 11 definitions in six verified files (metadata, three existing global-variable files, economic definitions and source README). Every published length/hash was compared with the original source. Existing building/district/zone/image/privacy/transaction regression fixtures remain passing.
+
+Checks cover declaration order/provenance and immutable selection/catalog identity; real generator/city/zone/stronghold inheritance, explicit/absent modifier target category, synthetic city-child noninherited additive output; malformed/duplicate parent, missing/duplicate definition, cycle/disconnected root, malformed/duplicate/unknown generation operations, unsupported triggered declarations, closure budget, invalid target/enums without untrusted echo, source mutation and cancellation. Unrelated invalid category definitions are deliberately not reached. First run found an assertion catch mismatch between typed validation and the importer exception; both expected rejection types are now explicitly asserted and the final run passes.
+
+Independent actual-diff review by the existing reviewer accepted the bounded production/contract changes after correcting the expected-exception fixtures; no suites were duplicated by the reviewer. Exact boundary fixtures additionally accept 32 reached definitions and reject 33. This establishes source declaration applicability only. Target-scope propagation, resource-table multiplicity, active modifier collection, arithmetic/rounding and native queue/phase/refund rules remain separate prerequisites. No browser/live construction/full-stage readiness claim.

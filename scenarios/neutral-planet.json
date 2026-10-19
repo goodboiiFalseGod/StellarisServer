@@ -1,0 +1,11 @@
+{
+  "months": 120,
+  "workforcePerJob": 100,
+  "groups": [150, 200, 250],
+  "workforcePerPop": 1,
+  "jobs": { "technician": 2, "miner": 2, "farmer": 2 },
+  "initialBalance": 1000,
+  "buildings": ["building_energy_grid", "building_mineral_purification_plant", "building_food_processing_facility"],
+  "commands": [{ "beforeMonth": 61, "job": "technician", "count": 1 }],
+  "notes": "Экспериментальная нормализация WorkforcePerJob=100, не подтверждённая Clausewitz. Содержание населения, рост и полная экономика не входят. Значение можно менять явно для ручного сравнения."
+}

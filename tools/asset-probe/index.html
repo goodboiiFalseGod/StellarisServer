@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stellaris · проверка локальных ассетов</title>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="styles.css">
+  <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+  <script defer src="node_modules/babylonjs/babylon.js"></script>
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <header><small>ТЕХНИЧЕСКИЙ ЭКСПЕРИМЕНТ · НЕ ИГРОВОЙ КЛИЕНТ</small><h1>Локальные ассеты Stellaris → 3D</h1>
+  <p>Одинаковая геометрия и DDS, два рендера. Файлы не загружаются на сервер.</p></header>
+  <section class="controls">
+    <button id="folder">Выбрать папку Stellaris</button>
+    <label class="file">Выбрать файлы образца <input id="files" type="file" multiple accept=".mesh,.dds,.gfx,.asset"></label>
+    <button id="reload" disabled>Пересоздать сцены</button><button id="clear" disabled>Освободить сцены</button>
+    <button id="single" disabled>Один корабль</button><button id="many" disabled>200 экземпляров</button>
+    <button id="measure" disabled>Сравнить кадры</button><button id="lifecycle" disabled>10 циклов lifecycle</button>
+    <button id="reset-camera" disabled>Сброс камеры</button>
+  </section>
+  <p id="status" role="status">Выберите пять файлов корвета: .mesh, .gfx и три DDS (diffuse, normal, specular). Полные относительные имена — в отчёте ниже.</p>
+  <p id="capabilities"></p>
+  <main>
+    <article><h2>Three.js <span>0.186.1 · WebGL2</span></h2><canvas id="three" width="600" height="440"></canvas><p id="pick-three">Выбор: —</p></article>
+    <article><h2>Babylon.js <span>9.30.0 · WebGL</span></h2><canvas id="babylon" width="600" height="440"></canvas><p id="pick-babylon">Выбор: —</p></article>
+  </main>
+  <section><h2>Проверяемые границы</h2><p>Это статическая геометрия корвета, не полная совместимость движка. Материал приближённый: diffuse RGB, преобразованная RRxG normal, specular factor из G. Gloss/metalness/emissive/team-color и оригинальное освещение пока не воспроизведены. Коллизия скрыта. Анимация и skin не импортируются.</p>
+  <h2>Результаты</h2><pre id="report">Нет данных.</pre></section>
+</body></html>

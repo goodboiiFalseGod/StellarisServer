@@ -1,0 +1,9 @@
+# Functional Architecture construction declaration verification
+
+12 October 2026, owned `star-import` worktree. Contract [Functional Architecture collection](../CONSTRUCTION-FUNCTIONAL-ARCHITECTURE-MODIFIERS.md).
+
+Read exact original 4.5.2 civic definition, civic documentation header and complete government requirements README before implementation. Fixed import: **7 files, 1 civic definition, 7 raw numerical parameters**, with original fields, indexed paths, origins and importer length/hash re-verification. Includes reached shroud variables and custom-list README evidence. All accepted ordinary template identities produce original potential=true, possible=not-declared/unknown, construction operands **−0.15 structure cost / +0.15 building speed**, and the retained excluded composer attunement field. No complete-civic/world application claim.
+
+Final real-content Release construction suite: **32 PASS, 0 FAIL, 1 SKIP** (symlink unavailable). Synthetic cases preserve selected/valid applicability independently of potential and possible, explicitly invalid/missing validation, changed false/unsupported source requirements, government-list OR, additional eligibility gates, duplicate/malformed/dynamic/unknown modifiers and whole-list refusal, immutable provenance and safe wrong-profile/template rejection. Existing infrastructure/category/owner-predicate/privacy/transaction checks remain passing.
+
+Independent reviewer read actual production/contract/test diff and original source grammar/definition; no actionable findings or repeated suites. Dedicated government scopes deliberately do not interpret custom requirement lists as ordinary triggers. Native civic validity lifecycle, complete startup effects, category composition, rounding, build-speed-to-time formula and queue/phase/refund behavior remain downstream gates. No live quote/effect activation, browser/FPS or stable-main readiness claim.

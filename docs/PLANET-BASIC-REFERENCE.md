@@ -1,0 +1,26 @@
+# Базовое рабочее меню планеты по референсу 4.5.2
+
+Последнее прямое уточнение пользователя 13 октября 2026: script-driven startup buildings/districts, authority ordinary/hive/machine и source-defined civic/ethic swaps сохраняют порядок и условия, без fixed layout. Homeworld class/size выводятся из source initializer; full solar geometry вне scope. Native day0 save — дополнительная проверка, не prerequisite. Реальные zones/jobs/icons/output и управление — следующий UI/runtime scope. Условные ветви можно явно исключать; приоритет UI — 16:9. Checkpoint `8bf12cf` — UI-основа, не исполнение startup-поручения.
+
+## Границы и зависимости
+
+- Не использовать M1 лабораторные три профессии/переключатели зданий в качестве завершённого меню. Реальные установленные объекты определяют вместимость профессий, содержание и доступные операции. Импортированные определения, установленные экземпляры, занятые/свободные/зарезервированные места различаются.
+- Разбирать локальные файлы оригинала существующими безопасными parser/importer, разрешать переменные и inline dependencies, хранить provenance/hash. Не переносить числа из скриншотов/памяти и оригинальные файлы в Git. Базовый selected inventory и его supported/omitted branches публикуются до исполнения. Missing/ambiguous/malformed required source — явный отказ, без hardcoded fallback.
+- Исключение специфичных условий не означает обнуление обязательного содержания профессии. Например, обычный artisan upkeep minerals задан условием non-catalytic; его нормальная ветвь должна применяться, а специфичные artificer/pearl-diver/catalytic ветви исключаются только явно. Простая фильтрация всех triggered blocks запрещена.
+- Старые M1/M2 проверки и лаборатория сохраняют свой профиль. Новый базовый профиль должен быть явно отличим в контрактах, source coverage и командах; не выдавать его за полный native startup/AI/демографию/исследования.
+- Настоящие rural/city/zone/building определения и соответствующие basic jobs образуют первый обычный набор. Hive/machine/mobile не получают ложных ordinary aliases. Их более широкая поддержка остаётся следующей работой; это новый приоритет базового среза, не заявление о полном этапе.
+
+## Открытые конкретные вопросы
+
+1. **«Нет, сначала восстановить native стартовую генерацию».** Текущий coding owner `/root/planet_source_world` реализует ordered startup effects/conditions для зданий, районов, зон и ordinary/hive/machine civic/ethic swaps. Mutable world effects не заменять финальными списками. Own-server occurrence IDs разрешены; selectors адресуют district type/slot. Модель `colony→district-group(levels)→zones→buildings` подтверждена save review; не выводить уникальный native ID для одинаковых типов. Homeworld class/size берутся из source initializer; полный solar geometry вне scope. Day0 save остаётся дополнительной проверкой.
+2. Пользователь напрямую уточнил district capacity: `capacity = planet_size + применимые общие capacity modifiers`; `free_district_slots = capacity − сумма установленных levels районов`. Пересчитывать после каждого add/роста size. Общую вместимость отделять от ограничений отдельных district types и shared pools; не придумывать имена/формулы modifiers сверх импортированного source.
+3. Prototype `+/−` меняют WorkforceLimit на 5% max с clamp `0..max`; Shift выбирает min/max. Ctrl выбирает одно место, числовая WF-единица открыта: не прошивать `1` или `100`. Это не native step rule; не нормализовать imported capacity как `0..6`: [consumer boundary](PLANET-BASIC-ECONOMY.md#граница-потребителя-workforce).
+4. Unity и physics/society/engineering science имеют отдельные unlimited reserves. Без выбранного исследования выпуск накапливается; с выбором расходуется `min(stock,R)` для прогресса `R+расход` после speed bonuses. Не задавать numeric cap; Produced/Upkeep/Net и stock остаются раздельны: [economy content](PLANET-BASIC-ECONOMY.md#поведение-и-граница-покрытия).
+
+Независимый source audit BASIC-CONTENT-001 уточняет exact IDs (4.5.2 не обязана использовать старые названия researcher/metallurgist), базовые production/upkeep/capacity и имеющиеся image mappings. Независимые importer/icon work разрешены при pending startup; зависимые раскладки и команды ждут ответа.
+
+## Критерии итоговой приёмки
+
+На16:9 собственная колония показывает районы/зоны/настоящие здания, доступные места/каталог/очередь и понятные resource costs/time. Производство/расходы/вместимость приходят из разобранных определений и установленных экземпляров; стройка меняет их через авторитетный сервер, без optimistic mutation. Jobs используют настоящие IDs/icons, полученные capacity/assigned/Workforce и поддержанные регуляторы; изменение подтверждается свежим snapshot и следующим расчётом. Каждый показанный ресурс соответствует своей профессии; обычное upkeep не теряется.
+
+Проверить собственность, read-only observer, устаревшую revision, повторные команды, цену/дебет/резервирование/завершение/отмену, месячную границу, отказ insufficient resources, отсутствие unsupported source fallback. Source/CPU тесты, независимый actual-diff review, Release build и живая проверка16:9 с настоящим локальным импортом обязательны. Полная native генерация/особый контент отдельно перечисляются как ограничения. Отчёт продолжать в reports/planet-reference-window.md, не раздувать требования историческими логами.

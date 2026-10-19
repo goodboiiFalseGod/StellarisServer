@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stellaris · экономическая лаборатория</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <header><p class="eyebrow">STELLARIS SERVER / M2</p><h1>Экономическая лаборатория</h1><p>Сетевая песочница · империя каждого игрока · авторитетный сервер</p></header>
+    <section class="panel" aria-labelledby="connection-title">
+      <div class="section-heading"><h2 id="connection-title">Подключение</h2><span id="connection-status" role="status" data-testid="connection-status">Не подключено</span></div>
+      <form id="join-form">
+        <label>Имя<input id="name" name="name" maxlength="32" required autocomplete="nickname" data-testid="join-name"></label>
+        <label>Код доступа<input id="join-code" name="joinCode" type="password" required autocomplete="off" data-testid="join-code"></label>
+        <label>Роль<select id="role" name="role" data-testid="join-role"><option value="player">Игрок</option><option value="observer">Наблюдатель</option></select></label>
+        <button type="submit" id="connect" data-testid="connect">Подключиться</button>
+      </form>
+      <div class="actions"><button id="disconnect" type="button" disabled data-testid="disconnect">Отключиться</button><button id="clear-login" type="button" class="secondary" data-testid="clear-login">Очистить вход</button></div>
+      <p id="identity" class="hint"></p>
+      <p id="error" class="error" role="alert" data-testid="error" hidden></p>
+    </section>
+    <div id="stale" class="notice" role="status" data-testid="stale" hidden>Связь потеряна. Показано устаревшее состояние, команды недоступны.</div>
+    <section id="session" hidden>
+      <section class="panel">
+        <div class="section-heading"><h2 id="phase">Лобби</h2><span id="month" data-testid="month">Месяц 0</span></div>
+        <p id="timing" class="hint"></p>
+        <p id="session-error" class="error" role="alert" hidden></p>
+        <div id="host-controls" class="actions" hidden>
+          <button id="pause" type="button" data-testid="pause">Продолжить</button>
+          <label>Скорость<select id="speed" data-testid="speed"><option value="1">1 месяц/с</option><option value="2">2 месяца/с</option><option value="4">4 месяца/с</option></select></label>
+          <button id="step" type="button" data-testid="step">Следующий месяц</button>
+        </div>
+      </section>
+      <div class="layout">
+        <section class="panel"><h2>Участники</h2><ul id="participants" class="participants" data-testid="participants"></ul><p id="observer-status" class="hint" data-testid="observer-status"></p></section>
+        <section id="lobby" class="panel" hidden>
+          <h2>Настройки своей империи</h2><p class="hint">Изменение настроек снимает готовность. В этой лаборатории доступны три признака и три здания M1.</p>
+          <form id="configure-form"><fieldset><legend>Признаки вида</legend><div id="traits-options"></div></fieldset><fieldset><legend>Здания планеты</legend><div id="buildings-options"></div></fieldset><button id="configure" type="submit" data-testid="configure">Сохранить настройки</button></form>
+          <div class="actions"><button id="ready" type="button" data-testid="ready">Готов</button><button id="start" type="button" data-testid="start" hidden>Начать сессию</button></div>
+        </section>
+      </div>
+      <section id="economy" class="panel" hidden>
+        <div class="section-heading"><h2>Планета</h2><label id="planet-picker-label" hidden>Планета<select id="planet-picker" data-testid="planet-picker"></select></label></div>
+        <h3 id="planet-name" data-testid="planet"></h3><p id="population" class="hint"></p>
+        <div id="balances" class="balances" data-testid="balances"></div>
+        <p id="report-status" class="notice" data-testid="report-status"></p>
+        <div class="table-wrap"><table><caption>Профессии и занятость</caption><thead><tr><th scope="col">Профессия</th><th scope="col">Вакансии</th><th scope="col">Обычная Workforce</th><th scope="col">Бонусная Workforce</th><th scope="col">Эффективная Workforce</th></tr></thead><tbody id="jobs"></tbody></table></div>
+        <div class="table-wrap"><table><caption>Последний месячный расчёт сервера</caption><thead><tr><th scope="col">Ресурс</th><th scope="col">Производство</th><th scope="col">Содержание профессий</th><th scope="col">Содержание зданий</th><th scope="col">Общий расход</th><th scope="col">Чистый поток</th></tr></thead><tbody id="flows"></tbody></table></div>
+        <p id="unemployed" class="hint"></p><h3>Признаки и источники бонуса</h3><ul id="planet-traits"></ul><h3>Здания</h3><ul id="planet-buildings"></ul>
+      </section>
+    </section>
+    <section class="panel"><h2>Команды</h2><p class="hint">Подтверждение означает принятие настройки. Экономический результат появится после серверного расчёта месяца.</p><ol id="commands" class="commands" aria-live="polite" data-testid="commands"></ol></section>
+    <footer>Промежуточный M2: без карты, ассетов, боёв и сохранений. Состояние рассчитывается сервером.</footer>
+  </main>
+</body>
+</html>
